@@ -27,5 +27,8 @@ module.exports = {
       PDThin: ["PDThin"],
     },
   },
+  variants: {
+    backgroundcolor: ["focus"],
+  },
   plugins: [],
 };
