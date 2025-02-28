@@ -15,6 +15,17 @@ module.exports = {
         placeholder: "#B2B8C0",
       },
     },
+    fontFamily: {
+      PDBlack: ["PDBlack"],
+      PDBold: ["PDBold"],
+      PDExtraBold: ["PDExtraBold"],
+      PDExtraLight: ["PDExtraLight"],
+      PDLight: ["PDLight"],
+      PDMedium: ["PDMedium"],
+      PDRegular: ["PDRegular"],
+      PDSemibold: ["PDSemibold"],
+      PDThin: ["PDThin"],
+    },
   },
   plugins: [],
 };

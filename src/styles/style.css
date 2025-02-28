@@ -3,5 +3,38 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Black";
+  font-family: "PDBlack";
+  src: url("../assets/Pretendard-Black.otf");
+}
+@font-face {
+  font-family: "PDBold";
+  src: url("../assets/Pretendard-Bold.otf");
+}
+@font-face {
+  font-family: "PDExtraBold";
+  src: url("../assets/Pretendard-ExtraBold.otf");
+}
+@font-face {
+  font-family: "PDExtraLight";
+  src: url("../assets/Pretendard-ExtraLight.otf");
+}
+@font-face {
+  font-family: "PDLight";
+  src: url("../assets/Pretendard-Light.otf");
+}
+@font-face {
+  font-family: "PDMedium";
+  src: url("../assets/Pretendard-Medium.otf");
+}
+@font-face {
+  font-family: "PDReqular";
+  src: url("../assets/Pretendard-Regular.otf");
+}
+@font-face {
+  font-family: "PDSemiBold";
+  src: url("../assets/Pretendard-SemiBold.otf");
+}
+@font-face {
+  font-family: "PDThin";
+  src: url("../assets/Pretendard-Thin.otf");
 }
