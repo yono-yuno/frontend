@@ -26,6 +26,16 @@ module.exports = {
       PDSemibold: ["PDSemibold"],
       PDThin: ["PDThin"],
     },
+    borderRadius: {
+      15: "15px",
+    },
+    borderWidth: {
+      1.5: "1.5px",
+    },
+    spacing: {
+      lengthGap: "15px",
+      widthGap: "18px",
+    },
   },
   variants: {
     backgroundcolor: ["focus"],
