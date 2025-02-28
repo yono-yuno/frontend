@@ -26,6 +26,15 @@ module.exports = {
       PDSemibold: ["PDSemibold"],
       PDThin: ["PDThin"],
     },
+    fontSize: {
+      Button: "20px",
+      placeholder: "15px",
+      12: "12px",
+      15: "15px",
+      16: "16px",
+      20: "20px",
+      24: "24px",
+    },
     borderRadius: {
       15: "15px",
     },
@@ -33,8 +42,9 @@ module.exports = {
       1.5: "1.5px",
     },
     spacing: {
-      lengthGap: "15px",
-      widthGap: "18px",
+      length: "15px",
+      width: "18px",
+      buttonWidth: "20px",
     },
   },
   variants: {
