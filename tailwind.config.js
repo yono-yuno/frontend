@@ -14,7 +14,41 @@ module.exports = {
         red: "#DD5257",
         placeholder: "#B2B8C0",
       },
+      fontFamily: {
+        PDBlack: ["PdBlack"],
+        PDBold: ["PDBold"],
+        PDExtraBold: ["PDExtraBold"],
+        PDExtraLight: ["PDExtraLight"],
+        PDLight: ["PDLight"],
+        PDMedium: ["PDMedium"],
+        PDRegular: ["PDRegular"],
+        PDSemiBold: ["PDSemiBold"],
+        PDThin: ["PDThin"],
+      },
+      fontSize: {
+        Button: "20px",
+        placeholder: "15px",
+        12: "12px",
+        15: "15px",
+        16: "16px",
+        20: "20px",
+        24: "24px",
+      },
+      borderRadius: {
+        15: "15px",
+      },
+      borderWidth: {
+        1.5: "1.5px",
+      },
+      spacing: {
+        size: "371px",
+        buttonsize: "351px",
+      },
+      variants: {
+        backgroundcolor: ["focus"],
+      },
     },
   },
+
   plugins: [],
 };
