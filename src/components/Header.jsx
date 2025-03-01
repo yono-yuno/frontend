@@ -3,7 +3,7 @@ import BackButton from "../assets/BackButton.png";
 
 const Header = (props) => {
   return (
-    <div className="flex justify-between items-end w-Hwidth h-Hheight border-2">
+    <div className="flex justify-between items-end w-Hwidth h-Hheight">
       <button className="ml-BackButtonMargin">
         <img src={BackButton} className="w-[12.5px] h-[22.5px]" />
       </button>
