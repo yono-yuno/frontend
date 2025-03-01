@@ -6,23 +6,23 @@ module.exports = {
       colors: {
         toss: "#4880EE",
         background: "#F3F4F6",
-        addbutton: "#EAF2FE",
+        extraButton: "#EAF2FE",
         button: "#B2B8C0",
-        charactor: "#B2B8C0",
-        font: "#1A1E27",
-        userFont: "#414141",
+        yuno: "#90CBFF",
+        black: "#1A1E27",
+        userBlack: "#414141",
         red: "#DD5257",
         placeholder: "#B2B8C0",
       },
       fontFamily: {
-        PDBlack: ["PdBlack"],
+        PDBlack: ["PDBlack"],
         PDBold: ["PDBold"],
         PDExtraBold: ["PDExtraBold"],
         PDExtraLight: ["PDExtraLight"],
         PDLight: ["PDLight"],
         PDMedium: ["PDMedium"],
         PDRegular: ["PDRegular"],
-        PDSemiBold: ["PDSemiBold"],
+        PDSemibold: ["PDSemibold"],
         PDThin: ["PDThin"],
       },
       fontSize: {
@@ -31,17 +31,15 @@ module.exports = {
         12: "12px",
         15: "15px",
         16: "16px",
-        18: "18px",
         20: "20px",
         24: "24px",
       },
       borderRadius: {
         15: "15px",
       },
-      borderWidth: {
-        1.5: "1.5px",
-      },
       spacing: {
+        Fwidth: "393px",
+        Fheight: "852px",
         width: "371px",
         buttonWidth: "351px",
         buttonHeight: "59px",
@@ -50,11 +48,11 @@ module.exports = {
         BackButtonMargin: "27px",
         HNameMargin: "178px",
       },
-      variants: {
-        backgroundcolor: ["focus"],
-      },
     },
   },
-
+  variants: {
+    backgroundcolor: ["focus"],
+    border: ["focus"],
+  },
   plugins: [],
 };
