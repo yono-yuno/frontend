@@ -1,6 +1,6 @@
 import React from "react";
 
-const PaymentPendingList = () => {
+const Ex = () => {
   const items = [
     {
       id: 1,
@@ -74,4 +74,4 @@ const PaymentPendingList = () => {
   );
 };
 
-export default PaymentPendingList;
+export default Ex;

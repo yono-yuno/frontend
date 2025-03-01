@@ -1,3 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+html,
+body,
+#root {
+  height: 852px;
+}
+#root {
+  margin: 0 auto;
+  max-width: 393px;
+  border: 1px solid gray;
+}

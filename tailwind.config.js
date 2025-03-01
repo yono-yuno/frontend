@@ -42,8 +42,13 @@ module.exports = {
         1.5: "1.5px",
       },
       spacing: {
-        size: "371px",
-        buttonsize: "351px",
+        width: "371px",
+        buttonWidth: "351px",
+        buttonHeight: "59px",
+        Hwidth: "391px",
+        Hheight: "72px",
+        BackButtonMargin: "27px",
+        HNameMargin: "178px",
       },
       variants: {
         backgroundcolor: ["focus"],
