@@ -9,6 +9,7 @@ import PayRecordB from "../assets/PayRecordB.png";
 import ShoppingB from "../assets/ShoppingB.png";
 import ThinkingB from "../assets/ThinkingB.png";
 import PayToss from "../assets/Paytoss.png";
+import LineChart from "../components/LineChart";
 
 const MainPage = () => {
   return (
@@ -33,7 +34,7 @@ const MainPage = () => {
             <div className="absolute w-[271px] h-[72px] flex items-center">
               {/* 대략 48자 작성 가능 */}
               <p className="ml-[20px] mr-[20px] mt-[9px] mb-[9px] font-PDMedium text-16 text-black">
-                저는 요노를 위한 비서, 유노예요!
+                저는 요노족을 위한 비서, 유노예요!
               </p>
             </div>
           </div>
@@ -42,9 +43,9 @@ const MainPage = () => {
           </div>
         </yuno>
         <menu className="flex flex-col justify-center items-center mt-[61px]">
-          <div className="flex justify-center items-center w-width h-[63px] rounded-15 bg-white">
-            <div className="flex justify-center items-center">
-              <img src={PayToss} className="w-[35px] h-[35px]" />
+          <div className="flex justify-between items-center pr-[21px] pl-[21px] w-width h-[63px] rounded-15 bg-white">
+            <div className="flex items-center">
+              <img src={PayToss} className="w-[35px] h-[35px] mr-[13px]" />
               <div>
                 <p className="font-PDMedium text-[21px] text-black leading-none">
                   0원
@@ -54,6 +55,9 @@ const MainPage = () => {
                 </p>
               </div>
             </div>
+            <button className="flex justify-center items-center w-[46px] h-[27px] rounded-[10px] bg-background font-PDRegular text-[13px] text-[#80858E]">
+              송금
+            </button>
           </div>
           <div className="flex justify-between w-width h-[95px] mt-[15px]">
             <button>
@@ -67,7 +71,39 @@ const MainPage = () => {
             </button>
           </div>
           <div className="flex justify-center items-center w-width h-[220px] mt-[15px] mb-[25px] rounded-15 bg-white">
-            통계
+            <div>2월</div>
+            <div>
+              <div>
+                <p>1,520,731원</p>
+                <p>저번 달 같은 날보다 10,000원 많이 사용</p>
+              </div>
+              <LineChart />
+            </div>
+            <div>
+              <div>
+                <p>일</p>
+                <p>16</p>
+                <p>-32,000</p>
+              </div>
+              <div>
+                <p>월</p>
+                <p>17</p>
+                <p>-10,000</p>
+              </div>
+              <div>
+                <p>화</p>
+                <p>18</p>
+                <p>-14,000</p>
+              </div>
+              <div>
+                <p>수</p>
+                <p></p>
+                <p></p>
+              </div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </menu>
       </main>
