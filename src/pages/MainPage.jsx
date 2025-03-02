@@ -46,8 +46,12 @@ const MainPage = () => {
             <div className="flex justify-center items-center">
               <img src={PayToss} className="w-[35px] h-[35px]" />
               <div>
-                <p className="font-PDMedium text-[21px] text-black">0원</p>
-                <p className="font-PDRegular">토스뱅크 통장</p>
+                <p className="font-PDMedium text-[21px] text-black leading-none">
+                  0원
+                </p>
+                <p className="font-PDRegular text-[13px] text-[#80858E] leading-none">
+                  토스뱅크 통장
+                </p>
               </div>
             </div>
           </div>
