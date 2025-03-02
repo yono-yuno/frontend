@@ -3,8 +3,8 @@ import BackButton from "../assets/BackButton.png";
 
 const Header = (props) => {
   return (
-    <div className="flex justify-center items-end w-Hwidth h-Hheight">
-      <button className="absolute left-[27px]">
+    <div className="relative flex justify-center items-end w-Hwidth h-Hheight">
+      <button className="absolute left-[15px]">
         <img src={BackButton} className="w-[12.5px] h-[22.5px]" />
       </button>
       {/* leading-tight 필수: 글씨의 위아래 공백을 줄여줌 */}
