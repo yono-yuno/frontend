@@ -44,7 +44,7 @@ module.exports = {
         buttonWidth: "351px",
         buttonHeight: "59px",
         Hwidth: "393px",
-        Hheight: "45px",
+        Hheight: "50px",
         BackButtonMargin: "27px",
         HNameMargin: "178px",
       },
