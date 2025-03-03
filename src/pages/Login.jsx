@@ -34,7 +34,7 @@ const Login = () => {
         value={phone}
         onChange={handlePhoneChange}
         maxLength={13}
-        className="w-full h-[46px] mb-1.5 px-3 border-2 border-gray-200 rounded-15 placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
+        className="w-full h-[46px] mb-1.5 px-3 border-2 border-gray-200 rounded-15 font-PDRegular placeholder:font-PDRegular placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
       />
       <input
         type="password"
@@ -42,7 +42,7 @@ const Login = () => {
         value={passWord}
         onChange={handlePassWordChange}
         maxLength={6}
-        className="w-full h-[46px] mb-7 px-3 border-2 border-gray-200 rounded-15 placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
+        className="w-full h-[46px] mb-7 px-3 border-2 border-gray-200 rounded-15 font-PDRegular placeholder:font-PDRegular placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
       />
       <button
         onClick={handleLogin}

@@ -65,7 +65,7 @@ const Signup = () => {
             placeholder="이름을 입력해주세요"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
+            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 font-PDRegular placeholder:font-PDRegular placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
           />
           <label className="text-toss font-PDMedium">휴대폰 번호</label>
           <input
@@ -74,7 +74,7 @@ const Signup = () => {
             value={phone}
             onChange={handlePhoneChange}
             maxLength={13}
-            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
+            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 font-PDRegular placeholder:font-PDRegular placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
           />
           <label className="text-toss font-PDMedium">연동 계좌</label>
           <input
@@ -82,7 +82,7 @@ const Signup = () => {
             placeholder="계좌번호를 입력해주세요"
             value={account}
             onChange={handleAccountChange}
-            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
+            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 font-PDRegular placeholder:font-PDRegular placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
           />
           <label className="text-toss font-PDMedium">비밀번호</label>
           <input
@@ -91,7 +91,7 @@ const Signup = () => {
             value={passWord}
             onChange={handlePassWordChange}
             maxLength={6}
-            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
+            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 font-PDRegular placeholder:font-PDRegular placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
           />
           <label className="text-toss font-PDMedium">비밀번호 확인</label>
           <input
@@ -100,7 +100,7 @@ const Signup = () => {
             value={rePassWord}
             onChange={handleRePassWordChange}
             maxLength={6}
-            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
+            className="w-full h-[46px] mb-3 px-3 border-2 border-gray-200 bg-gray-100 rounded-15 font-PDRegular placeholder:font-PDRegular placeholder:text-15 focus:border-toss focus:bg-blue-50 focus:outline-none"
           />
         </div>
         <div>
