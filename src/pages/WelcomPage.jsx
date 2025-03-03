@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/style.css";
 import "../styles/index.css";
 import YunoFlower from "../assets/YunoFlower.png";
+
 const WelcomPage = () => {
   return (
     <div className="flex flex-col items-center justify-center bg-white">
