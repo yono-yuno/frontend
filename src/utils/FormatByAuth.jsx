@@ -15,6 +15,10 @@ export const FormatPhoneNumber = (value) => {
   return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3, 7)}-${onlyNums.slice(7, 11)}`;
 };
 
-export const FormatNumber = (value) => {
+export const FormatPassWord = (value) => {
   return value.replace(/[^0-9]/g, "").slice(0, 6);
+};
+
+export const FormatAccount = (value) => {
+  return value.replace(/[^0-9]/g, "").slice(0, 12);
 };
