@@ -2,8 +2,14 @@ import React from "react";
 import "../styles/style.css";
 import "../styles/index.css";
 import YunoFlower from "../assets/YunoFlower.png";
+import { useNavigate } from "react-router-dom";
+import { SETUP_PAGE_PATH } from "../constants/Paths";
 
-const WelcomPage = () => {
+const WelcomePage = () => {
+  const navigate = useNavigate();
+  const handleMoveToSetupPage = () => {
+    navigate(SETUP_PAGE_PATH);
+  };
   return (
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}
@@ -26,8 +32,8 @@ const WelcomPage = () => {
         </p>
       </div>
       <button
-        className="mt-[176px] w-[351px] h-[59px] rounded-15 bg-toss"
-        onClick={() => console.log("시작하기 버튼 클릭됨")}
+        className="mt-[174px] w-[351px] h-[59px] rounded-15 bg-toss"
+        onClick={handleMoveToSetupPage}
       >
         <p className="font-PDMedium text-20 text-white">시작하기</p>
       </button>
@@ -35,4 +41,4 @@ const WelcomPage = () => {
   );
 };
 
-export default WelcomPage;
+export default WelcomePage;
