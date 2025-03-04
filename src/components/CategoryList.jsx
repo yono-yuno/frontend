@@ -27,7 +27,7 @@ const categoryDataList = [
 ];
 
 const CategoryList = () => {
-  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [selectedCategory, setSelectedCategory] = useState(categoryDataList[0]);
 
   return (
     <div
