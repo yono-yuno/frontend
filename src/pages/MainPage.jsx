@@ -10,6 +10,7 @@ import ShoppingB from "../assets/ShoppingB.png";
 import ThinkingB from "../assets/ThinkingB.png";
 import PayToss from "../assets/Paytoss.png";
 import LineChart from "../components/LineChart";
+import PieChart from "../components/PieChart";
 
 const MainPage = () => {
   return (
@@ -70,56 +71,104 @@ const MainPage = () => {
               <img src={ShoppingB} className="w-[117px] h-[95px]" />
             </button>
           </div>
-          <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[14px] rounded-15 bg-white">
-            <div className="flex justify-start w-[310px]">
-              <p className="font-PDMedium text-16 text-black">2월</p>
+          <div className="flex  w-width space-x-4 overflow-x-auto pb-2">
+            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[14px] rounded-15 bg-white">
+              <div className="flex justify-start w-[310px]">
+                <p className="font-PDMedium text-16 text-black">2월</p>
+              </div>
+              <div className="flex flex-row justify-between w-[350px]">
+                <div className="flex flex-col justify-center pl-[20px]">
+                  <p className="font-PDBold text-20 text-black">1,520,731원</p>
+                  <p className=" pt-[5px] font-PDMedium text-[12px] text-[#697583]">
+                    저번 달 같은 날보다 10,000원 많이 사용
+                  </p>
+                </div>
+                <div className="w-[140px] h-[70px]">
+                  <LineChart />
+                </div>
+              </div>
+              <div className="flex flex-row mt-[20px] leading-tight">
+                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+                  <p>일</p>
+                  <p className="text-[16px] mt-[10px] text-[#697583]">16</p>
+                  <p className="text-[10px] text-[#FC6767]">-32,000</p>
+                </div>
+                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+                  <p>월</p>
+                  <p className="text-[16px] mt-[10px] text-[#697583]">17</p>
+                  <p className="text-[10px] text-[#FC6767]">-10,000</p>
+                </div>
+                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+                  <p>화</p>
+                  <p className="text-[16px] mt-[10px] text-[#697583]">18</p>
+                  <p className="text-[10px] text-[#FC6767]">-14,000</p>
+                </div>
+                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+                  <p>수</p>
+                  <p className="text-[16px] mt-[10px]">19</p>
+                  <p className="text-[10px]">0</p>
+                </div>
+                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+                  <p>목</p>
+                  <p className="text-[16px] mt-[10px] text-[#697583]">20</p>
+                  <p className="text-[10px] text-[#FC6767]">-159,800</p>
+                </div>
+                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+                  <p>금</p>
+                  <p className="text-[16px] mt-[10px] text-[#697583]">21</p>
+                  <p className="text-[10px] text-[#FC6767]">-615,300</p>
+                </div>
+                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+                  <p>토</p>
+                  <p className="text-[16px] mt-[10px] ">22</p>
+                  <p className="text-[10px]">0</p>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-row justify-between w-[350px]">
-              <div className="flex flex-col justify-center pl-[20px]">
-                <p className="font-PDBold text-20 text-black">1,520,731원</p>
-                <p className=" pt-[5px] font-PDMedium text-[12px] text-[#697583]">
-                  저번 달 같은 날보다 10,000원 많이 사용
-                </p>
+            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[14px] rounded-15 bg-white">
+              <div className="flex justify-start w-[310px]">
+                <p className="font-PDMedium text-16 text-black">2월</p>
               </div>
-              <div className="w-[140px] h-[70px]">
-                <LineChart />
+              <div className="flex flex-row justify-between w-[350px]">
+                <div className="flex justify-center pl-[20px] font-PDSemibold text-20">
+                  <span className="text-black pr-[4px]">최대 소비</span>
+                  <span className="text-[#93C9FF]">출산 · 육아</span>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-row mt-[20px] leading-tight">
-              <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                <p>일</p>
-                <p className="text-[16px] mt-[10px] text-[#697583]">16</p>
-                <p className="text-[10px] text-[#FC6767]">-32,000</p>
-              </div>
-              <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                <p>월</p>
-                <p className="text-[16px] mt-[10px] text-[#697583]">17</p>
-                <p className="text-[10px] text-[#FC6767]">-10,000</p>
-              </div>
-              <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                <p>화</p>
-                <p className="text-[16px] mt-[10px] text-[#697583]">18</p>
-                <p className="text-[10px] text-[#FC6767]">-14,000</p>
-              </div>
-              <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                <p>수</p>
-                <p className="text-[16px] mt-[10px]">19</p>
-                <p className="text-[10px]">0</p>
-              </div>
-              <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                <p>목</p>
-                <p className="text-[16px] mt-[10px] text-[#697583]">20</p>
-                <p className="text-[10px] text-[#FC6767]">-159,800</p>
-              </div>
-              <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                <p>금</p>
-                <p className="text-[16px] mt-[10px] text-[#697583]">21</p>
-                <p className="text-[10px] text-[#FC6767]">-615,300</p>
-              </div>
-              <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                <p>토</p>
-                <p className="text-[16px] mt-[10px] ">22</p>
-                <p className="text-[10px]">0</p>
+              <div className="flex w-[314px] h-[120px]">
+                <div className="flex flex-col items-start text-16 text-[#697583]">
+                  <div>
+                    <span className="mr-[13px] font-PDMedium text-[#93C9FF]">
+                      30%
+                    </span>
+                    <span className="font-PDRegular ">출산 · 육아</span>
+                  </div>
+                  <div>
+                    <span className="mr-[13px] font-PDMedium text-[#DB88E7]">
+                      20%
+                    </span>
+                    <span className="font-PDRegular ">인테리어</span>
+                  </div>
+                  <div>
+                    <span className="mr-[13px] font-PDMedium text-[#EF4452]">
+                      18%
+                    </span>
+                    <span className="font-PDRegular">식품</span>
+                  </div>
+                  <div>
+                    <span className="mr-[13px] font-PDMedium text-[#4E7698]">
+                      14%
+                    </span>
+                    <span className="font-PDRegular">패션잡화</span>
+                  </div>
+                  <div>
+                    <span className="mr-[13px] font-PDMedium text-[#D9D9D9]">
+                      18%
+                    </span>
+                    <span className="font-PDRegular">그 외</span>
+                  </div>
+                </div>
+                <PieChart />
               </div>
             </div>
           </div>

@@ -6,7 +6,6 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  layouts,
   Filler,
 } from "chart.js";
 
