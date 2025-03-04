@@ -4,7 +4,9 @@ const Item = (props) => {
   return (
     <div className="flex flex-col mb-3">
       <img src={props.img} alt="상품 사진" className="rounded-xl" />
-      <p className="py-2 text-15 font-PDMedium leading-tight">{props.title}</p>
+      <p className="py-2 text-15 font-PDMedium leading-tight">
+        {props.itemName}
+      </p>
       <div className="flex justify-start items-end">
         <p className="mr-1 text-xl font-PDSemibold text-rose-600">
           {props.discount}%
@@ -24,7 +26,7 @@ const Item = (props) => {
           무료배송
         </p>
         <img src="https://picsum.photos/12/12" alt="별" className="mr-1" />
-        <p className="mr-2 text-xs font-PDMedium">{props.consumerStars}</p>
+        <p className="mr-2 text-xs font-PDMedium">{props.itemStars}</p>
         <p className="text-xs text-gray-500 font-PDMedium underline">
           리뷰 {props.reviewNum.toLocaleString()}개
         </p>
