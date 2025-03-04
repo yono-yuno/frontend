@@ -11,7 +11,13 @@ const Category = (props) => {
             : "border-gray-200 bg-gray-200"
         }`}
       >
-        <img src={props.img} alt={props.text} className="rounded-xl" />
+        <img
+          src={props.img}
+          alt={props.text}
+          className={`${
+            props.text === "전체" ? "w-[25px] h-[25px]" : "w-[30px] h-[30px]"
+          }`}
+        />
       </button>
       <p
         className={`pt-1 text-xs font-PDRegular ${
