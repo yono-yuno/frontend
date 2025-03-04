@@ -24,7 +24,7 @@ const Item = (props) => {
           무료배송
         </p>
         <img src="https://picsum.photos/12/12" alt="별" className="mr-1" />
-        <p className="mr-2 text-xs font-PDMedium">{props.customStars}</p>
+        <p className="mr-2 text-xs font-PDMedium">{props.consumerStars}</p>
         <p className="text-xs text-gray-500 font-PDMedium underline">
           리뷰 {props.reviewNum.toLocaleString()}개
         </p>

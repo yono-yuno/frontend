@@ -10,7 +10,7 @@ const itemList = [
     title: "[오늘만 특가] 어쩌구 싸다싸 상품 이름",
     discount: 10,
     price: 8400,
-    customStars: 4.5,
+    consumerStars: 4.5,
     reviewNum: 736,
   },
   {
@@ -19,7 +19,7 @@ const itemList = [
     title: "[오늘만 특가] 저쩌구 싸다싸 상품 이름",
     discount: 20,
     price: 10000,
-    customStars: 4.1,
+    consumerStars: 4.1,
     reviewNum: 48,
   },
   {
@@ -28,7 +28,7 @@ const itemList = [
     title: "[오늘만 특가] 얼씨구 싸다싸 상품 이름",
     discount: 15,
     price: 14500,
-    customStars: 3.1,
+    consumerStars: 3.1,
     reviewNum: 1123,
   },
   {
@@ -37,7 +37,7 @@ const itemList = [
     title: "[오늘만 특가] 절씨구 싸다싸 상품 이름",
     discount: 34,
     price: 7500,
-    customStars: 4.7,
+    consumerStars: 4.7,
     reviewNum: 1136,
   },
   {
@@ -46,7 +46,7 @@ const itemList = [
     title: "[오늘만 특가] 크게 싸다싸 상품 이름",
     discount: 20,
     price: 7600,
-    customStars: 4.2,
+    consumerStars: 4.2,
     reviewNum: 56,
   },
 ];
