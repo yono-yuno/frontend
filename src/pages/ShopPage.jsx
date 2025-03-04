@@ -51,7 +51,7 @@ const itemList = [
   },
 ];
 
-const Shop = () => {
+const ShopPage = () => {
   return (
     <div className="flex flex-col h-full w-full">
       <Header text="요노쇼핑" />
@@ -84,4 +84,4 @@ const Shop = () => {
   );
 };
 
-export default Shop;
+export default ShopPage;

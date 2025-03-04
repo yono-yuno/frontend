@@ -3,7 +3,7 @@ import { FormatPhoneNumber, FormatPassWord } from "../utils/FormatByAuth";
 import { useNavigate } from "react-router-dom";
 import { SIGNUP_PAGE_PATH } from "../constants/Paths";
 
-const Login = () => {
+const LoginPage = () => {
   const [phone, setPhone] = useState("");
   const [passWord, setPassWord] = useState("");
   const navigate = useNavigate();
@@ -60,4 +60,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

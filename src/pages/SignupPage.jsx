@@ -9,7 +9,7 @@ import {
 } from "../utils/FormatByAuth";
 import { LOGIN_PAGE_PATH } from "../constants/Paths";
 
-const Signup = () => {
+const SignupPage = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [account, setAccount] = useState("");
@@ -141,4 +141,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignupPage;
