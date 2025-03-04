@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import CategoryList from "../components/CategoryList";
 import Item from "../components/Item";
 import Dropdown from "../components/Dropdown";
+import SearchIcon from "../assets/SearchIcon.png";
 
 const itemList = [
   {
@@ -64,20 +65,22 @@ const ShopPage = () => {
           <input
             type="text"
             placeholder="요노쇼핑 검색"
-            className="w-full py-1.5 px-3 bg-gray-200 rounded-[10px] font-PDRegular placeholder:font-PDRegular placeholder:text-16"
+            className="w-full py-1.5 px-3 bg-background rounded-[10px] font-PDRegular placeholder:text-placeholder placeholder:font-PDRegular placeholder:text-16"
           />
           <img
-            src="https://picsum.photos/25/25"
+            src={SearchIcon}
             alt="돋보기"
-            className="absolute right-4 top-1.5"
+            className="absolute right-4 top-1.5 w-[25px] h-[25px]"
           />
         </div>
-        <p className="flex-none p-2 font-PDRegular text-16">카테고리별</p>
+        <p className="flex-none px-2 py-4 font-PDRegular text-16">카테고리별</p>
         <CategoryList />
-        <div className="flex-none py-4 px-2 text-15">
+        <div className="flex-none px-2 text-15">
           <Dropdown />
         </div>
-        <div className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden`}>
+        <div
+          className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden pb-11`}
+        >
           {itemList.map((item) => (
             <Item key={item.id} {...item} />
           ))}

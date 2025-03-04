@@ -1,4 +1,5 @@
 import React from "react";
+import YellowStarIcon from "../assets/YellowStarIcon.png";
 
 const Item = (props) => {
   return (
@@ -8,7 +9,7 @@ const Item = (props) => {
         {props.itemName}
       </p>
       <div className="flex justify-start items-end">
-        <p className="mr-1 text-xl font-PDSemibold text-rose-600">
+        <p className="mr-1 text-xl font-PDSemibold text-red">
           {props.discount}%
         </p>
         <p className="mr-1 text-xl font-PDBold text-black">
@@ -22,10 +23,10 @@ const Item = (props) => {
         </p>
       </div>
       <div className="flex justify-start items-center">
-        <p className="p-1 mr-2 bg-gray-100 rounded-md text-[10px] font-PDMedium">
+        <p className="p-1 mr-2 bg-background rounded-md text-[10px] font-PDMedium">
           무료배송
         </p>
-        <img src="https://picsum.photos/12/12" alt="별" className="mr-1" />
+        <img src={YellowStarIcon} alt="별" className="mr-1 h-3 w-3" />
         <p className="mr-2 text-xs font-PDMedium">{props.itemStars}</p>
         <p className="text-xs text-gray-500 font-PDMedium underline">
           리뷰 {props.reviewNum.toLocaleString()}개

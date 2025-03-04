@@ -17,7 +17,7 @@ const Dropdown = () => {
         {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
       </button>
       {isOpen && (
-        <div className="absolute left-0  flex flex-col justify-center items-start w-24 text-15 font-PDRegular bg-white border-2 rounded-3xl shadow-lg">
+        <div className="absolute -left-2  flex flex-col justify-center items-start w-24 text-15 font-PDRegular bg-white border-2 rounded-2xl shadow-lg">
           {SORT_OPTIONS.map((option) => (
             <div
               key={option}
