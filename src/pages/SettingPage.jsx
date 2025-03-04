@@ -74,7 +74,7 @@ const SettingPage = () => {
                     <input
                       type="text"
                       placeholder="1,000,000"
-                      className="w-[200px] h-[46px] rounded-15 bg-white border-[2px] border-[#ECEEEF] font-PDMedium text-20 pl-[14px] text-black placeholder:text-[#B4B6B8] focus:outline-none focus:border-toss focus:bg-extraButton focus:text-toss"
+                      className="w-[200px] h-[46px] rounded-15 bg-white border-[2px] border-[#ECEEEF] font-PDMedium text-20 pl-[14px] text-black placeholder:text-[#B4B6B8] focus:outline-none focus:bg-[#F6F9FF] focus:border-toss focus:text-toss"
                     />
                     <p className="pl-[5px] font-PDMedium text-20 text-black">
                       원
@@ -132,7 +132,7 @@ const SettingPage = () => {
                           <Listbox.Button
                             className={`w-[74px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
                               open
-                                ? "border-toss bg-extraButton"
+                                ? "border-toss bg-[#F6F9FF] text-toss"
                                 : "border-[#ECEEEF] bg-white"
                             } focus:outline-none `}
                           >
@@ -169,7 +169,7 @@ const SettingPage = () => {
                           <Listbox.Button
                             className={`w-[74px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
                               open
-                                ? "border-toss bg-extraButton"
+                                ? "border-toss bg-[#F6F9FF] text-toss"
                                 : "border-[#ECEEEF] bg-white"
                             } focus:outline-none `}
                           >
