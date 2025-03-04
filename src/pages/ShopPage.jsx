@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import CategoryList from "../components/CategoryList";
 import Item from "../components/Item";
+import Dropdown from "../components/Dropdown";
 
 const itemList = [
   {
@@ -73,7 +74,9 @@ const ShopPage = () => {
         </div>
         <p className="flex-none p-2 font-PDRegular text-16">카테고리별</p>
         <CategoryList />
-        <div className="flex-none py-4 px-2 text-15">드롭다운</div>
+        <div className="flex-none py-4 px-2 text-15">
+          <Dropdown />
+        </div>
         <div className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden`}>
           {itemList.map((item) => (
             <Item key={item.id} {...item} />
