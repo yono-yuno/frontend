@@ -22,7 +22,7 @@ const Item = (props) => {
         </p>
       </div>
       <div className="flex justify-start items-center">
-        <p className="p-1 mr-2 bg-gray-300 rounded-md text-[10px] font-PDMedium">
+        <p className="p-1 mr-2 bg-gray-100 rounded-md text-[10px] font-PDMedium">
           무료배송
         </p>
         <img src="https://picsum.photos/12/12" alt="별" className="mr-1" />
