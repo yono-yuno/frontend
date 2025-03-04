@@ -5,7 +5,7 @@ import PayAlarm from "../components/PayAlarm";
 
 const AlarmPage = () => {
   return (
-    <div className="w-[393px] h-[795px] bg-background">
+    <div className="w-full h-full bg-background">
       <Header text={"알림"} />
       <main className="flex flex-col items-center mt-[20px]">
         <ReviewAlarm
