@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormatPhoneNumber, FormatPassWord } from "../utils/FormatByAuth";
 import { useNavigate } from "react-router-dom";
 import { SIGNUP_PAGE_PATH } from "../constants/Paths";
 import Logo from "../assets/Logo.png";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
+import { api } from "../apis/api";
 
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
   const [passWord, setPassWord] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    setPhone("");
-    setPassWord("");
-    navigate(MAIN_PAGE_PATH);
+  const handleLogin = async () => {
+    try {
+      const res = await api.post("/user/login", {
+        phoneNum: phone.replaceAll("-", ""),
+        passWord,
+      });
+      console.log(res.data);
+      navigate(MAIN_PAGE_PATH);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setPhone("");
+      setPassWord("");
+    }
   };
 
   const handlePhoneChange = (e) => {
