@@ -1,8 +1,20 @@
 import React, { useState } from "react";
+import { Listbox } from "@headlessui/react";
 import YunoWarning from "../assets/YunoWarning.png";
 import GuideBook from "../assets/GuideBook.png";
 import { useNavigate } from "react-router-dom";
 import { SETUPCOMPLETE_PAGE_PATH } from "../constants/Paths";
+
+const dayOptions = [
+  { id: 0, name: "00" },
+  { id: 1, name: "01" },
+  { id: 2, name: "02" },
+];
+
+const hourOptions = [];
+for (let i = 0; i < 60; i++) {
+  hourOptions.push({ id: i, name: String(i).padStart(2, "0") });
+}
 
 const SetupPage = () => {
   const navigate = useNavigate();
@@ -11,8 +23,8 @@ const SetupPage = () => {
   };
   const [amount, setAmount] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  // const [days, setDays] = useState("01");
-  // const [hours, setHours] = useState("01");
+  const [selectedDayOption, setSelectedDayOption] = useState(dayOptions[0]);
+  const [selectedHourOption, setSelectedHourOption] = useState(hourOptions[0]);
 
   // 포커스 핸들러
   const handleFocus = () => setIsFocused(true);
@@ -49,7 +61,7 @@ const SetupPage = () => {
                     ? "text-toss text-20 font-PDMedium"
                     : "text-black text-20 font-PDMedium"
                 }`}
-              type="text"
+              type="number"
               placeholder="금액을 입력해주세요"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -65,19 +77,74 @@ const SetupPage = () => {
         <label className="font-PDMedium leading-tight text-16 text-toss">
           전체 고민 시간
         </label>
-        <div className="flex items-center mt-[1px]">
-          <div className="flex items-center w-[122px] h-[46px] rounded-15 border-2 border-[#ECEEEF] bg-background">
-            {/* 일 선택 */}
-            <p className="pl-[13px] font-PDMedium text-24 bg-background">01</p>
+        <div className="flex flex-row">
+          <div className="flex flex-row items-center">
+            <Listbox value={selectedDayOption} onChange={setSelectedDayOption}>
+              {({ open }) => (
+                <div>
+                  <Listbox.Button
+                    className={`w-[122px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
+                      open
+                        ? "border-toss bg-[#F6F9FF] text-toss"
+                        : "border-[#ECEEEF] bg-background"
+                    } focus:outline-none `}
+                  >
+                    {selectedDayOption.name}
+                  </Listbox.Button>
+
+                  <Listbox.Options className="absolute w-[122px] h-[138px] bg-background border-[2px] border-[#ECEEEF] rounded-15">
+                    {dayOptions.map((option) => (
+                      <Listbox.Option
+                        key={option.id}
+                        value={option}
+                        className={`pl-[5px] pt-[7px] pb-[7px] font-PDRegular ${
+                          option.name == "02" ? "border-none" : "border-b-[1px]"
+                        } text-24 text-black leading-tight hover:bg-background`}
+                      >
+                        {option.name}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </div>
+              )}
+            </Listbox>
+            <p className="font-PDMedium text-20 text-black">일</p>
           </div>
-          <span className="text-black pl-[5px] font-PDMedium text-20">일</span>
-          <div className="flex ml-[21px] items-center w-[122px] h-[46px] rounded-15 border-2 border-[#ECEEEF] bg-background">
-            {/* 시간 선택 */}
-            <p className="pl-[13px] font-PDMedium text-24 bg-background">01</p>
+          <div className="flex flex-row items-center ml-[17px]">
+            <Listbox
+              value={selectedHourOption}
+              onChange={setSelectedHourOption}
+            >
+              {({ open }) => (
+                <div className="relative">
+                  <Listbox.Button
+                    className={`w-[122px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
+                      open
+                        ? "border-toss bg-[#F6F9FF] text-toss"
+                        : "border-[#ECEEEF] bg-background"
+                    } focus:outline-none `}
+                  >
+                    {selectedHourOption.name}
+                  </Listbox.Button>
+
+                  <Listbox.Options className="absolute overflow-y-scroll w-[122px] h-[160px] bg-background border-[2px] border-[#ECEEEF] rounded-15">
+                    {hourOptions.map((option) => (
+                      <Listbox.Option
+                        key={option.id}
+                        value={option}
+                        className={`pl-[5px] pt-[7px] pb-[7px] font-PDRegular ${
+                          option.name == "59" ? "border-none" : "border-b-[1px]"
+                        } text-24 text-black leading-tight hover:bg-background`}
+                      >
+                        {option.name}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </div>
+              )}
+            </Listbox>
+            <p className="font-PDMedium text-20 text-black">시간</p>
           </div>
-          <span className="text-black pl-[5px] font-PDMedium text-20">
-            시간
-          </span>
         </div>
       </div>
       {/* 완료 버튼 */}
