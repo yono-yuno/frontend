@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Profile from "../assets/Profile.png";
 import SettingDropUp from "../assets/SettingDropUp.png";
 import SettingDropDown from "../assets/SettingDropDown.png";
+import { LOGIN_PAGE_PATH } from "../constants/Paths";
 
 const dayOptions = [
   { id: 0, name: "00" },
@@ -26,6 +27,10 @@ const SettingPage = () => {
 
   const handleBackButton = () => {
     navigate("/");
+  };
+
+  const handleLogout = () => {
+    navigate(LOGIN_PAGE_PATH);
   };
 
   const overpriceClick = () => {
@@ -222,7 +227,10 @@ const SettingPage = () => {
             </div>
           )}
         </div>
-        <button className="flex justify-start items-center w-width h-[67px] bg-white">
+        <button
+          onClick={handleLogout}
+          className="flex justify-start items-center w-width h-[67px] bg-white"
+        >
           <p className="ml-[24px] font-PDMedium text-16 text-[#E24F4F]">
             로그아웃
           </p>
