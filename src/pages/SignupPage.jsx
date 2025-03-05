@@ -7,7 +7,6 @@ import {
   FormatPassWord,
   FormatAccount,
 } from "../utils/FormatByAuth";
-import { LOGIN_PAGE_PATH } from "../constants/Paths";
 import { api } from "../apis/api";
 
 const SignupPage = () => {
