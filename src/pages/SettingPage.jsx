@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Profile from "../assets/Profile.png";
 import SettingDropUp from "../assets/SettingDropUp.png";
 import SettingDropDown from "../assets/SettingDropDown.png";
-import { LOGIN_PAGE_PATH } from "../constants/Paths";
+import { MAIN_PAGE_PATH } from "../constants/Paths";
 
 const dayOptions = [
   { id: 0, name: "00" },
@@ -26,11 +26,11 @@ const SettingPage = () => {
   const navigate = useNavigate();
 
   const handleBackButton = () => {
-    navigate("/");
+    navigate(MAIN_PAGE_PATH);
   };
 
   const handleLogout = () => {
-    navigate(LOGIN_PAGE_PATH);
+    navigate("/");
   };
 
   const overpriceClick = () => {

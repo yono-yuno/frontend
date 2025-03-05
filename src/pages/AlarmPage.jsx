@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import ReviewAlarm from "../components/ReviewAlarm";
 import PayAlarm from "../components/PayAlarm";
+import { MAIN_PAGE_PATH } from "../constants/Paths";
 
 const AlarmPage = () => {
   const navigate = useNavigate();
 
   const handleBackButton = () => {
-    navigate("/");
+    navigate(MAIN_PAGE_PATH);
   };
 
   return (

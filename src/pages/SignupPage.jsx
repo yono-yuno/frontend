@@ -7,7 +7,6 @@ import {
   FormatPassWord,
   FormatAccount,
 } from "../utils/FormatByAuth";
-import { LOGIN_PAGE_PATH } from "../constants/Paths";
 
 const SignupPage = () => {
   const [name, setName] = useState("");
@@ -50,13 +49,13 @@ const SignupPage = () => {
   const navigate = useNavigate();
 
   const handleMoveToLogin = () => {
-    navigate(LOGIN_PAGE_PATH);
+    navigate("/");
   };
 
   return (
     <div className="h-full flex flex-col">
       {/* BackButton Click시 Login Page로 이동 */}
-      <Header text={"회원가입"} />
+      <Header text={"회원가입"} onClick={handleMoveToLogin} />
       <div className="flex flex-col justify-between items-center px-[34px] pb-[43px] pt-[38px] h-full">
         <div className="flex flex-col justify-center items-start w-full">
           <label className="text-toss font-PDMedium">이름</label>

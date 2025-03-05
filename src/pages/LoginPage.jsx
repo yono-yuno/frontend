@@ -3,6 +3,7 @@ import { FormatPhoneNumber, FormatPassWord } from "../utils/FormatByAuth";
 import { useNavigate } from "react-router-dom";
 import { SIGNUP_PAGE_PATH } from "../constants/Paths";
 import Logo from "../assets/Logo.png";
+import { MAIN_PAGE_PATH } from "../constants/Paths";
 
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
@@ -12,7 +13,7 @@ const LoginPage = () => {
   const handleLogin = () => {
     setPhone("");
     setPassWord("");
-    navigate("/");
+    navigate(MAIN_PAGE_PATH);
   };
 
   const handlePhoneChange = (e) => {
