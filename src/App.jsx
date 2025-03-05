@@ -3,10 +3,16 @@ import { Route, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { LOGIN_PAGE_PATH, SIGNUP_PAGE_PATH } from "./constants/Paths";
 import WelcomePage from "./pages/WelcomePage";
 import SetupPage from "./pages/SetupPage";
 import SetupCompletePage from "./pages/SetupCompletePage";
+import {
+  LOGIN_PAGE_PATH,
+  SIGNUP_PAGE_PATH,
+  WELCOME_PAGE_PATH,
+  SETUP_PAGE_PATH,
+  SETUPCOMPLETE_PAGE_PATH,
+} from "./constants/Paths";
 
 function App() {
   return (
@@ -14,9 +20,9 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path={LOGIN_PAGE_PATH} element={<Login />} />
       <Route path={SIGNUP_PAGE_PATH} element={<Signup />} />
-      <Route path="/WelcomePage" element={<WelcomePage />} />
-      <Route path="/SetupPage" element={<SetupPage />} />
-      <Route path="/SetupCompletePage" element={<SetupCompletePage />} />
+      <Route path={WELCOME_PAGE_PATH} element={<WelcomePage />} />
+      <Route path={SETUP_PAGE_PATH} element={<SetupPage />} />
+      <Route path={SETUPCOMPLETE_PAGE_PATH} element={<SetupCompletePage />} />
     </Routes>
   );
 }
