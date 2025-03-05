@@ -8,6 +8,7 @@ import {
   FormatAccount,
 } from "../utils/FormatByAuth";
 import { LOGIN_PAGE_PATH } from "../constants/Paths";
+import { api } from "../apis/api";
 
 const SignupPage = () => {
   const [name, setName] = useState("");
@@ -49,8 +50,19 @@ const SignupPage = () => {
 
   const navigate = useNavigate();
 
-  const handleMoveToLogin = () => {
-    navigate(LOGIN_PAGE_PATH);
+  const handleMoveToLogin = async () => {
+    try {
+      const res = await api.post("/user/signup", {
+        userName: name,
+        phoneNum: phone.replaceAll("-", ""),
+        accountNum: account,
+        passWord,
+      });
+      console.log(res.data);
+      navigate(LOGIN_PAGE_PATH);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
