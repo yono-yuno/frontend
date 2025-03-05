@@ -20,7 +20,11 @@ const ReviewAlarm = (props) => {
         </div>
         <div className="flex flex-col items-start pl-[22px] pt-[6px]">
           <p className="font-PDMedium text-16 text-black leading-tight">
-            [{props.title}]
+            [
+            {props.title.length > 26
+              ? `${props.title.slice(0, 26)}...`
+              : props.title}
+            ]
           </p>
           <p className="pt-[3px] font-PDRegular text-16 text-black leading-tight">
             구매하신 이 제품, 어떠셨나요? 후기를 남겨주세요!

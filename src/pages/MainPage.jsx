@@ -1,35 +1,71 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import Setting from "../assets/Setting.png";
 import Alarm from "../assets/Alarm.png";
 //import AlarmOn from "../assets/Alarm_on.png";
 import MainSpeechBubble from "../assets/MainSpeechBubble.png";
-import Yuno from "../assets/Yuno.png";
+import Yuno from "../assets/Yuno.gif";
 import PayRecordB from "../assets/PayRecordB.png";
 import ShoppingB from "../assets/ShoppingB.png";
 import ThinkingB from "../assets/ThinkingB.png";
 import PayToss from "../assets/Paytoss.png";
 import LineChart from "../components/LineChart";
 import PieChart from "../components/PieChart";
+import {
+  SETTING_PAGE_PATH,
+  ALARM_PAGE_PATH,
+  SHOP_PAGE_PATH,
+} from "../constants/Paths";
 
 const MainPage = () => {
+  const carouselRef = useRef(null); //회전목마라는 뜻: 슬라이드 컨테이너를 참조하는 변수
+  const [index, setIndex] = useState(0); //현재 보고 있는 슬라이드 번호(0 또는 1)
+  const navigate = useNavigate();
+
+  const handleSetting = () => {
+    navigate(SETTING_PAGE_PATH);
+  };
+  const handleAlarm = () => {
+    navigate(ALARM_PAGE_PATH);
+  };
+  const handleShop = () => {
+    navigate(SHOP_PAGE_PATH);
+  };
+
+  useEffect(() => {
+    const slideWidth = carouselRef.current?.clientWidth; // 슬라이드 하나의 너비
+    const interval = setInterval(() => {
+      setIndex((prev) => {
+        const newIndex = prev === 0 ? 1 : 0; // 0이면 1로, 1이면 0으로 바꾸기
+        carouselRef.current.scrollTo({
+          left: newIndex * slideWidth, //새로운 위치로 스크롤 이동
+          behavior: "smooth", //부드럽게 이동
+        });
+        return newIndex; //상태 업데이트
+      });
+    }, 6000); // 7초마다 변경
+
+    return () => clearInterval(interval); //컴포넌트가 사라질 때 인터벌 정리
+  }, []);
+
   return (
     <div className="bg-background">
       <header className="flex justify-between pl-[25px] pr-[22px] h-[58px] items-end ">
         <img src={Logo} className="w-[157px] h-[27px] mb-[3px]" />
         <div>
-          <button>
+          <button onClick={handleAlarm}>
             <img src={Alarm} className="w-[34px] h-[34px]" />
             {/* <img src={AlarmOn} className="w-[34px] h-[35px] " /> */}
           </button>
-          <button>
+          <button onClick={handleSetting}>
             <img src={Setting} className="w-[34px] h-[34px] ml-[13px]" />
           </button>
         </div>
       </header>
       <main>
         <div>
-          <div className="flex justify-center mt-[40px]">
+          <div className="flex justify-center mt-[30px]">
             <img src={MainSpeechBubble} className="w-[273px] h-[101px]" />
             {/* absolute는 요소의 위치 조정, flex는 내부 요소 정렬 -> 둘이 같이 사용 가능 */}
             <div className="absolute w-[271px] h-[72px] flex items-center">
@@ -40,7 +76,7 @@ const MainPage = () => {
             </div>
           </div>
           <div className="flex justify-center mt-[3px]">
-            <img src={Yuno} className="w-[229px] h-[143px]" />
+            <img src={Yuno} className="w-[149px] h-[143px]" />
           </div>
         </div>
         <menu className="flex flex-col justify-center items-center mt-[27px]">
@@ -48,7 +84,7 @@ const MainPage = () => {
             <div className="flex items-center">
               <img src={PayToss} className="w-[35px] h-[35px] mr-[13px]" />
               <div>
-                <p className="font-PDMedium text-[21px] text-black leading-none">
+                <p className="mb-[3px] font-PDMedium text-[21px] text-black leading-none">
                   0원
                 </p>
                 <p className="font-PDRegular text-[13px] text-[#80858E] leading-none">
@@ -67,12 +103,15 @@ const MainPage = () => {
             <button>
               <img src={ThinkingB} className="w-[117px] h-[95px]" />
             </button>
-            <button>
+            <button onClick={handleShop}>
               <img src={ShoppingB} className="w-[117px] h-[95px]" />
             </button>
           </div>
-          <div className="flex  w-width space-x-4 overflow-x-auto">
-            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[14px] rounded-15 bg-white">
+          <div
+            className="flex  w-width overflow-x-auto scroll-smooth"
+            ref={carouselRef}
+          >
+            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[24px] rounded-15 bg-white">
               <div className="flex justify-start w-[310px]">
                 <p className="font-PDMedium text-16 text-black">2월</p>
               </div>
@@ -80,7 +119,8 @@ const MainPage = () => {
                 <div className="flex flex-col justify-center pl-[20px]">
                   <p className="font-PDBold text-20 text-black">1,520,731원</p>
                   <p className=" pt-[5px] font-PDMedium text-[12px] text-[#697583]">
-                    저번 달 같은 날보다 10,000원 많이 사용
+                    저번 달 같은 날보다{" "}
+                    <span className="text-[#FC6767]">10,000원 많이 사용</span>
                   </p>
                 </div>
                 <div className="w-[140px] h-[70px]">
@@ -125,7 +165,7 @@ const MainPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[12px] rounded-15 bg-white">
+            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[24px] rounded-15 bg-white">
               <div className="flex justify-start w-[310px]">
                 <p className="font-PDMedium text-16 text-black">2월</p>
               </div>

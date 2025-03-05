@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Listbox } from "@headlessui/react";
 import Header from "../components/Header";
 import Profile from "../assets/Profile.png";
@@ -12,7 +13,7 @@ const dayOptions = [
 ];
 
 const hourOptions = [];
-for (let i = 0; i < 60; i++) {
+for (let i = 0; i < 24; i++) {
   hourOptions.push({ id: i, name: String(i).padStart(2, "0") });
 }
 
@@ -21,6 +22,11 @@ const SettingPage = () => {
   const [alarmSetting, setAlarmSetting] = useState(false);
   const [selectedDayOption, setSelectedDayOption] = useState(dayOptions[0]);
   const [selectedHourOption, setSelectedHourOption] = useState(hourOptions[0]);
+  const navigate = useNavigate();
+
+  const handleBackButton = () => {
+    navigate("/");
+  };
 
   const overpriceClick = () => {
     setOverpriceSetting(!overpriceSetting);
@@ -33,19 +39,29 @@ const SettingPage = () => {
 
   return (
     <div className="w-full h-full bg-background">
-      <Header text={"설정"} />
+      <Header onClick={handleBackButton} text={"설정"} />
       <div className="flex flex-col items-center mt-[20px]">
         <div className="flex flex-row items-center w-width h-[125px] p-[30px] mb-[15px] rounded-t-[20px] bg-white">
           <img src={Profile} className="w-[65px] h-[65px] mr-[9px]" />
-          <p className="font-PDRegular text-15 leading-tight">홍길동</p>
+          <div>
+            <p className="font-PDRegular text-15 leading-tight text-black">
+              홍길동
+            </p>
+            <p className="mt-[2px] font-PDRegular text-[13px] leading-tight text-button">
+              010-1234-1234
+            </p>
+          </div>
         </div>
         <div>
           {overpriceSetting === false ? (
             <div className="flex justify-between items-center w-width h-[67px] bg-white">
-              <p className=" ml-[24px] font-PDRegular text-16 text-black">
-                상한액 설정하기
-              </p>
-              <button onClick={overpriceClick}>
+              <button
+                onClick={overpriceClick}
+                className="flex justify-between items-center w-width"
+              >
+                <p className=" ml-[24px] font-PDRegular text-16 text-black">
+                  상한액 설정하기
+                </p>
                 <img
                   src={SettingDropUp}
                   className="w-[10px] h-[19px] mr-[24px]"
@@ -54,17 +70,15 @@ const SettingPage = () => {
             </div>
           ) : (
             <div className="flex flex-col justify-start items-between w-width h-[178px] bg-extraButton">
-              <div className="flex justify-between">
+              <button onClick={overpriceClick} className="flex justify-between">
                 <p className="mt-[21px]  ml-[24px] font-PDRegular text-16 text-toss">
                   상한액 설정하기
                 </p>
-                <button onClick={overpriceClick}>
-                  <img
-                    src={SettingDropDown}
-                    className="w-[19px] h-[10px] mr-[24px] mt-[27px]"
-                  />
-                </button>
-              </div>
+                <img
+                  src={SettingDropDown}
+                  className="w-[19px] h-[10px] mr-[24px] mt-[27px]"
+                />
+              </button>
               <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
                 <div className="flex justify-start w-[320px]">
                   <p className="font-PDMedium text-16 text-[#B4B6B8]">상한액</p>
@@ -72,7 +86,7 @@ const SettingPage = () => {
                 <div className="flex justify-between w-[320px] h-[46px]">
                   <div className="flex items-center">
                     <input
-                      type="text"
+                      type="number"
                       placeholder="1,000,000"
                       className="w-[200px] h-[46px] rounded-15 bg-white border-[2px] border-[#ECEEEF] font-PDMedium text-20 pl-[14px] text-black placeholder:text-[#B4B6B8] focus:outline-none focus:bg-[#F6F9FF] focus:border-toss focus:text-toss"
                     />
@@ -92,10 +106,14 @@ const SettingPage = () => {
         <div>
           {alarmSetting === false ? (
             <div className="flex justify-between items-center w-width h-[67px] bg-white">
-              <p className="ml-[24px] font-PDRegular text-16 text-black">
-                알림 간격 설정하기
-              </p>
-              <button onClick={alarmClick}>
+              <button
+                onClick={alarmClick}
+                className="flex justify-between items-center w-width"
+              >
+                <p className="ml-[24px] font-PDRegular text-16 text-black">
+                  알림 간격 설정하기
+                </p>
+
                 <img
                   src={SettingDropUp}
                   className="w-[10px] h-[19px] mr-[24px]"
@@ -104,17 +122,17 @@ const SettingPage = () => {
             </div>
           ) : (
             <div className="flex flex-col justify-start items-between w-width h-[178px] bg-extraButton">
-              <div className="flex justify-between">
+              <button onClick={alarmClick} className="flex justify-between">
                 <p className="mt-[21px]  ml-[24px] font-PDRegular text-16 text-toss">
                   알림 간격 설정하기
                 </p>
-                <button onClick={alarmClick}>
+                <button>
                   <img
                     src={SettingDropDown}
                     className="w-[19px] h-[10px] mr-[24px] mt-[27px]"
                   />
                 </button>
-              </div>
+              </button>
               <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
                 <div className="flex justify-start w-[320px]">
                   <p className="font-PDMedium text-16 text-[#B4B6B8]">
@@ -205,7 +223,9 @@ const SettingPage = () => {
           )}
         </div>
         <button className="flex justify-start items-center w-width h-[67px] bg-white">
-          <p className="ml-[24px] font-PDRegular text-16 text-red">로그아웃</p>
+          <p className="ml-[24px] font-PDMedium text-16 text-[#E24F4F]">
+            로그아웃
+          </p>
         </button>
       </div>
     </div>
