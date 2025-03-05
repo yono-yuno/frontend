@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import CategoryList from "../components/CategoryList";
 import Item from "../components/Item";
 import Dropdown from "../components/Dropdown";
 import SearchIcon from "../assets/SearchIcon.png";
+import { MAIN_PAGE_PATH } from "../constants/Paths";
 
 const itemList = [
   {
@@ -54,9 +56,15 @@ const itemList = [
 ];
 
 const ShopPage = () => {
+  const navigate = useNavigate();
+
+  const handleBackButton = () => {
+    navigate(MAIN_PAGE_PATH);
+  };
+
   return (
     <div className="flex flex-col h-full w-full">
-      <Header text="요노쇼핑" />
+      <Header text="요노쇼핑" onClick={handleBackButton} />
       <main
         style={{ height: "calc(100% - 50px)" }}
         className="flex flex-col px-4 pt-7 w-full"

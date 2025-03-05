@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FormatPhoneNumber, FormatPassWord } from "../utils/FormatByAuth";
 import { useNavigate } from "react-router-dom";
 import { SIGNUP_PAGE_PATH } from "../constants/Paths";
+import Logo from "../assets/Logo.png";
+import { MAIN_PAGE_PATH } from "../constants/Paths";
 import { api } from "../apis/api";
 
 const LoginPage = () => {
@@ -16,6 +18,7 @@ const LoginPage = () => {
         passWord,
       });
       console.log(res.data);
+      navigate(MAIN_PAGE_PATH);
     } catch (error) {
       console.error(error);
     } finally {
@@ -38,7 +41,7 @@ const LoginPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-start h-full px-[34px]">
-      <p className="mb-3">Logo</p>
+      <img src={Logo} className="mb-3 w-[157px] h-[27px]" />
       <input
         type="tel"
         placeholder="휴대폰 번호"

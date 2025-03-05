@@ -59,7 +59,7 @@ const SignupPage = () => {
         passWord,
       });
       console.log(res.data);
-      navigate(LOGIN_PAGE_PATH);
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +68,7 @@ const SignupPage = () => {
   return (
     <div className="h-full flex flex-col">
       {/* BackButton Click시 Login Page로 이동 */}
-      <Header text={"회원가입"} />
+      <Header text={"회원가입"} onClick={handleMoveToLogin} />
       <div className="flex flex-col justify-between items-center px-[34px] pb-[43px] pt-[38px] h-full">
         <div className="flex flex-col justify-center items-start w-full">
           <label className="text-toss font-PDMedium">이름</label>

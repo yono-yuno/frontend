@@ -2,11 +2,18 @@ import React from "react";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import YellowStarIcon from "../assets/YellowStarIcon.png";
+import { useNavigate } from "react-router-dom";
+import { SHOP_PAGE_PATH } from "../constants/Paths";
 
 const ItemPage = () => {
+  const navigate = useNavigate();
+  const handleBackButton = () => {
+    navigate(SHOP_PAGE_PATH);
+  };
+
   return (
     <div className="flex flex-col h-full relative">
-      <Header />
+      <Header onClick={handleBackButton} />
       <div
         className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden mt-3`}
       >
