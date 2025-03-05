@@ -12,7 +12,7 @@ const dayOptions = [
 ];
 
 const hourOptions = [];
-for (let i = 0; i < 60; i++) {
+for (let i = 0; i < 24; i++) {
   hourOptions.push({ id: i, name: String(i).padStart(2, "0") });
 }
 
