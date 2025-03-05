@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import "../styles/style.css";
-import "../styles/index.css";
 import YunoWarning from "../assets/YunoWarning.png";
 import GuideBook from "../assets/GuideBook.png";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +9,7 @@ const SetupPage = () => {
   const handleMoveToSetupCompletePage = () => {
     navigate(SETUPCOMPLETE_PAGE_PATH);
   };
-  const [amount, setAmount] = useState(" ");
+  const [amount, setAmount] = useState("");
   // const [days, setDays] = useState("01");
   // const [hours, setHours] = useState("01");
   return (
@@ -39,8 +37,8 @@ const SetupPage = () => {
         <div className="flex items-center mt-[1px]">
           <div className="flex items-center w-[288px] h-[46px] rounded-15 border-2 border-[#ECEEEF] bg-background">
             <input
-              className="pl-[13px] leading-tight font-PDRegular text-placeholder text-20 bg-background"
-              type="number"
+              className="pl-[13px] leading-tight font-PDRegular placeholder-gray-400 placeholder:text-20 bg-background"
+              type="text"
               placeholder="금액을 입력해주세요"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
