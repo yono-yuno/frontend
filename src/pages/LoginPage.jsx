@@ -36,10 +36,6 @@ const LoginPage = () => {
     navigate(SIGNUP_PAGE_PATH);
   };
 
-  useEffect(() => {
-    api.get("/user?userId=4cf009da-4e3b-44d5-a170-f23dface8cac");
-  }, []);
-
   return (
     <div className="flex flex-col justify-center items-start h-full px-[34px]">
       <p className="mb-3">Logo</p>
