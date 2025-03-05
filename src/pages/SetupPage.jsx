@@ -10,8 +10,14 @@ const SetupPage = () => {
     navigate(SETUPCOMPLETE_PAGE_PATH);
   };
   const [amount, setAmount] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   // const [days, setDays] = useState("01");
   // const [hours, setHours] = useState("01");
+
+  // 포커스 핸들러
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
+
   return (
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}
@@ -35,13 +41,20 @@ const SetupPage = () => {
           상한액
         </label>
         <div className="flex items-center mt-[1px]">
-          <div className="flex items-center w-[288px] h-[46px] rounded-15 border-2 border-[#ECEEEF] bg-background">
+          <div className="flex items-center w-[288px] h-[46px] rounded-15 border-2 border-[#ECEEEF] bg-background focus-within:border-toss focus-within:bg-extraButton">
             <input
-              className="pl-[13px] leading-tight font-PDRegular placeholder-gray-400 placeholder:text-20 bg-background"
+              className={`w-full ml-[13px] leading-tight font-PDRegular placeholder:text-20 bg-background outline-none focus-within:bg-extraButton focus-within:outline-none
+                ${
+                  isFocused
+                    ? "text-toss text-20 font-PDMedium"
+                    : "text-black text-20 font-PDMedium"
+                }`}
               type="text"
               placeholder="금액을 입력해주세요"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </div>
           <span className="text-black pl-[5px] font-PDMedium text-20">원</span>
