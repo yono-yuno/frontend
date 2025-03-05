@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Listbox } from "@headlessui/react";
 import YunoWarning from "../assets/YunoWarning.png";
 import GuideBook from "../assets/GuideBook.png";
+import MoneyIcon from "../assets/MoneyIcon.png";
+import TimeIcon from "../assets/TimeIcon.png";
 import { useNavigate } from "react-router-dom";
 import { SETUPCOMPLETE_PAGE_PATH } from "../constants/Paths";
 
@@ -25,20 +27,26 @@ const SetupPage = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [selectedDayOption, setSelectedDayOption] = useState(dayOptions[0]);
   const [selectedHourOption, setSelectedHourOption] = useState(hourOptions[0]);
+  const [isOpen, setIsOpen] = useState(false); // 팝업 상태 추가
 
   // 포커스 핸들러
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
+  const handleTogglePopup = () => setIsOpen(!isOpen);
 
   return (
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}
       <div className="flex mt-[133px]">
-        <img src={YunoWarning} className=" w-[229px] h-[143px]" />
+        <button onClick={handleTogglePopup}>
+          <img src={YunoWarning} className=" w-[229px] h-[143px]" />
+        </button>
       </div>
       {/* 안내 문구 */}
       <div className="flex mt-[18px] font-PDMedium leading-tight text-center text-20">
-        <img src={GuideBook} className="w-[18px] h-[18px]" />
+        <button onClick={handleTogglePopup}>
+          <img src={GuideBook} className="w-[18px] h-[18px]" />
+        </button>
         <p className="text-toss pl-[4px]">
           결제할 때 적용될 옵션
           <span className="text-black">이니,</span>
@@ -147,6 +155,7 @@ const SetupPage = () => {
           </div>
         </div>
       </div>
+
       {/* 완료 버튼 */}
       <button
         className="mt-[155px] w-[351px] h-[59px] rounded-15 bg-toss"
@@ -154,6 +163,45 @@ const SetupPage = () => {
       >
         <p className="font-PDMedium text-20 text-white">완료하기</p>
       </button>
+
+      {/* 팝업 (모달) */}
+      {isOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
+          <div className="flex flex-col w-[383px] h-[333px] bg-white rounded-15 shadow-lg">
+            <p className="mt-[28px] font-PDMedium text-black text-[22px] text-center">
+              결제할 때 적용될 옵션이란?
+            </p>
+            <div className="flex mt-[18px] ml-[10px] font-PDMedium leading-tight">
+              <img src={MoneyIcon} className="w-[74px] h-[70px]" />
+              <div className="mt-[4px] ml-[10px]">
+                <p className="text-[#999999] text-[16px] ">상한액</p>
+                <p className="text-[17px]">상한액 이상의 결제는</p>
+                <p className="text-[17px]">
+                  유노와 고민할 시간을 가질 수 있어요.
+                </p>
+              </div>
+            </div>
+            <div className="flex mt-[31px] ml-[16px] font-PDMedium leading-tight">
+              <img src={TimeIcon} className="w-[69px] h-[70px]" />
+              <div className="mt-[4px] ml-[10px]">
+                <p className="text-[#999999] text-[16px] ">전체 고민 시간</p>
+                <p className="text-[17px]">총 두번의 고민이 있었고</p>
+                <p className="text-[17px]">
+                  한 번 고민할 때 옵션의 반씩 고민해요.
+                </p>
+              </div>
+            </div>
+
+            {/* 확인 버튼 */}
+            <button
+              className="mt-[20px] ml-[16px] w-[351px] h-[59px] rounded-15 bg-toss text-white font-PDMedium text-20"
+              onClick={handleTogglePopup}
+            >
+              확인
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
