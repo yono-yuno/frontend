@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormatPhoneNumber, FormatPassWord } from "../utils/FormatByAuth";
 import { useNavigate } from "react-router-dom";
 import { SIGNUP_PAGE_PATH } from "../constants/Paths";
+import { api } from "../apis/api";
 
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
   const [passWord, setPassWord] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    setPhone("");
-    setPassWord("");
+  const handleLogin = async () => {
+    try {
+      const res = await api.post("/user/login", {
+        phoneNum: phone.replaceAll("-", ""),
+        passWord,
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setPhone("");
+      setPassWord("");
+    }
   };
 
   const handlePhoneChange = (e) => {
@@ -24,6 +35,10 @@ const LoginPage = () => {
   const handleMoveToSignup = () => {
     navigate(SIGNUP_PAGE_PATH);
   };
+
+  useEffect(() => {
+    api.get("/user?userId=4cf009da-4e3b-44d5-a170-f23dface8cac");
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-start h-full px-[34px]">
