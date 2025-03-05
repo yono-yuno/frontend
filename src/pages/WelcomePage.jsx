@@ -21,7 +21,7 @@ const WelcomePage = () => {
       {/* 텍스트 영역 */}
       <div className="mt-[54px] text-center text-20 leading-tight font-PDMedium ">
         <p className="text-black">
-          반가워요. <name className="text-toss">홍길동</name>님!
+          반가워요. <span className="text-toss">홍길동</span>님!
         </p>
         <p className="text-black">
           저는 <span className="text-toss">요노 생활</span>을 도와드릴 비서,
