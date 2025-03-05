@@ -28,7 +28,7 @@ const MainPage = () => {
         </div>
       </header>
       <main>
-        <yuno>
+        <div>
           <div className="flex justify-center mt-[40px]">
             <img src={MainSpeechBubble} className="w-[273px] h-[101px]" />
             {/* absolute는 요소의 위치 조정, flex는 내부 요소 정렬 -> 둘이 같이 사용 가능 */}
@@ -42,7 +42,7 @@ const MainPage = () => {
           <div className="flex justify-center mt-[3px]">
             <img src={Yuno} className="w-[229px] h-[143px]" />
           </div>
-        </yuno>
+        </div>
         <menu className="flex flex-col justify-center items-center mt-[27px]">
           <div className="flex justify-between items-center pr-[21px] pl-[21px] w-width h-[63px] rounded-15 bg-white">
             <div className="flex items-center">
@@ -71,7 +71,7 @@ const MainPage = () => {
               <img src={ShoppingB} className="w-[117px] h-[95px]" />
             </button>
           </div>
-          <div className="flex  w-width space-x-4 overflow-x-auto pb-2">
+          <div className="flex  w-width space-x-4 overflow-x-auto">
             <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[14px] rounded-15 bg-white">
               <div className="flex justify-start w-[310px]">
                 <p className="font-PDMedium text-16 text-black">2월</p>
@@ -125,7 +125,7 @@ const MainPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[14px] rounded-15 bg-white">
+            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[12px] rounded-15 bg-white">
               <div className="flex justify-start w-[310px]">
                 <p className="font-PDMedium text-16 text-black">2월</p>
               </div>
@@ -135,7 +135,7 @@ const MainPage = () => {
                   <span className="text-[#93C9FF]">출산 · 육아</span>
                 </div>
               </div>
-              <div className="flex w-[314px] h-[120px]">
+              <div className="flex justify-between w-[314px] h-[120px]">
                 <div className="flex flex-col items-start text-16 text-[#697583]">
                   <div>
                     <span className="mr-[13px] font-PDMedium text-[#93C9FF]">
