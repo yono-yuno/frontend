@@ -11,6 +11,7 @@ module.exports = {
         yuno: "#90CBFF",
         black: "#1A1E27",
         userBlack: "#414141",
+        lightRed: "#FC6767",
         red: "#DD5257",
         placeholder: "#B2B8C0",
       },
@@ -43,6 +44,15 @@ module.exports = {
         buttonHeight: "59px",
         Hwidth: "393px",
         Hheight: "50px",
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 25s linear infinite",
       },
     },
   },
