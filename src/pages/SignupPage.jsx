@@ -66,7 +66,6 @@ const SignupPage = () => {
 
   return (
     <div className="h-full flex flex-col">
-      {/* BackButton Click시 Login Page로 이동 */}
       <Header text={"회원가입"} onClick={handleMoveToLogin} />
       <div className="flex flex-col justify-between items-center px-[34px] pb-[43px] pt-[38px] h-full">
         <div className="flex flex-col justify-center items-start w-full">
@@ -143,9 +142,7 @@ const SignupPage = () => {
               에 동의합니다.
             </label>
           </div>
-          {/* Button Component에서 disabled 관련 속성 추가 필요 및 disabled시 스타일 변경도 필요 */}
-          {/* <Button text="확인" onClick={handleMoveToLogin} disabled={!isValid} /> */}
-          <Button text="확인" onClick={handleMoveToLogin} />
+          <Button text="확인" onClick={handleMoveToLogin} disabled={!isValid} />
         </div>
       </div>
     </div>
