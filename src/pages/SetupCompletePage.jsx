@@ -23,7 +23,7 @@ const SetupCompletePage = () => {
       </div>
       <button className="flex items-center justify-center mt-[257px] w-buttonWidth h-buttonHeight rounded-15 bg-toss">
         <img src={YunoLogo} className="w-[23px] h-[27px]" />
-        <p className="pl-[10px] font-PDMedium text-20 text-white">확인</p>
+        <p className="pl-[6px] font-PDMedium text-20 text-white">확인</p>
       </button>
     </div>
   );

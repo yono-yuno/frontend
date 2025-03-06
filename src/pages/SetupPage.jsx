@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Listbox } from "@headlessui/react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import YunoWarning from "../assets/YunoWarning.png";
 import GuideBook from "../assets/GuideBook.png";
 import MoneyIcon from "../assets/MoneyIcon.png";
