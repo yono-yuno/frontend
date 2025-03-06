@@ -5,7 +5,7 @@ const Button = (props) => {
     <button
       onClick={props.onClick}
       disabled={props.disabled}
-      className="flex justify-center items-center mx-auto w-buttonWidth h-buttonHeight rounded-15 bg-toss font-PDMedium text-white text-20 disabled:bg-background"
+      className="flex justify-center items-center mx-auto w-buttonWidth h-buttonHeight rounded-15 bg-toss font-PDMedium text-white text-20 disabled:bg-background disabled:text-placeholder"
     >
       {props.text}
     </button>
