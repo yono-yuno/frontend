@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Listbox } from "@headlessui/react";
+import { motion, AnimatePresence } from "framer-motion";
 import YunoWarning from "../assets/YunoWarning.png";
 import GuideBook from "../assets/GuideBook.png";
 import MoneyIcon from "../assets/MoneyIcon.png";
@@ -167,8 +168,15 @@ const SetupPage = () => {
       {/* 팝업 (모달) */}
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
-          <div className="flex flex-col w-[383px] h-[333px] bg-white rounded-15 shadow-lg">
-            <p className="mt-[28px] font-PDMedium text-black text-[22px] text-center">
+          {/* 애니메이션 적용된 팝업 */}
+          <motion.div
+            initial={{ y: [100], opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: [100], opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute bottom-10 translate-y-[-50%] flex flex-col w-[383px] h-[333px] bg-white rounded-15 shadow-lg"
+          >
+            <p className="mt-[20px] font-PDMedium text-black text-[22px] text-center">
               결제할 때 적용될 옵션이란?
             </p>
             <div className="flex mt-[18px] ml-[10px] font-PDMedium leading-tight">
@@ -181,7 +189,7 @@ const SetupPage = () => {
                 </p>
               </div>
             </div>
-            <div className="flex mt-[31px] ml-[16px] font-PDMedium leading-tight">
+            <div className="flex mt-[21px] ml-[16px] font-PDMedium leading-tight">
               <img src={TimeIcon} className="w-[69px] h-[70px]" />
               <div className="mt-[4px] ml-[10px]">
                 <p className="text-[#999999] text-[16px] ">전체 고민 시간</p>
@@ -199,7 +207,7 @@ const SetupPage = () => {
             >
               확인
             </button>
-          </div>
+          </motion.div>
         </div>
       )}
     </div>
