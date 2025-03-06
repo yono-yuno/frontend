@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       colors: {
         toss: "#4880EE",
-        background: "#F3F4F6",
+        background: "#F2F4F6",
         extraButton: "#EAF2FE",
         button: "#B2B8C0",
         yuno: "#90CBFF",
