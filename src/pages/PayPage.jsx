@@ -18,6 +18,27 @@ import { MAIN_PAGE_PATH } from "../constants/Paths";
 const PayPage = () => {
   const navigate = useNavigate();
 
+  const wiseSayingList = [
+    '"소비는 나의 자유다. 하지만 그 자유는 선택에 달려 있다." — 로버트 키요사키',
+    '"사람들은 소비하는 것에 비해 더 많은 것을 소유하려고 한다. 하지만 물건이 아니라 경험을 소유하는 것이 더 중요하다." — 조지 베르나르 쇼',
+    '"소비는 결국 나 자신을 정의하는 것이다. 나는 내가 소비하는 것을 통해 나를 만든다." — 크리스티나 호프',
+    '"돈을 쓰는 건 중요하지만, 어떻게 쓰느냐가 더 중요하다." — 리처드 브랜슨',
+    '"물건을 사는 건 나의 마음을 채우는 일이다. 하지만 진정한 행복은 물건이 아니라 경험에서 온다." — 미셸 오바마',
+    '"소비가 계속되면 삶은 더 가벼워지고, 진짜 가치 있는 것은 점점 더 가벼워진다." — 헨리 데이비드 소로',
+    '"소비는 자아를 만족시키지만, 자아를 만족시키는 것만이 진정한 소비가 아니다." — 파울로 코엘료',
+    '"소비는 단순히 물건을 사는 것이 아니라, 나의 삶을 어떻게 사용할 것인가에 대한 선택이다." — 안나 퀸들런',
+    '"과소비는 결코 성취감을 가져오지 않는다. 필요한 것을 알게 되는 순간, 진정한 만족을 찾을 수 있다." — 알프레드 나이트',
+    '"소비는 단지 물건을 사고 파는 것 이상의 의미가 있다. 그것은 우리가 무엇을 중시하는지를 보여준다." — 트레이시 맥밀란',
+  ];
+  let wiseSaying = "";
+
+  const GetRandomWiseSaying = () => {
+    const randomIndex = Math.floor(Math.random() * wiseSayingList.length);
+    wiseSaying = wiseSayingList[randomIndex];
+  };
+
+  GetRandomWiseSaying();
+
   const data = {
     overprice: 10000000,
     balance: 1000000,
@@ -27,8 +48,6 @@ const PayPage = () => {
     itemName: "Marshal WOBURN3 블루투스 스피커",
     price: 855000,
     itemImg: ElectronicsCategoryIcon,
-    WiseSaying:
-      '"소비는 나의 자유다. 하지만 그 자유는 선택에 달려 있다." — 로버트 키요사키',
   };
   let payStatus = {};
 
@@ -82,13 +101,13 @@ const PayPage = () => {
       <div className="flex flex-col items-center justify-center mt-[72px]">
         <div className="flex items-center justify-center overflow-hidden mb-[6px] w-[319px] h-[32px] bg-extraButton rounded-[10px] font-PDMedium text-[13px] text-toss">
           <p className="whitespace-nowrap animate-marquee leading-tight">
-            {data.WiseSaying}
+            {wiseSaying}
           </p>
           <p className="ml-[40px] whitespace-nowrap animate-marquee leading-tight">
-            {data.WiseSaying}
+            {wiseSaying}
           </p>
           <p className="ml-[40px] whitespace-nowrap animate-marquee leading-tight">
-            {data.WiseSaying}
+            {wiseSaying}
           </p>
         </div>
         <button className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[6px] rounded-15 bg-toss text-white">
