@@ -13,7 +13,11 @@ import TossAccountIcon from "../assets/TossAccountIcon.png";
 import TossPayIcon from "../assets/TossPayIcon.png";
 import Check from "../assets/Check.png";
 import SmallYuno from "../assets/SmallYuno.png";
-import { MAIN_PAGE_PATH } from "../constants/Paths";
+import {
+  MAIN_PAGE_PATH,
+  PAID_PAGE_PATH,
+  SHOP_PAGE_PATH,
+} from "../constants/Paths";
 
 const PayPage = () => {
   const navigate = useNavigate();
@@ -38,12 +42,19 @@ const PayPage = () => {
 
   GetRandomWiseSaying();
 
-  const handleCancel = () => {
+  const handleGotoMain = () => {
     navigate(MAIN_PAGE_PATH);
   };
-  const handlePayNow = () => {};
+  const handleGotoPaid = () => {
+    navigate(PAID_PAGE_PATH);
+  };
+  const handleGotoShop = () => {
+    navigate(SHOP_PAGE_PATH);
+  };
+  const handleGotoThinking = () => {};
+
   const data = {
-    overprice: 10000000,
+    overprice: 19000,
     balance: 1000000,
     accountNum: 123456789000,
     status: null,
@@ -113,7 +124,10 @@ const PayPage = () => {
             {wiseSaying}
           </p>
         </div>
-        <button className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[6px] rounded-15 bg-toss text-white">
+        <button
+          onClick={handleGotoPaid}
+          className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[6px] rounded-15 bg-toss text-white"
+        >
           <img src={TossPayIcon} className="w-[30px] h-[30px]" />
           <p className="font-PDLight text-24">Pay</p>
           <p className="font-PDLight text-20">동의하고 결제하기</p>
@@ -130,7 +144,7 @@ const PayPage = () => {
       <div className="flex flex-col items-center justify-center mt-[110px]">
         <div className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[19px] font-PDLight text-20">
           <button
-            onClick={data.status == 1 ? handleCancel : handlePayNow}
+            onClick={data.status == 1 ? handleGotoMain : handleGotoPaid}
             className={`flex justify-center items-center w-[129px] h-buttonHeight rounded-15 ${
               data.status == 1 ? "bg-lightRed" : "bg-extraButton"
             } ${data.status == 1 ? "text-white" : "text-toss"}`}
@@ -138,6 +152,7 @@ const PayPage = () => {
             <p>{payStatus.button1Text}</p>
           </button>
           <button
+            onClick={data.status == 1 ? handleGotoPaid : handleGotoThinking}
             className={`flex justify-center items-center w-[203px] h-[59px] rounded-15 gap-[6px] bg-toss text-white`}
           >
             <img
@@ -165,16 +180,13 @@ const PayPage = () => {
     );
   };
 
-  const NavigateMain = () => {
-    navigate(MAIN_PAGE_PATH);
-  };
-  const NavigateShop = () => {};
-
   Status();
 
   return (
     <div className="w-full h-full" style={payStatus.bg}>
-      <Header onClick={data.status == null ? NavigateShop : NavigateMain} />
+      <Header
+        onClick={data.status == null ? handleGotoShop : handleGotoThinking}
+      />
       <div className="flex flex-col items-center">
         <div className="flex flex-col items-center relative mt-[1px]">
           <img src={payStatus.bubble} className="w-[188px] h-[68.5px]" />
