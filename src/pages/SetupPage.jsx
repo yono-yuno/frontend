@@ -30,7 +30,11 @@ const SetupPage = () => {
   const [selectedHourOption, setSelectedHourOption] = useState(hourOptions[0]);
   const [isOpen, setIsOpen] = useState(false); // 팝업 상태 추가
   const [isvalid, setIsvalid] = useState(false);
-  const [overPrice, setOverprice] = useState();
+  const [overPrice, setOverPrice] = useState(0);
+  const handleOverPriceFormat = (e) => {
+    const rawValue = e.target.value.replace(/[^0-9]/g, "");
+    setOverPrice(rawValue);
+  };
 
   useEffect(() => {
     setIsvalid(overPrice !== 0 && overPrice != "");
@@ -70,15 +74,15 @@ const SetupPage = () => {
         <div className="flex items-center mt-[1px]">
           <div className="flex items-center w-[288px] h-[46px] rounded-15 border-2 border-[#ECEEEF] bg-background focus-within:border-toss focus-within:bg-extraButton">
             <input
-              value={overPrice}
-              onChange={(e) => setOverprice(e.target.value)}
+              value={overPrice ? Number(overPrice).toLocaleString() : ""}
+              onChange={handleOverPriceFormat}
               className={`w-full ml-[13px] leading-tight font-PDRegular placeholder:text-20 bg-background outline-none focus-within:bg-extraButton focus-within:outline-none
                 ${
                   isFocused
                     ? "text-toss text-20 font-PDMedium"
                     : "text-black text-20 font-PDMedium"
                 }`}
-              type="number"
+              type="text"
               placeholder="금액을 입력해주세요"
               onFocus={handleFocus}
               onBlur={handleBlur}
@@ -168,7 +172,7 @@ const SetupPage = () => {
         <Button
           text="완료하기"
           onClick={handleMoveToSetupCompletePage}
-          disabled={isvalid}
+          disabled={!isvalid}
         />
       </div>
 
