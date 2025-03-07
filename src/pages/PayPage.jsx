@@ -207,7 +207,7 @@ const PayPage = () => {
           />
         </div>
         <div className="flex items-center mt-[15px] w-width h-[99px] rounded-15 bg-white">
-          <div className="flex flex-col ml-[22px] w-[174px] h-[71px]">
+          <div className="flex flex-col ml-[22px] w-[200px] h-[71px]">
             <p className="font-PDSemibold text-16 text-[#7C838D] leading-tight">
               결제수단
             </p>
