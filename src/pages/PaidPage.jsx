@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const PaidPage = () => {
   const navigate = useNavigate();
   const [isFocused, setIsFocused] = useState(false);
+  const [diary, setDiary] = useState("");
 
   const handleFinishButton = () => {
     navigate(MAIN_PAGE_PATH);
@@ -26,7 +27,7 @@ const PaidPage = () => {
         }`}
       >
         <p
-          className={`leading-tight font-PDSemibold text-15 ${
+          className={`mb-[5px] leading-tight font-PDSemibold text-15 ${
             isFocused ? "text-toss" : "text-[#7C838D]"
           } `}
         >
@@ -35,7 +36,9 @@ const PaidPage = () => {
         <textarea
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder="소비에 대한 이유를 간단하게 작성해주세요."
+          value={diary.slice(0, 75)}
+          onChange={(e) => setDiary(e.target.value)}
+          placeholder="소비에 대한 이유를 간단하게 작성해주세요. (76자 이내)"
           className="w-[338px] h-[72px] resize-none bg-transparent border-none outline-none font-PDRegular text-15 placeholder:text-[#B2B8C0] text-black focus:text-toss"
         ></textarea>
       </div>

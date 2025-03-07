@@ -54,7 +54,7 @@ const PayPage = () => {
   const handleGotoThinking = () => {};
 
   const data = {
-    overprice: 19000,
+    overprice: 10009000,
     balance: 1000000,
     accountNum: 123456789000,
     status: null,
@@ -132,8 +132,8 @@ const PayPage = () => {
           <p className="font-PDLight text-24">Pay</p>
           <p className="font-PDLight text-20">동의하고 결제하기</p>
         </button>
-        <div className="flex justify-center items-center gap-[5px] w-[300px] h-[31px] leading-tight">
-          <img src={Check} className="w-[17px] h-[17px] text-[13px]" />
+        <div className="flex justify-center items-center gap-[5px] w-[300px] h-[27px] text-[13px] leading-tight">
+          <img src={Check} className="w-[17px] h-[17px]" />
           <p className="font-PDSemibold text-toss">필수</p>
           <p className="font-PDRegular text-[#999FA8]">
             결제 정보 확인 및 정보 제공 동의
@@ -165,10 +165,9 @@ const PayPage = () => {
           </button>
         </div>
         {data.status == 1 ? (
-          <div className="flex justify-center items-center gap-[5px] w-[300px] h-[31px] leading-tight">
-            <img src={Check} className="w-[17px] h-[17px] text-[13px]" />
+          <div className="flex justify-center items-center gap-[5px] w-[300px] h-[27px] text-[13px] leading-tight">
+            <img src={Check} className="w-[17px] h-[17px]" />
             <p className="font-PDSemibold text-toss">필수</p>
-
             <p className="font-PDRegular text-[#999FA8]">
               결제 정보 확인 및 정보 제공 동의
             </p>
