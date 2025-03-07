@@ -17,7 +17,6 @@ import { MAIN_PAGE_PATH } from "../constants/Paths";
 
 const PayPage = () => {
   const navigate = useNavigate();
-
   const wiseSayingList = [
     '"소비는 나의 자유다. 하지만 그 자유는 선택에 달려 있다." — 로버트 키요사키',
     '"사람들은 소비하는 것에 비해 더 많은 것을 소유하려고 한다. 하지만 물건이 아니라 경험을 소유하는 것이 더 중요하다." — 조지 베르나르 쇼',
@@ -39,10 +38,14 @@ const PayPage = () => {
 
   GetRandomWiseSaying();
 
+  const handleCancel = () => {
+    navigate(MAIN_PAGE_PATH);
+  };
+  const handlePayNow = () => {};
   const data = {
     overprice: 10000000,
     balance: 1000000,
-    accountNum: 1234567890,
+    accountNum: 123456789000,
     status: null,
     brandName: "토스 요노쇼핑",
     itemName: "Marshal WOBURN3 블루투스 스피커",
@@ -127,6 +130,7 @@ const PayPage = () => {
       <div className="flex flex-col items-center justify-center mt-[110px]">
         <div className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[19px] font-PDLight text-20">
           <button
+            onClick={data.status == 1 ? handleCancel : handlePayNow}
             className={`flex justify-center items-center w-[129px] h-buttonHeight rounded-15 ${
               data.status == 1 ? "bg-lightRed" : "bg-extraButton"
             } ${data.status == 1 ? "text-white" : "text-toss"}`}

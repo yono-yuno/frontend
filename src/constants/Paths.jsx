@@ -8,3 +8,4 @@ export const ALARM_PAGE_PATH = "/alarm";
 export const MAIN_PAGE_PATH = "/main";
 
 export const PAY_PAGE_PATH = "/pay";
+export const PAID_PAGE_PATH = "/paid";
