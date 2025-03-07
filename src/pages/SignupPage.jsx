@@ -7,9 +7,9 @@ import {
   FormatPassWord,
   FormatAccount,
 } from "../utils/FormatByAuth";
-import { LOGIN_PAGE_PATH } from "../constants/Paths";
+import { api } from "../apis/api";
 
-const Signup = () => {
+const SignupPage = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [account, setAccount] = useState("");
@@ -49,14 +49,24 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const handleMoveToLogin = () => {
-    navigate(LOGIN_PAGE_PATH);
+  const handleMoveToLogin = async () => {
+    try {
+      const res = await api.post("/user/signup", {
+        userName: name,
+        phoneNum: phone.replaceAll("-", ""),
+        accountNum: account,
+        passWord,
+      });
+      console.log(res.data);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="h-full flex flex-col">
-      {/* BackButton Click시 Login Page로 이동 */}
-      <Header text={"회원가입"} />
+      <Header text={"회원가입"} onClick={handleMoveToLogin} />
       <div className="flex flex-col justify-between items-center px-[34px] pb-[43px] pt-[38px] h-full">
         <div className="flex flex-col justify-center items-start w-full">
           <label className="text-toss font-PDMedium">이름</label>
@@ -132,13 +142,11 @@ const Signup = () => {
               에 동의합니다.
             </label>
           </div>
-          {/* Button Component에서 disabled 관련 속성 추가 필요 및 disabled시 스타일 변경도 필요 */}
-          {/* <Button text="확인" onClick={handleMoveToLogin} disabled={!isValid} /> */}
-          <Button text="확인" onClick={handleMoveToLogin} />
+          <Button text="확인" onClick={handleMoveToLogin} disabled={!isValid} />
         </div>
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default SignupPage;
