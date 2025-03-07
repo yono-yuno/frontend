@@ -211,7 +211,6 @@ const SetupPage = () => {
             <button
               className="mt-[20px] ml-[16px] w-[351px] h-[59px] rounded-15 bg-toss text-white font-PDMedium text-20"
               onClick={handleTogglePopup}
-              diabled={!isValid}
             >
               확인
             </button>
