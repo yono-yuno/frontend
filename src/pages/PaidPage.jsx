@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import GoodPayYuno from "../assets/GoodPayYuno.png";
+import GoodPayYuno from "../assets/GoodPayYuno.gif";
 import GreenCheck from "../assets/GreenCheck.png";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
 import { useNavigate } from "react-router-dom";

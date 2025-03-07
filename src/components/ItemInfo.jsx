@@ -2,7 +2,7 @@ import React from "react";
 
 const ItemInfo = (props) => {
   return (
-    <div className="flex items-center justify-center w-[351px] h-[147px] gap-[9px] rounded-15">
+    <div className="flex items-center justify-center w-[351px] h-[100px] gap-[9px] rounded-15">
       <img
         src={props.itemImg}
         className="w-[100px] h-[100px] border-[2px] border-background rounded-15 "

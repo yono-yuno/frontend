@@ -2,9 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import ItemInfo from "../components/ItemInfo";
-import SmallAngryYuno from "../assets/SmallAngryYuno.png";
-import MediumAngryYuno from "../assets/MediumAngryYuno.png";
-import BigAngryYuno from "../assets/BigAngryYuno.png";
+import SmallAngryYuno from "../assets/SmallAngryYuno.gif";
+import MediumAngryYuno from "../assets/MediumAngryYuno.gif";
+import BigAngryYuno from "../assets/BigAngryYuno.gif";
 import SmallAngryBubble from "../assets/SmallAngryBubble.png";
 import MediumAngryBubble from "../assets/MediumAngryBubble.png";
 import BigAngryBubble from "../assets/BigAngryBubble.png";
@@ -57,7 +57,7 @@ const PayPage = () => {
     overprice: 10009000,
     balance: 1000000,
     accountNum: 123456789000,
-    status: null,
+    status: 0,
     brandName: "토스 요노쇼핑",
     itemName: "Marshal WOBURN3 블루투스 스피커",
     price: 855000,
@@ -190,11 +190,11 @@ const PayPage = () => {
         <div className="flex flex-col items-center relative mt-[1px]">
           <img src={payStatus.bubble} className="w-[188px] h-[68.5px]" />
           <p
-            className={`absolute left-[45px] top-[14px] font-PDRegular text-16 text-${payStatus.talkColor} leading-tight`}
+            className={`absolute left-[23px] top-[14px] font-PDRegular text-16 text-${payStatus.talkColor} leading-tight`}
           >
             {payStatus.talk}
           </p>
-          <img src={payStatus.yonoImg} className="w-[229px] h-[143px]" />
+          <img src={payStatus.yonoImg} className="w-[149px] h-[143px]" />
         </div>
         <div className="flex items-center justify-center mt-[60px] w-width h-[147px] rounded-15 bg-white">
           <ItemInfo
