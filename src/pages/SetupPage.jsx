@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Listbox } from "@headlessui/react";
 import { motion } from "framer-motion";
 import YunoWarning from "../assets/YunoWarning.png";
@@ -7,6 +7,7 @@ import MoneyIcon from "../assets/MoneyIcon.png";
 import TimeIcon from "../assets/TimeIcon.png";
 import { useNavigate } from "react-router-dom";
 import { SETUPCOMPLETE_PAGE_PATH } from "../constants/Paths";
+import Button from "../components/Button";
 
 const dayOptions = [
   { id: 0, name: "00" },
@@ -15,7 +16,7 @@ const dayOptions = [
 ];
 
 const hourOptions = [];
-for (let i = 0; i < 24; i++) {
+for (let i = 1; i < 24; i++) {
   hourOptions.push({ id: i, name: String(i).padStart(2, "0") });
 }
 
@@ -24,11 +25,16 @@ const SetupPage = () => {
   const handleMoveToSetupCompletePage = () => {
     navigate(SETUPCOMPLETE_PAGE_PATH);
   };
-  const [amount, setAmount] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [selectedDayOption, setSelectedDayOption] = useState(dayOptions[0]);
   const [selectedHourOption, setSelectedHourOption] = useState(hourOptions[0]);
   const [isOpen, setIsOpen] = useState(false); // 팝업 상태 추가
+  const [isvalid, setIsvalid] = useState(false);
+  const [overPrice, setOverprice] = useState();
+
+  useEffect(() => {
+    setIsvalid(overPrice !== 0 && overPrice != "");
+  });
 
   // 포커스 핸들러
   const handleFocus = () => setIsFocused(true);
@@ -64,6 +70,8 @@ const SetupPage = () => {
         <div className="flex items-center mt-[1px]">
           <div className="flex items-center w-[288px] h-[46px] rounded-15 border-2 border-[#ECEEEF] bg-background focus-within:border-toss focus-within:bg-extraButton">
             <input
+              value={overPrice}
+              onChange={(e) => setOverprice(e.target.value)}
               className={`w-full ml-[13px] leading-tight font-PDRegular placeholder:text-20 bg-background outline-none focus-within:bg-extraButton focus-within:outline-none
                 ${
                   isFocused
@@ -72,8 +80,6 @@ const SetupPage = () => {
                 }`}
               type="number"
               placeholder="금액을 입력해주세요"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
@@ -117,7 +123,7 @@ const SetupPage = () => {
                 </div>
               )}
             </Listbox>
-            <p className="font-PDMedium text-20 text-black">일</p>
+            <p className="pl-[5px] font-PDMedium text-20 text-black">일</p>
           </div>
           <div className="flex flex-row items-center ml-[17px]">
             <Listbox
@@ -152,18 +158,19 @@ const SetupPage = () => {
                 </div>
               )}
             </Listbox>
-            <p className="font-PDMedium text-20 text-black">시간</p>
+            <p className="pl-[5px] font-PDMedium text-20 text-black">시간</p>
           </div>
         </div>
       </div>
 
       {/* 완료 버튼 */}
-      <button
-        className="mt-[155px] w-[351px] h-[59px] rounded-15 bg-toss"
-        onClick={handleMoveToSetupCompletePage}
-      >
-        <p className="font-PDMedium text-20 text-white">완료하기</p>
-      </button>
+      <div className="mt-[155px]">
+        <Button
+          text="완료하기"
+          onClick={handleMoveToSetupCompletePage}
+          disabled={isvalid}
+        />
+      </div>
 
       {/* 팝업 (모달) */}
       {isOpen && (
@@ -174,7 +181,7 @@ const SetupPage = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: [100], opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="absolute bottom-10 translate-y-[-50%] flex flex-col w-[383px] h-[333px] bg-white rounded-15 shadow-lg"
+            className="absolute bottom-0 translate-y-[-50%] flex flex-col w-[383px] h-[333px] bg-white rounded-15 shadow-lg"
           >
             <p className="mt-[20px] font-PDMedium text-black text-[22px] text-center">
               결제할 때 적용될 옵션이란?
@@ -204,6 +211,7 @@ const SetupPage = () => {
             <button
               className="mt-[20px] ml-[16px] w-[351px] h-[59px] rounded-15 bg-toss text-white font-PDMedium text-20"
               onClick={handleTogglePopup}
+              diabled={!isValid}
             >
               확인
             </button>

@@ -3,7 +3,14 @@ import "../styles/style.css";
 import "../styles/index.css";
 import YunoHeart from "../assets/YunoHeart.png";
 import YunoLogo from "../assets/YunoLogo.png";
+import { useNavigate } from "react-router-dom";
+import { MAIN_PAGE_PATH } from "../constants/Paths";
+
 const SetupCompletePage = () => {
+  const navigate = useNavigate();
+  const handleMoveToMainPage = () => {
+    navigate(MAIN_PAGE_PATH);
+  };
   return (
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}
@@ -21,7 +28,10 @@ const SetupCompletePage = () => {
           시작해볼까요?
         </p>
       </div>
-      <button className="flex items-center justify-center mt-[257px] w-buttonWidth h-buttonHeight rounded-15 bg-toss">
+      <button
+        onClick={handleMoveToMainPage}
+        className="flex items-center justify-center mt-[257px] w-buttonWidth h-buttonHeight rounded-15 bg-toss"
+      >
         <img src={YunoLogo} className="w-[23px] h-[27px]" />
         <p className="pl-[6px] font-PDMedium text-20 text-white">확인</p>
       </button>
