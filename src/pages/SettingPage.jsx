@@ -23,7 +23,9 @@ const SettingPage = () => {
   const [alarmSetting, setAlarmSetting] = useState(false);
   const [selectedDayOption, setSelectedDayOption] = useState(dayOptions[0]);
   const [selectedHourOption, setSelectedHourOption] = useState(hourOptions[0]);
+  const [overPrice, setOverPrice] = useState(0);
   const navigate = useNavigate();
+  const [overPriceFocused, setOverPriceFocused] = useState(false);
 
   const handleBackButton = () => {
     navigate(MAIN_PAGE_PATH);
@@ -41,7 +43,10 @@ const SettingPage = () => {
     setAlarmSetting(!alarmSetting);
     setOverpriceSetting(false);
   };
-
+  const handleOverPriceFormat = (e) => {
+    const rawValue = e.target.value.replace(/[^0-9]/g, "");
+    setOverPrice(rawValue);
+  };
   return (
     <div className="w-full h-full bg-background">
       <Header onClick={handleBackButton} text={"설정"} />
@@ -86,14 +91,26 @@ const SettingPage = () => {
               </button>
               <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
                 <div className="flex justify-start w-[320px]">
-                  <p className="font-PDMedium text-16 text-[#B4B6B8]">상한액</p>
+                  <p
+                    className={`font-PDMedium text-16 ${
+                      overPriceFocused ? "text-toss" : "text-[#B4B6B8]"
+                    } `}
+                  >
+                    상한액
+                  </p>
                 </div>
                 <div className="flex justify-between w-[320px] h-[46px]">
                   <div className="flex items-center">
                     <input
-                      type="number"
+                      type="text"
+                      value={
+                        overPrice ? Number(overPrice).toLocaleString() : ""
+                      }
+                      onChange={handleOverPriceFormat}
+                      onFocus={() => setOverPriceFocused(true)}
+                      onBlur={() => setOverPriceFocused(false)}
                       placeholder="1,000,000"
-                      className="w-[200px] h-[46px] rounded-15 bg-white border-[2px] border-[#ECEEEF] font-PDMedium text-20 pl-[14px] text-black placeholder:text-[#B4B6B8] focus:outline-none focus:bg-[#F6F9FF] focus:border-toss focus:text-toss"
+                      className="w-[200px] h-[46px] rounded-15 bg-white ring-[2px] ring-[#ECEEEF] font-PDMedium text-20 pl-[14px] text-black placeholder:text-[#B4B6B8] focus:outline-none focus:bg-[#F6F9FF] focus:ring-toss focus:text-toss"
                     />
                     <p className="pl-[5px] font-PDMedium text-20 text-black">
                       원
