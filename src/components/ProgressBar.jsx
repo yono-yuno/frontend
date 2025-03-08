@@ -8,7 +8,7 @@ const ProgressBar = ({ totalTime, elapsedTime }) => {
   ); // 남은 시간 (분 단위)
 
   useEffect(() => {
-    if (totalTime < 1 || totalTime > 47) return; // 최소 1시간, 최대 47시간 제한
+    if (totalTime < 1 || totalTime > 71) return; // 최소 1시간, 최대 47시간 제한
 
     const startTime = Date.now() - elapsedTime * 60 * 1000; // 경과 시간 반영
     const endTime = startTime + totalTime * 60 * 60 * 1000; // 종료 시간 계산
@@ -45,7 +45,7 @@ const ProgressBar = ({ totalTime, elapsedTime }) => {
   const minutes = remainingTime % 60;
 
   return (
-    <div className="flex flex-col mt-[21px] ml-[26px]">
+    <div className="flex flex-col mt-[21px] w-[173px] h-[69px]">
       <div className="relative w-[173px] h-[34px] bg-gray-200 rounded-full overflow-hidden">
         {/* 점선 추가 */}
         <div
@@ -62,10 +62,29 @@ const ProgressBar = ({ totalTime, elapsedTime }) => {
           style={{ width: `${progress}%` }}
         />
       </div>
-      <p className="mt-1 text-xs font-semibold text-gray-600">
-        {days > 0 && `${String(days).padStart(2, "0")}일 `}
-        {String(hours).padStart(2, "0")}시간 {String(minutes).padStart(2, "0")}
-        분 남았어요!
+      {/* 🏷️ 프로그레스 바 아래 텍스트 */}
+      <p className="flex justify-center w-full mt-1 text-12 font-PDRegular text-black">
+        {days > 0 && (
+          <>
+            <span className="text-toss">{String(days).padStart(2, "0")}</span>
+            <span className="text-black">일{"\u00A0"}</span>
+          </>
+        )}
+        {hours > 0 && (
+          <>
+            <span className="text-toss"> {String(hours).padStart(2, "0")}</span>
+            <span className="text-black">시간{"\u00A0"}</span>
+          </>
+        )}
+        {minutes > 0 && (
+          <>
+            <span className="text-toss">
+              {String(minutes).padStart(2, "0")}
+            </span>
+            <span className="text-black">분{"\u00A0"}</span>
+          </>
+        )}
+        남았어요!
       </p>
     </div>
   );
