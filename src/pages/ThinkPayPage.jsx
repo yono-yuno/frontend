@@ -107,7 +107,7 @@ const ThinkPayPage = () => {
                       <div className="mr-[17px]">
                         <button
                           onClick={() => handleCancelPayment(item.id)}
-                          className="bg-[#FC6767] text-white !text-[18px] rounded-15 w-[116px] h-[48px]"
+                          className="bg-[#FC6767] text-white font-PDRegular !text-[18px] rounded-15 w-[116px] h-[48px]"
                         >
                           결제 취소
                         </button>
@@ -131,7 +131,7 @@ const ThinkPayPage = () => {
 
                       <button
                         onClick={() => handleCancelPayment(item.id)}
-                        className="bg-[#FC6767] text-white !text-[18px] rounded-15 w-[116px] h-[48px] ml-[23px]"
+                        className="bg-[#FC6767] text-white font-PDRegular !text-[18px] rounded-15 w-[116px] h-[48px] ml-[23px]"
                       >
                         결제 취소
                       </button>
