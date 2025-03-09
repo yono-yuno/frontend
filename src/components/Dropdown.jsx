@@ -3,9 +3,12 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 
 const SORT_OPTIONS = ["최신순", "오래된순", "가격 높은순", "가격 낮은순"];
 
-const Dropdown = () => {
+const Dropdown = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(SORT_OPTIONS[0]);
+  const [selected, setSelected] = useState(
+    SORT_OPTIONS.find((option) => option === props.selectedSort) ||
+      SORT_OPTIONS[0]
+  );
 
   return (
     <div className="relative inline-block text-left">
@@ -24,6 +27,7 @@ const Dropdown = () => {
               onClick={() => {
                 setSelected(option);
                 setIsOpen(false);
+                props.onChangeSort(option);
               }}
               className="px-2 py-3 text-15 font-PDRegular cursor-pointer w-full border-b last:border-b-0"
             >

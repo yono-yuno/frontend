@@ -26,9 +26,7 @@ const categoryDataList = [
   { id: 11, title: "인테리어", icon: InteriorCategoryIcon },
 ];
 
-const CategoryList = () => {
-  const [selectedCategory, setSelectedCategory] = useState(categoryDataList[0]);
-
+const CategoryList = (props) => {
   return (
     <div
       className={`flex overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden`}
@@ -38,8 +36,8 @@ const CategoryList = () => {
           key={category.id}
           img={category.icon}
           text={category.title}
-          isSelected={selectedCategory === category}
-          onClick={() => setSelectedCategory(category)}
+          isSelected={props.selectedCategory === category.title}
+          onClick={() => props.onChangeCategory(category.title)}
         />
       ))}
     </div>
