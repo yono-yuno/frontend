@@ -62,29 +62,42 @@ const ProgressBar = ({ totalTime, elapsedTime }) => {
           style={{ width: `${progress}%` }}
         />
       </div>
+
       {/* 🏷️ 프로그레스 바 아래 텍스트 */}
       <p className="flex justify-center w-full mt-1 text-12 font-PDRegular text-black">
-        {days > 0 && (
+        {progress >= 100 ? (
           <>
-            <span className="text-toss">{String(days).padStart(2, "0")}</span>
-            <span className="text-black">일{"\u00A0"}</span>
+            <span className="text-toss">게이지</span>가 모두 채워졌어요!
+          </>
+        ) : (
+          <>
+            {days > 0 && (
+              <>
+                <span className="text-toss">
+                  {String(days).padStart(2, "0")}
+                </span>
+                <span className="text-black">일{"\u00A0"}</span>
+              </>
+            )}
+            {hours > 0 && (
+              <>
+                <span className="text-toss">
+                  {String(hours).padStart(2, "0")}
+                </span>
+                <span className="text-black">시간{"\u00A0"}</span>
+              </>
+            )}
+            {minutes > 0 && (
+              <>
+                <span className="text-toss">
+                  {String(minutes).padStart(2, "0")}
+                </span>
+                <span className="text-black">분{"\u00A0"}</span>
+              </>
+            )}
+            남았어요!
           </>
         )}
-        {hours > 0 && (
-          <>
-            <span className="text-toss"> {String(hours).padStart(2, "0")}</span>
-            <span className="text-black">시간{"\u00A0"}</span>
-          </>
-        )}
-        {minutes > 0 && (
-          <>
-            <span className="text-toss">
-              {String(minutes).padStart(2, "0")}
-            </span>
-            <span className="text-black">분{"\u00A0"}</span>
-          </>
-        )}
-        남았어요!
       </p>
     </div>
   );
