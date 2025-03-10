@@ -1,65 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import CategoryList from "../components/CategoryList";
 import Item from "../components/Item";
 import Dropdown from "../components/Dropdown";
 import SearchIcon from "../assets/SearchIcon.png";
-import { MAIN_PAGE_PATH } from "../constants/Paths";
+import { MAIN_PAGE_PATH, ITEM_PAGE_PATH } from "../constants/Paths";
+import { api } from "../apis/api";
 
-const itemList = [
-  {
-    id: "qwer1234",
-    img: "https://picsum.photos/355/142",
-    itemName: "[오늘만 특가] 어쩌구 싸다싸 상품 이름",
-    discount: 10,
-    price: 8400,
-    itemStars: 4.5,
-    reviewNum: 736,
-  },
-  {
-    id: "asdf123456",
-    img: "https://picsum.photos/355/142",
-    itemName: "[오늘만 특가] 저쩌구 싸다싸 상품 이름",
-    discount: 20,
-    price: 10000,
-    itemStars: 4.1,
-    reviewNum: 48,
-  },
-  {
-    id: "zsx6dfa5a515",
-    img: "https://picsum.photos/355/142",
-    itemName: "[오늘만 특가] 얼씨구 싸다싸 상품 이름",
-    discount: 15,
-    price: 14500,
-    itemStars: 3.1,
-    reviewNum: 1123,
-  },
-  {
-    id: "erdtyyf86516a",
-    img: "https://picsum.photos/355/142",
-    itemName: "[오늘만 특가] 절씨구 싸다싸 상품 이름",
-    discount: 34,
-    price: 7500,
-    itemStars: 4.7,
-    reviewNum: 1136,
-  },
-  {
-    id: "yi89tu6t45fdes",
-    img: "https://picsum.photos/355/142",
-    itemName: "[오늘만 특가] 크게 싸다싸 상품 이름",
-    discount: 20,
-    price: 7600,
-    itemStars: 4.2,
-    reviewNum: 56,
-  },
-];
+const SORT_MAP = {
+  최신순: "latest",
+  오래된순: "oldest",
+  "가격 높은순": "highPrice",
+  "가격 낮은순": "lowPrice",
+};
 
 const ShopPage = () => {
   const navigate = useNavigate();
+  const [itemList, setItemList] = useState([]);
+  const [category, setCategory] = useState("전체");
+  const [sort, setSort] = useState("latest");
+
+  const getItemList = async (selectedCategory, selectedSort) => {
+    try {
+      const res = await api.get(
+        `/item/${selectedCategory}?sort=${selectedSort}`
+      );
+      if (res.data.isSuccess) {
+        setItemList(
+          res.data.itemList.map((item) => ({
+            id: item.itemId,
+            img: item.itemImg,
+            itemName: item.itemName,
+            discount: item.discount,
+            price: item.price,
+            itemStars: item.itemStars,
+            reviewNum: item.reviewNum,
+          }))
+        );
+      } else {
+        console.error(res.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getItemList(category, sort);
+  }, [category, sort]);
 
   const handleBackButton = () => {
     navigate(MAIN_PAGE_PATH);
+  };
+
+  const handleItemClick = (itemId) => {
+    navigate(ITEM_PAGE_PATH.replace(":itemId", itemId));
   };
 
   return (
@@ -82,15 +78,23 @@ const ShopPage = () => {
           />
         </div>
         <p className="flex-none px-2 py-4 font-PDRegular text-16">카테고리별</p>
-        <CategoryList />
+        <CategoryList
+          selectedCategory={category}
+          onChangeCategory={setCategory}
+        />
         <div className="flex-none px-2 text-15">
-          <Dropdown />
+          <Dropdown
+            selectedSort={sort}
+            onChangeSort={(selected) => setSort(SORT_MAP[selected])}
+          />
         </div>
         <div
           className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden pb-11`}
         >
           {itemList.map((item) => (
-            <Item key={item.id} {...item} />
+            <div key={item.id} onClick={() => handleItemClick(item.id)}>
+              <Item {...item} />
+            </div>
           ))}
         </div>
       </main>

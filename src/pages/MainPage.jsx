@@ -20,6 +20,8 @@ import {
 import { api } from "../apis/api";
 
 const MainPage = () => {
+  const { userId } = useParams();
+  const { userName } = useParams();
   const carouselRef = useRef(null); //회전목마라는 뜻: 슬라이드 컨테이너를 참조하는 변수
   const [index, setIndex] = useState(0); //현재 보고 있는 슬라이드 번호(0 또는 1)
   const navigate = useNavigate();

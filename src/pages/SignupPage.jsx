@@ -64,9 +64,13 @@ const SignupPage = () => {
     }
   };
 
+  const handleBackToLogin = () => {
+    navigate("/");
+  };
+
   return (
     <div className="h-full flex flex-col">
-      <Header text={"회원가입"} onClick={handleMoveToLogin} />
+      <Header text={"회원가입"} onClick={handleBackToLogin} />
       <div className="flex flex-col justify-between items-center px-[34px] pb-[43px] pt-[38px] h-full">
         <div className="flex flex-col justify-center items-start w-full">
           <label className="text-toss font-PDMedium">이름</label>
