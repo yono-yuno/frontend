@@ -25,11 +25,12 @@ const MainPage = () => {
   const carouselRef = useRef(null); //회전목마라는 뜻: 슬라이드 컨테이너를 참조하는 변수
   const [index, setIndex] = useState(0); //현재 보고 있는 슬라이드 번호(0 또는 1)
   const navigate = useNavigate();
-  const { userId } = "e974a4c9-7eab-4951-a233-76e69149d9a3";
   const [balance, setBalance] = useState(0);
   const [cartCount, setCartCount] = useState(0);
   const [lineData, setLineData] = useState([]);
   const [pieData, setPieData] = useState([]);
+
+  let yunoSay = "";
 
   const handleSetting = () => {
     navigate(SETTING_PAGE_PATH);
@@ -41,10 +42,32 @@ const MainPage = () => {
     navigate(SHOP_PAGE_PATH);
   };
 
+  const yunoSayList = [
+    `안녕하세요. ${userName}님! 좋은 하루 되세요. 😍`,
+    `생각 중인 소비가 ${cartCount}개 있어요! 🧐`,
+    "필요한 소비만, 행복한 지출만! 유노가 지켜보고 있어요! 😎👍",
+    "저, 유노와 함께 소비를 고민해 봐요. 🤔",
+    "꼭 필요한 소비인지 다시 생각해 보면 좋을 거예요! 💕",
+    "오늘 하루는 어떠셨나요? 행복한 하루 되셨길 바라요. 😊",
+    "피곤하시다면, 간단하게 커피 한 잔 정도는 괜찮아요! ☕",
+    `유노가 ${userName}님의 요노 삶을 항상 응원하고 있어요! 👊`,
+    "할인에 너무 현혹되시면 안돼요! 필요한 걸 먼저 생각해 보셔야 해요. 👀",
+    "오늘 날씨가 괜찮다면, 소비 말고 산책도 정말 좋은 취미예요! 👣",
+    "아무리 절약하시더라도, 밥은 정말 잘 챙겨드셔야 해요! 🍱",
+  ];
+
+  const GetRandomYunoSay = () => {
+    const randomIndex = Math.floor(Math.random() * yunoSayList.length);
+    yunoSay = yunoSayList[randomIndex];
+  };
+
+  //더 느리게 변경 예정
+  GetRandomYunoSay();
+
   //계좌 잔액
   const getAccount = async () => {
     try {
-      const res = await api.get(`/account?userId=${userId}`);
+      const res = await api.get(`/account?AccountId=${userId}`);
       if (res.data.isSuccess) {
         setBalance(res.data.accountInfo.balance);
       }
@@ -53,12 +76,10 @@ const MainPage = () => {
     }
   };
 
-  console.log("계좌 잔액: ", balance);
-
   //카트에 담긴 아이템 수
   const getCartCount = async () => {
     try {
-      const res = await api.get(`/cart?userId=${userId}`);
+      const res = await api.get(`/cart/all?userId=${userId}`);
       if (res.data.isSuccess) {
         setCartCount(res.data.cartList.length());
       }
@@ -67,12 +88,10 @@ const MainPage = () => {
     }
   };
 
-  console.log("카트 아이템 수: ", cartCount);
-
   //차트 데이터
   const getChartdata = async () => {
     try {
-      const res = await api.get(`/statistic?userId=${userId}`);
+      const res = await api.get(`/diary/statistic?userId=${userId}`);
       if (res.data.isSuccess) {
         setLineData(res.data.statistic.lineGraphData);
         setPieData(res.data.statistic.pieGraphData);
@@ -81,8 +100,6 @@ const MainPage = () => {
       console.error(error);
     }
   };
-
-  console.log("차트 데이터: ", lineData);
 
   useEffect(() => {
     const slideWidth = carouselRef.current?.clientWidth; // 슬라이드 하나의 너비
@@ -96,8 +113,14 @@ const MainPage = () => {
         return newIndex; //상태 업데이트
       });
     }, 6000); // 6초마다 변경
-
     return () => clearInterval(interval); //컴포넌트가 사라질 때 인터벌 정리
+  }, []);
+
+  useEffect(() => {
+    getChartdata();
+    console.log("계좌 잔액: ", balance);
+    console.log("카트 아이템 수: ", cartCount);
+    console.log("차트 데이터: ", lineData);
   }, []);
 
   return (
@@ -122,7 +145,7 @@ const MainPage = () => {
             <div className="absolute w-[271px] h-[72px] flex items-center">
               {/* 대략 48자 작성 가능 */}
               <p className="ml-[20px] mr-[20px] mt-[9px] mb-[9px] font-PDMedium text-16 text-black">
-                저는 요노족을 위한 비서, 유노예요!
+                {yunoSay}
               </p>
             </div>
           </div>
