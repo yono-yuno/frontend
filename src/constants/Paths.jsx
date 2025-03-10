@@ -10,5 +10,6 @@ export const MAIN_PAGE_PATH = "/main";
 export const THINKPAY_PAGE_PATH = "/thinkpay";
 export const PAYRECORD_PAGE_PATH = "/payrecord";
 export const DIARY_PAGE_PATH = "/diary";
+export const DIARYEDIT_PAGE_PATH = "/diary/edit";
 
 export const PAY_PAGE_PATH = "/pay";

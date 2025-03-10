@@ -10,6 +10,7 @@ import AlarmPage from "./pages/AlarmPage";
 import ThinkPayPage from "./pages/ThinkPayPage";
 import PayRecordPage from "./pages/PayRecordPage";
 import DiaryPage from "./pages/DiaryPage";
+import DiaryEditPage from "./pages/DiaryEditPage";
 import PayPage from "./pages/PayPage";
 
 import {
@@ -22,6 +23,7 @@ import {
   THINKPAY_PAGE_PATH,
   PAYRECORD_PAGE_PATH,
   DIARY_PAGE_PATH,
+  DIARYEDIT_PAGE_PATH,
   PAY_PAGE_PATH,
 } from "./constants/Paths";
 
@@ -40,6 +42,7 @@ function App() {
       <Route path={THINKPAY_PAGE_PATH} element={<ThinkPayPage />} />
       <Route path={PAYRECORD_PAGE_PATH} element={<PayRecordPage />} />
       <Route path={DIARY_PAGE_PATH} element={<DiaryPage />} />
+      <Route path={DIARYEDIT_PAGE_PATH} element={<DiaryEditPage />} />
 
       <Route path={PAY_PAGE_PATH} element={<PayPage />} />
     </Routes>
