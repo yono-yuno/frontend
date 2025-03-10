@@ -31,7 +31,7 @@ const PaidPage = () => {
             isFocused ? "text-toss" : "text-[#7C838D]"
           } `}
         >
-          소비 일기
+          소비 이유
         </p>
         <textarea
           onFocus={() => setIsFocused(true)}
