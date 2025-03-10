@@ -7,6 +7,8 @@ import ShopPage from "./pages/ShopPage";
 import ItemPage from "./pages/ItemPage";
 import SettingPage from "./pages/SettingPage";
 import AlarmPage from "./pages/AlarmPage";
+import PayPage from "./pages/PayPage";
+import PaidPage from "./pages/PaidPage";
 import WelcomePage from "./pages/WelcomePage";
 import SetupPage from "./pages/SetupPage";
 import SetupCompletePage from "./pages/SetupCompletePage";
@@ -21,6 +23,8 @@ import {
   SETUP_PAGE_PATH,
   SETUPCOMPLETE_PAGE_PATH,
   MAIN_PAGE_PATH,
+  PAY_PAGE_PATH,
+  PAID_PAGE_PATH,
 } from "./constants/Paths";
 
 function App() {
@@ -34,6 +38,9 @@ function App() {
       <Route path={ITEM_PAGE_PATH} element={<ItemPage />} />
       <Route path={SETTING_PAGE_PATH} element={<SettingPage />} />
       <Route path={ALARM_PAGE_PATH} element={<AlarmPage />} />
+
+      <Route path={PAY_PAGE_PATH} element={<PayPage />} />
+      <Route path={PAID_PAGE_PATH} element={<PaidPage />} />
         
       <Route path={WELCOME_PAGE_PATH} element={<WelcomePage />} />
       <Route path={SETUP_PAGE_PATH} element={<SetupPage />} />
