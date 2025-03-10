@@ -21,7 +21,14 @@ const LoginPage = () => {
         passWord,
       });
       console.log(res.data.userInfo);
-      navigate(res.data.userInfo.isFirst ? MAIN_PAGE_PATH : WELCOME_PAGE_PATH);
+      navigate(
+        res.data.userInfo.isFirst
+          ? WELCOME_PAGE_PATH
+          : MAIN_PAGE_PATH.replace(":userId", res.data.userInfo.userId).replace(
+              ":userName",
+              res.data.userInfo.userName
+            )
+      );
     } catch (error) {
       console.error(error);
     } finally {
