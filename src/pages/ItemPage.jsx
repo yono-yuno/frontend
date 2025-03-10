@@ -49,17 +49,17 @@ const ItemPage = () => {
             {item.itemName}
           </p>
           <p className="text-sm text-gray-300 line-through font-PDMedium">
-            {item.price.toLocaleString()}원
+            {Math.round(
+              item.price / (1 - item.discount / 100)
+            ).toLocaleString()}
+            원
           </p>
           <div className="flex justify-start items-end">
-            <p className="mr-1 text-xl font-PDSemibold text-rose-500">
+            <p className="mr-1 text-xl font-PDSemibold text-red">
               {item.discount}%
             </p>
             <p className="mr-1 text-xl font-PDSemibold text-black">
-              {Math.round(
-                item.price / (1 - item.discount / 100)
-              ).toLocaleString()}
-              원
+              {item.price.toLocaleString()}원
             </p>
           </div>
           <div className="flex justify-start items-center">
