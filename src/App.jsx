@@ -9,6 +9,9 @@ import SettingPage from "./pages/SettingPage";
 import AlarmPage from "./pages/AlarmPage";
 import PayPage from "./pages/PayPage";
 import PaidPage from "./pages/PaidPage";
+import WelcomePage from "./pages/WelcomePage";
+import SetupPage from "./pages/SetupPage";
+import SetupCompletePage from "./pages/SetupCompletePage";
 
 import {
   SIGNUP_PAGE_PATH,
@@ -16,6 +19,9 @@ import {
   ITEM_PAGE_PATH,
   ALARM_PAGE_PATH,
   SETTING_PAGE_PATH,
+  WELCOME_PAGE_PATH,
+  SETUP_PAGE_PATH,
+  SETUPCOMPLETE_PAGE_PATH,
   MAIN_PAGE_PATH,
   PAY_PAGE_PATH,
   PAID_PAGE_PATH,
@@ -24,8 +30,8 @@ import {
 function App() {
   return (
     <Routes>
-      <Route path={MAIN_PAGE_PATH} element={<MainPage />} />
       <Route path="/" element={<LoginPage />} />
+      <Route path={MAIN_PAGE_PATH} element={<MainPage />} />
       <Route path={SIGNUP_PAGE_PATH} element={<SignupPage />} />
 
       <Route path={SHOP_PAGE_PATH} element={<ShopPage />} />
@@ -35,6 +41,10 @@ function App() {
 
       <Route path={PAY_PAGE_PATH} element={<PayPage />} />
       <Route path={PAID_PAGE_PATH} element={<PaidPage />} />
+        
+      <Route path={WELCOME_PAGE_PATH} element={<WelcomePage />} />
+      <Route path={SETUP_PAGE_PATH} element={<SetupPage />} />
+      <Route path={SETUPCOMPLETE_PAGE_PATH} element={<SetupCompletePage />} />
     </Routes>
   );
 }
