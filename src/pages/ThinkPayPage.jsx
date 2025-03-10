@@ -21,7 +21,7 @@ const ThinkPayPage = () => {
       price: 855000,
       itemImg: ElectronicsCategoryIcon,
       totalTime: 48,
-      elapsedTime: 1000,
+      elapsedTime: 2880,
     },
     {
       id: 2,
@@ -79,9 +79,9 @@ const ThinkPayPage = () => {
         {itemList.map((item) => (
           <div
             key={item.id}
-            className="bg-white mt-[10px] w-[371px] h-auto rounded-15 p-[15px] shadow-md"
+            className="flex flex-col items-center bg-white mt-[10px] w-[371px] h-auto rounded-15 p-[15px] shadow-mds"
           >
-            <p className="text-16 font-PDRegular">25.02.20 09:17</p>
+            <p className="mr-[225px] text-16 font-PDRegular">25.02.20 09:17</p>
             <div className="mt-[10px]">
               <Iteminfo
                 itemImg={item.itemImg}
