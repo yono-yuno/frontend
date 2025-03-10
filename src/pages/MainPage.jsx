@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import Setting from "../assets/Setting.png";
 import Alarm from "../assets/Alarm.png";
@@ -19,6 +19,8 @@ import {
 } from "../constants/Paths";
 
 const MainPage = () => {
+  const { userId } = useParams();
+  const { userName } = useParams();
   const carouselRef = useRef(null); //회전목마라는 뜻: 슬라이드 컨테이너를 참조하는 변수
   const [index, setIndex] = useState(0); //현재 보고 있는 슬라이드 번호(0 또는 1)
   const navigate = useNavigate();
