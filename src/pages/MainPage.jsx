@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import Setting from "../assets/Setting.png";
 import Alarm from "../assets/Alarm.png";
@@ -17,11 +17,17 @@ import {
   ALARM_PAGE_PATH,
   SHOP_PAGE_PATH,
 } from "../constants/Paths";
+import { api } from "../apis/api";
 
 const MainPage = () => {
   const carouselRef = useRef(null); //회전목마라는 뜻: 슬라이드 컨테이너를 참조하는 변수
   const [index, setIndex] = useState(0); //현재 보고 있는 슬라이드 번호(0 또는 1)
   const navigate = useNavigate();
+  const { userId } = "e974a4c9-7eab-4951-a233-76e69149d9a3";
+  const [balance, setBalance] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+  const [lineData, setLineData] = useState([]);
+  const [pieData, setPieData] = useState([]);
 
   const handleSetting = () => {
     navigate(SETTING_PAGE_PATH);
@@ -32,6 +38,49 @@ const MainPage = () => {
   const handleShop = () => {
     navigate(SHOP_PAGE_PATH);
   };
+
+  //계좌 잔액
+  const getAccount = async () => {
+    try {
+      const res = await api.get(`/account?userId=${userId}`);
+      if (res.data.isSuccess) {
+        setBalance(res.data.accountInfo.balance);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log("계좌 잔액: ", balance);
+
+  //카트에 담긴 아이템 수
+  const getCartCount = async () => {
+    try {
+      const res = await api.get(`/cart?userId=${userId}`);
+      if (res.data.isSuccess) {
+        setCartCount(res.data.cartList.length());
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log("카트 아이템 수: ", cartCount);
+
+  //차트 데이터
+  const getChartdata = async () => {
+    try {
+      const res = await api.get(`/statistic?userId=${userId}`);
+      if (res.data.isSuccess) {
+        setLineData(res.data.statistic.lineGraphData);
+        setPieData(res.data.statistic.pieGraphData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log("차트 데이터: ", lineData);
 
   useEffect(() => {
     const slideWidth = carouselRef.current?.clientWidth; // 슬라이드 하나의 너비
@@ -44,7 +93,7 @@ const MainPage = () => {
         });
         return newIndex; //상태 업데이트
       });
-    }, 6000); // 7초마다 변경
+    }, 6000); // 6초마다 변경
 
     return () => clearInterval(interval); //컴포넌트가 사라질 때 인터벌 정리
   }, []);
