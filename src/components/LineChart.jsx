@@ -16,7 +16,7 @@ const LineChart = (props) => {
   let lastMonthData = [];
 
   const getThisMonthData = () => {
-    for (let i = 0; i < props.data.length; i++) {
+    for (let i = 0; i < props.thisDay; i++) {
       thisMonthData.push(props.data[i].curr);
     }
   };
@@ -92,7 +92,7 @@ const LineChart = (props) => {
               pointBackgroundColor: "#FC6767", // 반투명한 빨간색
               pointRadius: pointRadius(thisMonthData), // 포인트 크기
               pointBorderColor: "rgba(252,103,103,0.3)", // 테두리 색상
-              pointBorderWidth: 10, // 테두리 두께
+              pointBorderWidth: 15, // 테두리 두께
               fill: false, // 라인 그래프에서 영역 채우기 비활성화
               borderWidth: 2.5,
               tension: 0.8,

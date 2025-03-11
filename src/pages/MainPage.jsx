@@ -6,6 +6,7 @@ import Alarm from "../assets/Alarm.png";
 //import AlarmOn from "../assets/Alarm_on.png";
 import MainSpeechBubble from "../assets/MainSpeechBubble.png";
 import Yuno from "../assets/Yuno.gif";
+import YunoP from "../assets/CutYunoHeart.png";
 import PayRecordB from "../assets/PayRecordB.png";
 import ShoppingB from "../assets/ShoppingB.png";
 import ThinkingB from "../assets/ThinkingB.png";
@@ -18,7 +19,6 @@ import {
   SHOP_PAGE_PATH,
 } from "../constants/Paths";
 import { api } from "../apis/api";
-import { div } from "framer-motion/client";
 
 const MainPage = () => {
   const { userId, userName } = useParams();
@@ -34,17 +34,25 @@ const MainPage = () => {
   const [thisDay, setThisDay] = useState(new Date().getDate());
   const [yunoSay, setYunoSay] = useState("");
   const [loading, setLoading] = useState(true);
+  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState([]);
+  const [color, setColor] = useState([]);
+  const [payTotalSum, setPayTotalSum] = useState(0);
 
-  const handleSetting = () => {
-    navigate(SETTING_PAGE_PATH);
+  const colorChart = {
+    식품: "#EF4452",
+    패션잡화: "#4E7698",
+    전자제품: "#C0C7D1",
+    생활: "#FF814F",
+    뷰티: "#F68992",
+    의류: "#4592FB",
+    "여행 · 취미": "#8FE0B9",
+    스포츠: "#FFC84D",
+    도서: "#23B169",
+    "출산 · 육아": "#93C9FF",
+    인테리어: "#DB88E7",
+    "그 외": "#D9D9D9",
   };
-  const handleAlarm = () => {
-    navigate(ALARM_PAGE_PATH);
-  };
-  const handleShop = () => {
-    navigate(SHOP_PAGE_PATH);
-  };
-
   const yunoSayList = [
     `안녕하세요. ${userName}님! 좋은 하루 되세요. 😍`,
     `생각 중인 소비가 ${cartCount}개 있어요! 🧐`,
@@ -58,6 +66,16 @@ const MainPage = () => {
     "오늘 날씨가 괜찮다면, 소비 말고 산책도 정말 좋은 취미예요! 👣",
     "아무리 절약하시더라도, 밥은 정말 잘 챙겨드셔야 해요! 🍱",
   ];
+
+  const handleSetting = () => {
+    navigate(SETTING_PAGE_PATH);
+  };
+  const handleAlarm = () => {
+    navigate(ALARM_PAGE_PATH);
+  };
+  const handleShop = () => {
+    navigate(SHOP_PAGE_PATH);
+  };
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * yunoSayList.length);
@@ -111,6 +129,20 @@ const MainPage = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (pieData && pieData.length > 0) {
+      setLabels(pieData.map((item) => item.category));
+      setData(pieData.map((item) => item.total));
+      setPayTotalSum(pieData.reduce((sum, data) => sum + data.total, 0));
+    }
+  }, [pieData]);
+
+  useEffect(() => {
+    if (labels.length > 0) {
+      setColor(labels.map((label) => colorChart[label]));
+    }
+  }, [labels]);
+
   const MonthComparison = () => {
     if (!lineData[thisDay - 1]) return null; // 안전 체크
     const Gap = lineData[thisDay - 1].prev - lineData[thisDay - 1].curr;
@@ -161,7 +193,6 @@ const MainPage = () => {
     // console.log(balance);
     // console.log(cartCount);
     // console.log(lineData);
-    // console.log(pieData);
   }, []);
 
   return (
@@ -223,7 +254,7 @@ const MainPage = () => {
             </button>
           </div>
           <div
-            className="flex  w-width overflow-x-auto scroll-smooth"
+            className="flex w-width overflow-x-auto scroll-smooth"
             ref={carouselRef}
           >
             <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[24px] rounded-15 bg-white">
@@ -241,7 +272,11 @@ const MainPage = () => {
                   <MonthComparison />
                 </div>
                 <div className="w-[140px] h-[70px]">
-                  {loading ? 0 : <LineChart data={lineData} />}
+                  {loading ? (
+                    ""
+                  ) : (
+                    <LineChart data={lineData} thisDay={thisDay} />
+                  )}
                 </div>
               </div>
               <div className="flex flex-row mt-[20px] leading-tight">
@@ -451,52 +486,60 @@ const MainPage = () => {
               </div>
             </div>
             <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[24px] rounded-15 bg-white">
-              <div className="flex justify-start w-[310px]">
-                <p className="font-PDMedium text-16 text-black">
-                  {thisMonth}월
-                </p>
-              </div>
-              <div className="flex flex-row justify-between w-[350px]">
-                <div className="flex justify-center pl-[20px] font-PDSemibold text-20">
-                  <span className="text-black pr-[4px]">최대 소비</span>
-                  <span className="text-[#93C9FF]">출산 · 육아</span>
+              {pieData.length == 0 ? (
+                ""
+              ) : (
+                <div className="flex justify-start w-[310px]">
+                  <p className="font-PDMedium text-16 text-black">
+                    {thisMonth}월
+                  </p>
                 </div>
-              </div>
-              <div className="flex justify-between w-[314px] h-[120px]">
-                <div className="flex flex-col items-start text-16 text-[#697583]">
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#93C9FF]">
-                      30%
-                    </span>
-                    <span className="font-PDRegular ">출산 · 육아</span>
-                  </div>
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#DB88E7]">
-                      20%
-                    </span>
-                    <span className="font-PDRegular ">인테리어</span>
-                  </div>
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#EF4452]">
-                      18%
-                    </span>
-                    <span className="font-PDRegular">식품</span>
-                  </div>
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#4E7698]">
-                      14%
-                    </span>
-                    <span className="font-PDRegular">패션잡화</span>
-                  </div>
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#D9D9D9]">
-                      18%
-                    </span>
-                    <span className="font-PDRegular">그 외</span>
-                  </div>
+              )}
+
+              {pieData.length == 0 ? (
+                <div className="flex flex-col justify-center items-center w-[350px] h-[150px] pb-[10px] rounded-15 ">
+                  <img src={YunoP} className="w-[180px] mb-[10px] mr-[18px]" />
+                  <p className="font-PDRegular text-[16px] text-black leading-tight">
+                    <span className="text-toss">{thisMonth}월</span>에는 아직
+                    결제 기록이 없어요.
+                  </p>
                 </div>
-                {loading ? 0 : <PieChart data={pieData} />}
-              </div>
+              ) : (
+                <div className="flex flex-col justify-center items-center w-[350px] h-[150px]">
+                  <div className="flex flex-row justify-between w-[350px]">
+                    <div className="flex justify-center pl-[20px] font-PDSemibold text-20">
+                      <span className="text-black pr-[6px]">최대 소비</span>
+                      <span style={{ color: color[0] }}>
+                        {loading ? "loading..." : pieData[0].category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {loading ? (
+                    0
+                  ) : (
+                    <div className="flex items-center justify-between w-[314px] h-[120px]">
+                      <div>
+                        {pieData.map((data, index) => (
+                          <div key={index}>
+                            <span
+                              className={`mr-[13px] font-PDMedium`}
+                              style={{ color: color[index] }}
+                            >
+                              {Math.round((data.total / payTotalSum) * 100)}%
+                            </span>
+                            <span className={`font-PDRegular`}>
+                              {data.category}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <PieChart labels={labels} data={data} color={color} />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </menu>
