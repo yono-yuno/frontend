@@ -17,11 +17,12 @@ import {
   MAIN_PAGE_PATH,
   PAID_PAGE_PATH,
   SHOP_PAGE_PATH,
+  PAYRECORD_PAGE_PATH,
 } from "../constants/Paths";
 
 const PayPage = () => {
   const navigate = useNavigate();
-  
+
   const wiseSayingList = [
     '"소비는 나의 자유다. 하지만 그 자유는 선택에 달려 있다." — 로버트 키요사키',
     '"사람들은 소비하는 것에 비해 더 많은 것을 소유하려고 한다. 하지만 물건이 아니라 경험을 소유하는 것이 더 중요하다." — 조지 베르나르 쇼',
@@ -52,7 +53,9 @@ const PayPage = () => {
   const handleGotoShop = () => {
     navigate(SHOP_PAGE_PATH);
   };
-  const handleGotoThinking = () => {};
+  const handleGotoThinking = () => {
+    navigate(PAYRECORD_PAGE_PATH);
+  };
 
   const data = {
     overprice: 10009000,
@@ -64,7 +67,7 @@ const PayPage = () => {
     price: 855000,
     itemImg: ElectronicsCategoryIcon,
   };
-  
+
   let payStatus = {};
 
   const Status = () => {
@@ -186,7 +189,7 @@ const PayPage = () => {
   return (
     <div className="w-full h-full" style={payStatus.bg}>
       <Header
-        onClick={data.status == null ? handleGotoShop : handleGotoThinking}
+        onClick={data.status === null ? handleGotoShop : handleGotoThinking}
       />
       <div className="flex flex-col items-center">
         <div className="flex flex-col items-center relative mt-[1px]">
