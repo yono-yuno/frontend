@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Listbox } from "@headlessui/react";
 import Header from "../components/Header";
-import Profile from "../assets/Profile.png";
+import Profile from "../assets/BlackCat.png";
 import SettingDropUp from "../assets/SettingDropUp.png";
 import SettingDropDown from "../assets/SettingDropDown.png";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
