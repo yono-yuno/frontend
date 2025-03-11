@@ -64,7 +64,7 @@ const AlarmPage = () => {
             <ReviewAlarm
               onClick={() => updateAlarm(data.alarmId)}
               key={index}
-              time={data.alarmTime}
+              time={data.alarmTime.replace("/", " ")}
               title={data.itemName}
               color={index == 0 ? "extraButton" : "white"}
             />
@@ -72,7 +72,7 @@ const AlarmPage = () => {
             <PayAlarm
               onClick={() => updateAlarm(data.alarmId)}
               key={index}
-              time={data.alarmTime}
+              time={data.alarmTime.replace("/", " ")}
               title={data.itemName}
               color={index == 0 ? "extraButton" : "white"}
             />
