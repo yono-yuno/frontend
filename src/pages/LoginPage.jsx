@@ -22,8 +22,11 @@ const LoginPage = () => {
       });
       console.log(res.data.userInfo);
       navigate(
-        res.data.userInfo.isFirst
-          ? WELCOME_PAGE_PATH
+        res.data.userInfo.first
+          ? WELCOME_PAGE_PATH.replace(
+              ":userId",
+              res.data.userInfo.userId
+            ).replace(":userName", res.data.userInfo.userName)
           : MAIN_PAGE_PATH.replace(":userId", res.data.userInfo.userId).replace(
               ":userName",
               res.data.userInfo.userName
