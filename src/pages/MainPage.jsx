@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import Setting from "../assets/Setting.png";
 import Alarm from "../assets/Alarm.png";
@@ -21,6 +21,8 @@ import {
 } from "../constants/Paths";
 
 const MainPage = () => {
+  const { userId } = useParams();
+  const { userName } = useParams();
   const carouselRef = useRef(null); //회전목마라는 뜻: 슬라이드 컨테이너를 참조하는 변수
   const [index, setIndex] = useState(0); //현재 보고 있는 슬라이드 번호(0 또는 1)
   const navigate = useNavigate();
@@ -127,8 +129,10 @@ const MainPage = () => {
                 <div className="flex flex-col justify-center pl-[20px]">
                   <p className="font-PDBold text-20 text-black">1,520,731원</p>
                   <p className=" pt-[5px] font-PDMedium text-[12px] text-[#697583]">
-                    저번 달 같은 날보다{" "}
-                    <span className="text-[#FC6767]">10,000원 많이 사용</span>
+                    지난달보다{" "}
+                    <span className="text-[#FC6767]">
+                      10,000,000원 많이 쓰는 중
+                    </span>
                   </p>
                 </div>
                 <div className="w-[140px] h-[70px]">
@@ -139,37 +143,37 @@ const MainPage = () => {
                 <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
                   <p>일</p>
                   <p className="text-[16px] mt-[10px] text-[#697583]">16</p>
-                  <p className="text-[10px] text-[#FC6767]">-32,000</p>
+                  <p className="text-[9px] text-[#FC6767]">-32,000</p>
                 </div>
                 <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
                   <p>월</p>
                   <p className="text-[16px] mt-[10px] text-[#697583]">17</p>
-                  <p className="text-[10px] text-[#FC6767]">-10,000</p>
+                  <p className="text-[9px] text-[#FC6767]">-10,000</p>
                 </div>
                 <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
                   <p>화</p>
                   <p className="text-[16px] mt-[10px] text-[#697583]">18</p>
-                  <p className="text-[10px] text-[#FC6767]">-14,000</p>
+                  <p className="text-[9px] text-[#FC6767]">-14,000</p>
                 </div>
                 <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
                   <p>수</p>
                   <p className="text-[16px] mt-[10px]">19</p>
-                  <p className="text-[10px]">0</p>
+                  <p className="text-[9px]">0</p>
                 </div>
                 <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
                   <p>목</p>
                   <p className="text-[16px] mt-[10px] text-[#697583]">20</p>
-                  <p className="text-[10px] text-[#FC6767]">-159,800</p>
+                  <p className="text-[9px] text-[#FC6767]">-159,800</p>
                 </div>
                 <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
                   <p>금</p>
                   <p className="text-[16px] mt-[10px] text-[#697583]">21</p>
-                  <p className="text-[10px] text-[#FC6767]">-615,300</p>
+                  <p className="text-[9px] text-[#FC6767]">-615,300</p>
                 </div>
                 <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
                   <p>토</p>
                   <p className="text-[16px] mt-[10px] ">22</p>
-                  <p className="text-[10px]">0</p>
+                  <p className="text-[9px]">0</p>
                 </div>
               </div>
             </div>

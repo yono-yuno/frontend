@@ -2,9 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import ItemInfo from "../components/ItemInfo";
-import SmallAngryYuno from "../assets/SmallAngryYuno.png";
-import MediumAngryYuno from "../assets/MediumAngryYuno.png";
-import BigAngryYuno from "../assets/BigAngryYuno.png";
+import SmallAngryYuno from "../assets/SmallAngryYuno.gif";
+import MediumAngryYuno from "../assets/MediumAngryYuno.gif";
+import BigAngryYuno from "../assets/BigAngryYuno.gif";
 import SmallAngryBubble from "../assets/SmallAngryBubble.png";
 import MediumAngryBubble from "../assets/MediumAngryBubble.png";
 import BigAngryBubble from "../assets/BigAngryBubble.png";
@@ -13,11 +13,15 @@ import TossAccountIcon from "../assets/TossAccountIcon.png";
 import TossPayIcon from "../assets/TossPayIcon.png";
 import Check from "../assets/Check.png";
 import SmallYuno from "../assets/SmallYuno.png";
-import { MAIN_PAGE_PATH } from "../constants/Paths";
+import {
+  MAIN_PAGE_PATH,
+  PAID_PAGE_PATH,
+  SHOP_PAGE_PATH,
+} from "../constants/Paths";
 
 const PayPage = () => {
   const navigate = useNavigate();
-
+  
   const wiseSayingList = [
     '"소비는 나의 자유다. 하지만 그 자유는 선택에 달려 있다." — 로버트 키요사키',
     '"사람들은 소비하는 것에 비해 더 많은 것을 소유하려고 한다. 하지만 물건이 아니라 경험을 소유하는 것이 더 중요하다." — 조지 베르나르 쇼',
@@ -39,16 +43,28 @@ const PayPage = () => {
 
   GetRandomWiseSaying();
 
+  const handleGotoMain = () => {
+    navigate(MAIN_PAGE_PATH);
+  };
+  const handleGotoPaid = () => {
+    navigate(PAID_PAGE_PATH);
+  };
+  const handleGotoShop = () => {
+    navigate(SHOP_PAGE_PATH);
+  };
+  const handleGotoThinking = () => {};
+
   const data = {
-    overprice: 10000000,
+    overprice: 10009000,
     balance: 1000000,
-    accountNum: 1234567890,
-    status: 1,
+    accountNum: 123456789000,
+    status: 0,
     brandName: "토스 요노쇼핑",
     itemName: "Marshal WOBURN3 블루투스 스피커",
     price: 855000,
     itemImg: ElectronicsCategoryIcon,
   };
+  
   let payStatus = {};
 
   const Status = () => {
@@ -110,13 +126,16 @@ const PayPage = () => {
             {wiseSaying}
           </p>
         </div>
-        <button className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[6px] rounded-15 bg-toss text-white">
+        <button
+          onClick={handleGotoPaid}
+          className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[6px] rounded-15 bg-toss text-white"
+        >
           <img src={TossPayIcon} className="w-[30px] h-[30px]" />
           <p className="font-PDLight text-24">Pay</p>
           <p className="font-PDLight text-20">동의하고 결제하기</p>
         </button>
-        <div className="flex justify-center items-center gap-[5px] w-[300px] h-[31px] leading-tight">
-          <img src={Check} className="w-[17px] h-[17px] text-[13px]" />
+        <div className="flex justify-center items-center gap-[5px] w-[300px] h-[27px] text-[13px] leading-tight">
+          <img src={Check} className="w-[17px] h-[17px]" />
           <p className="font-PDSemibold text-toss">필수</p>
           <p className="font-PDRegular text-[#999FA8]">
             결제 정보 확인 및 정보 제공 동의
@@ -127,6 +146,7 @@ const PayPage = () => {
       <div className="flex flex-col items-center justify-center mt-[110px]">
         <div className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[19px] font-PDLight text-20">
           <button
+            onClick={data.status == 1 ? handleGotoMain : handleGotoPaid}
             className={`flex justify-center items-center w-[129px] h-buttonHeight rounded-15 ${
               data.status == 1 ? "bg-lightRed" : "bg-extraButton"
             } ${data.status == 1 ? "text-white" : "text-toss"}`}
@@ -134,6 +154,7 @@ const PayPage = () => {
             <p>{payStatus.button1Text}</p>
           </button>
           <button
+            onClick={data.status == 1 ? handleGotoPaid : handleGotoThinking}
             className={`flex justify-center items-center w-[203px] h-[59px] rounded-15 gap-[6px] bg-toss text-white`}
           >
             <img
@@ -146,10 +167,9 @@ const PayPage = () => {
           </button>
         </div>
         {data.status == 1 ? (
-          <div className="flex justify-center items-center gap-[5px] w-[300px] h-[31px] leading-tight">
-            <img src={Check} className="w-[17px] h-[17px] text-[13px]" />
+          <div className="flex justify-center items-center gap-[5px] w-[300px] h-[27px] text-[13px] leading-tight">
+            <img src={Check} className="w-[17px] h-[17px]" />
             <p className="font-PDSemibold text-toss">필수</p>
-
             <p className="font-PDRegular text-[#999FA8]">
               결제 정보 확인 및 정보 제공 동의
             </p>
@@ -161,25 +181,22 @@ const PayPage = () => {
     );
   };
 
-  const NavigateMain = () => {
-    navigate(MAIN_PAGE_PATH);
-  };
-  const NavigateShop = () => {};
-
   Status();
 
   return (
     <div className="w-full h-full" style={payStatus.bg}>
-      <Header onClick={data.status == null ? NavigateShop : NavigateMain} />
+      <Header
+        onClick={data.status == null ? handleGotoShop : handleGotoThinking}
+      />
       <div className="flex flex-col items-center">
         <div className="flex flex-col items-center relative mt-[1px]">
           <img src={payStatus.bubble} className="w-[188px] h-[68.5px]" />
           <p
-            className={`absolute left-[45px] top-[14px] font-PDRegular text-16 text-${payStatus.talkColor} leading-tight`}
+            className={`absolute left-[23px] top-[14px] font-PDRegular text-16 text-${payStatus.talkColor} leading-tight`}
           >
             {payStatus.talk}
           </p>
-          <img src={payStatus.yonoImg} className="w-[229px] h-[143px]" />
+          <img src={payStatus.yonoImg} className="w-[149px] h-[143px]" />
         </div>
         <div className="flex items-center justify-center mt-[60px] w-width h-[147px] rounded-15 bg-white">
           <ItemInfo
@@ -191,7 +208,7 @@ const PayPage = () => {
           />
         </div>
         <div className="flex items-center mt-[15px] w-width h-[99px] rounded-15 bg-white">
-          <div className="flex flex-col ml-[22px] w-[174px] h-[71px]">
+          <div className="flex flex-col ml-[22px] w-[200px] h-[71px]">
             <p className="font-PDSemibold text-16 text-[#7C838D] leading-tight">
               결제수단
             </p>

@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FormatPhoneNumber, FormatPassWord } from "../utils/FormatByAuth";
 import { useNavigate } from "react-router-dom";
-import { SIGNUP_PAGE_PATH } from "../constants/Paths";
+import {
+  SIGNUP_PAGE_PATH,
+  MAIN_PAGE_PATH,
+  WELCOME_PAGE_PATH,
+} from "../constants/Paths";
 import Logo from "../assets/Logo.png";
-import { MAIN_PAGE_PATH } from "../constants/Paths";
 import { api } from "../apis/api";
 
 const LoginPage = () => {
@@ -17,8 +20,15 @@ const LoginPage = () => {
         phoneNum: phone.replaceAll("-", ""),
         passWord,
       });
-      console.log(res.data);
-      navigate(MAIN_PAGE_PATH);
+      console.log(res.data.userInfo);
+      navigate(
+        res.data.userInfo.isFirst
+          ? WELCOME_PAGE_PATH
+          : MAIN_PAGE_PATH.replace(":userId", res.data.userInfo.userId).replace(
+              ":userName",
+              res.data.userInfo.userName
+            )
+      );
     } catch (error) {
       console.error(error);
     } finally {
