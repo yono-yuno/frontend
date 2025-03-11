@@ -513,7 +513,7 @@ const MainPage = () => {
                 </div>
               )}
 
-              {pieData.length == 0 ? (
+              {pieData.length <= 1 ? (
                 <div className="flex flex-col justify-center items-center w-[350px] h-[150px] pb-[10px] rounded-15 ">
                   <img src={YunoP} className="w-[180px] mb-[10px] mr-[18px]" />
                   <p className="font-PDRegular text-[16px] text-black leading-tight">
@@ -535,7 +535,7 @@ const MainPage = () => {
                   {loading ? (
                     0
                   ) : (
-                    <div className="flex items-center justify-between w-[314px] h-[120px]">
+                    <div className="flex items-center justify-between w-[300px] h-[120px]">
                       <div>
                         {pieData.map((data, index) => (
                           <div key={index} className="flex flex-row">
