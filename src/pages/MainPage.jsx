@@ -16,6 +16,8 @@ import {
   SETTING_PAGE_PATH,
   ALARM_PAGE_PATH,
   SHOP_PAGE_PATH,
+  THINKPAY_PAGE_PATH,
+  PAYRECORD_PAGE_PATH,
 } from "../constants/Paths";
 
 const MainPage = () => {
@@ -33,6 +35,12 @@ const MainPage = () => {
   };
   const handleShop = () => {
     navigate(SHOP_PAGE_PATH);
+  };
+  const handleThinkPay = () => {
+    navigate(THINKPAY_PAGE_PATH);
+  };
+  const handlePayRecord = () => {
+    navigate(PAYRECORD_PAGE_PATH);
   };
 
   useEffect(() => {
@@ -99,10 +107,10 @@ const MainPage = () => {
             </button>
           </div>
           <div className="flex justify-between w-width h-[95px] mt-[15px]">
-            <button>
+            <button onClick={handlePayRecord}>
               <img src={PayRecordB} className="w-[117px] h-[95px]" />
             </button>
-            <button>
+            <button onClick={handleThinkPay}>
               <img src={ThinkingB} className="w-[117px] h-[95px]" />
             </button>
             <button onClick={handleShop}>

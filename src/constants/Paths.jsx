@@ -9,6 +9,12 @@ export const ITEM_PAGE_PATH = "/item/:itemId";
 
 export const SETTING_PAGE_PATH = "/setting";
 export const ALARM_PAGE_PATH = "/alarm";
+
+export const THINKPAY_PAGE_PATH = "/thinkpay";
+export const PAYRECORD_PAGE_PATH = "/payrecord";
+export const DIARY_PAGE_PATH = "/diary";
+export const DIARYEDIT_PAGE_PATH = "/diary/edit";
+
 export const MAIN_PAGE_PATH = "/main/:userId/:userName";
 
 export const PAY_PAGE_PATH = "/pay";

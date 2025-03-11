@@ -7,6 +7,10 @@ import ShopPage from "./pages/ShopPage";
 import ItemPage from "./pages/ItemPage";
 import SettingPage from "./pages/SettingPage";
 import AlarmPage from "./pages/AlarmPage";
+import ThinkPayPage from "./pages/ThinkPayPage";
+import PayRecordPage from "./pages/PayRecordPage";
+import DiaryPage from "./pages/DiaryPage";
+import DiaryEditPage from "./pages/DiaryEditPage";
 import PayPage from "./pages/PayPage";
 import PaidPage from "./pages/PaidPage";
 import WelcomePage from "./pages/WelcomePage";
@@ -23,6 +27,10 @@ import {
   SETUP_PAGE_PATH,
   SETUPCOMPLETE_PAGE_PATH,
   MAIN_PAGE_PATH,
+  THINKPAY_PAGE_PATH,
+  PAYRECORD_PAGE_PATH,
+  DIARY_PAGE_PATH,
+  DIARYEDIT_PAGE_PATH,
   PAY_PAGE_PATH,
   PAID_PAGE_PATH,
 } from "./constants/Paths";
@@ -38,6 +46,11 @@ function App() {
       <Route path={ITEM_PAGE_PATH} element={<ItemPage />} />
       <Route path={SETTING_PAGE_PATH} element={<SettingPage />} />
       <Route path={ALARM_PAGE_PATH} element={<AlarmPage />} />
+
+      <Route path={THINKPAY_PAGE_PATH} element={<ThinkPayPage />} />
+      <Route path={PAYRECORD_PAGE_PATH} element={<PayRecordPage />} />
+      <Route path={DIARY_PAGE_PATH} element={<DiaryPage />} />
+      <Route path={DIARYEDIT_PAGE_PATH} element={<DiaryEditPage />} />
 
       <Route path={PAY_PAGE_PATH} element={<PayPage />} />
       <Route path={PAID_PAGE_PATH} element={<PaidPage />} />
