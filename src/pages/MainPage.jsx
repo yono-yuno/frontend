@@ -77,7 +77,9 @@ const MainPage = () => {
     );
   };
   const handleAlarm = () => {
-    navigate(ALARM_PAGE_PATH);
+    navigate(
+      ALARM_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
   };
   const handleShop = () => {
     navigate(SHOP_PAGE_PATH);

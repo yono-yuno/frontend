@@ -4,7 +4,9 @@ import ReviewIcon from "../assets/ReviewIcon.png";
 const ReviewAlarm = (props) => {
   return (
     <button onClick={props.onClick} className="mb-[15px]">
-      <div className="flex flex-col w-width h-[98px] pt-[12px] pl-[11px] pr-[13px] rounded-15 shadow-md bg-white">
+      <div
+        className={`flex flex-col w-width h-[98px] pt-[12px] pl-[11px] pr-[13px] rounded-15 shadow-md bg-${props.color}`}
+      >
         <div className="flex justify-between">
           <div className="flex items-center">
             <img src={ReviewIcon} className="w-[22px] h-[22px] pr-[6px]" />
