@@ -537,16 +537,16 @@ const MainPage = () => {
                     <div className="flex items-center justify-between w-[314px] h-[120px]">
                       <div>
                         {pieData.map((data, index) => (
-                          <div key={index}>
-                            <span
-                              className={`mr-[13px] font-PDMedium`}
+                          <div key={index} className="flex flex-row">
+                            <div
+                              className={`w-[34px] mr-[10px] font-PDMedium`}
                               style={{ color: color[index] }}
                             >
                               {Math.round((data.total / payTotalSum) * 100)}%
-                            </span>
-                            <span className={`font-PDRegular`}>
+                            </div>
+                            <div className={`font-PDRegular`}>
                               {data.category}
-                            </span>
+                            </div>
                           </div>
                         ))}
                       </div>
