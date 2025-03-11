@@ -18,6 +18,7 @@ import {
   SHOP_PAGE_PATH,
 } from "../constants/Paths";
 import { api } from "../apis/api";
+import { div } from "framer-motion/client";
 
 const MainPage = () => {
   const { userId } = useParams();
@@ -29,7 +30,9 @@ const MainPage = () => {
   const [cartCount, setCartCount] = useState(0);
   const [lineData, setLineData] = useState([]);
   const [pieData, setPieData] = useState([]);
-
+  const [thisWeek, setThisWeek] = useState([]);
+  const [thisMonth, setThisMonth] = useState(0);
+  const [thisDay, setThisDay] = useState(0);
   let yunoSay = "";
 
   const handleSetting = () => {
@@ -64,10 +67,24 @@ const MainPage = () => {
   //더 느리게 변경 예정
   GetRandomYunoSay();
 
+  //이번주 일~토까지의 날짜 받아오기
+  const getWeekRange = (date) => {
+    const dayOfWeek = date.getDay(); //요일(0:일 ~ 6:토)
+    const startDate = new Date(date); //원본 보존
+    startDate.setDate(date.getDate() - dayOfWeek); //해당 주의 일요일로 변경
+
+    //일요일부터 토요일까지의 날짜 생성
+    return Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(startDate);
+      d.setDate(startDate.getDate() + i);
+      return d.getDate(); //일만 받아옴
+    });
+  };
+
   //계좌 잔액
   const getAccount = async () => {
     try {
-      const res = await api.get(`/account?AccountId=${userId}`);
+      const res = await api.get(`/account?userId=${userId}`);
       if (res.data.isSuccess) {
         setBalance(res.data.accountInfo.balance);
       }
@@ -81,7 +98,7 @@ const MainPage = () => {
     try {
       const res = await api.get(`/cart/all?userId=${userId}`);
       if (res.data.isSuccess) {
-        setCartCount(res.data.cartList.length());
+        setCartCount(res.data.cartList.length);
       }
     } catch (error) {
       console.error(error);
@@ -101,6 +118,33 @@ const MainPage = () => {
     }
   };
 
+  const MonthComparison = () => {
+    const Gap = lineData[thisDay - 1].prev - lineData[thisDay - 1].curr;
+
+    switch (Gap) {
+      case Gap == 0:
+        return (
+          <p className=" pt-[5px] font-PDMedium text-[12px] text-[#697583]">
+            지난달과 <span className="text-[#74A174]">소비가 같아요</span>
+          </p>
+        );
+      case Gap > 0:
+        return (
+          <p className=" pt-[5px] font-PDMedium text-[12px] text-[#697583]">
+            지난달보다
+            <span className="text-toss">{Gap}원 적게 사용</span>
+          </p>
+        );
+      case Gap < 0:
+        return (
+          <p className=" pt-[5px] font-PDMedium text-[12px] text-[#697583]">
+            지난달보다
+            <span className="text-toss">{Math.abs(Gap)}원 많이 사용</span>
+          </p>
+        );
+    }
+  };
+
   useEffect(() => {
     const slideWidth = carouselRef.current?.clientWidth; // 슬라이드 하나의 너비
     const interval = setInterval(() => {
@@ -117,180 +161,313 @@ const MainPage = () => {
   }, []);
 
   useEffect(() => {
+    const today = new Date(); //현재 날짜
+    setThisWeek(getWeekRange(today));
+    setThisMonth(today.getMonth() + 1);
+    setThisDay(today.getDate()); //일
+    console.log(thisMonth);
+
+    getAccount();
+    getCartCount();
     getChartdata();
-    console.log("계좌 잔액: ", balance);
-    console.log("카트 아이템 수: ", cartCount);
-    console.log("차트 데이터: ", lineData);
   }, []);
 
   return (
-    <div className="bg-background">
-      <header className="flex justify-between pl-[25px] pr-[22px] h-[58px] items-end ">
-        <img src={Logo} className="w-[157px] h-[27px] mb-[3px]" />
-        <div>
-          <button onClick={handleAlarm}>
-            <img src={Alarm} className="w-[34px] h-[34px]" />
-            {/* <img src={AlarmOn} className="w-[34px] h-[35px] " /> */}
-          </button>
-          <button onClick={handleSetting}>
-            <img src={Setting} className="w-[34px] h-[34px] ml-[13px]" />
-          </button>
-        </div>
-      </header>
-      <main>
-        <div>
-          <div className="flex justify-center mt-[30px]">
-            <img src={MainSpeechBubble} className="w-[273px] h-[101px]" />
-            {/* absolute는 요소의 위치 조정, flex는 내부 요소 정렬 -> 둘이 같이 사용 가능 */}
-            <div className="absolute w-[271px] h-[72px] flex items-center">
-              {/* 대략 48자 작성 가능 */}
-              <p className="ml-[20px] mr-[20px] mt-[9px] mb-[9px] font-PDMedium text-16 text-black">
-                {yunoSay}
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-center mt-[3px]">
-            <img src={Yuno} className="w-[149px] h-[143px]" />
-          </div>
-        </div>
-        <menu className="flex flex-col justify-center items-center mt-[27px]">
-          <div className="flex justify-between items-center pr-[21px] pl-[21px] w-width h-[63px] rounded-15 bg-white">
-            <div className="flex items-center">
-              <img src={PayToss} className="w-[35px] h-[35px] mr-[13px]" />
-              <div>
-                <p className="mb-[3px] font-PDMedium text-[21px] text-black leading-none">
-                  0원
-                </p>
-                <p className="font-PDRegular text-[13px] text-[#80858E] leading-none">
-                  토스뱅크 통장
-                </p>
-              </div>
-            </div>
-            <button className="flex justify-center items-center w-[46px] h-[27px] rounded-[10px] bg-background font-PDRegular text-[13px] text-[#80858E]">
-              송금
-            </button>
-          </div>
-          <div className="flex justify-between w-width h-[95px] mt-[15px]">
-            <button>
-              <img src={PayRecordB} className="w-[117px] h-[95px]" />
-            </button>
-            <button>
-              <img src={ThinkingB} className="w-[117px] h-[95px]" />
-            </button>
-            <button onClick={handleShop}>
-              <img src={ShoppingB} className="w-[117px] h-[95px]" />
-            </button>
-          </div>
-          <div
-            className="flex  w-width overflow-x-auto scroll-smooth"
-            ref={carouselRef}
-          >
-            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[24px] rounded-15 bg-white">
-              <div className="flex justify-start w-[310px]">
-                <p className="font-PDMedium text-16 text-black">2월</p>
-              </div>
-              <div className="flex flex-row justify-between w-[350px]">
-                <div className="flex flex-col justify-center pl-[20px]">
-                  <p className="font-PDBold text-20 text-black">1,520,731원</p>
-                  <p className=" pt-[5px] font-PDMedium text-[12px] text-[#697583]">
-                    지난달보다{" "}
-                    <span className="text-[#FC6767]">
-                      10,000,000원 많이 쓰는 중
-                    </span>
-                  </p>
-                </div>
-                <div className="w-[140px] h-[70px]">
-                  <LineChart />
-                </div>
-              </div>
-              <div className="flex flex-row mt-[20px] leading-tight">
-                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                  <p>일</p>
-                  <p className="text-[16px] mt-[10px] text-[#697583]">16</p>
-                  <p className="text-[9px] text-[#FC6767]">-32,000</p>
-                </div>
-                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                  <p>월</p>
-                  <p className="text-[16px] mt-[10px] text-[#697583]">17</p>
-                  <p className="text-[9px] text-[#FC6767]">-10,000</p>
-                </div>
-                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                  <p>화</p>
-                  <p className="text-[16px] mt-[10px] text-[#697583]">18</p>
-                  <p className="text-[9px] text-[#FC6767]">-14,000</p>
-                </div>
-                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                  <p>수</p>
-                  <p className="text-[16px] mt-[10px]">19</p>
-                  <p className="text-[9px]">0</p>
-                </div>
-                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                  <p>목</p>
-                  <p className="text-[16px] mt-[10px] text-[#697583]">20</p>
-                  <p className="text-[9px] text-[#FC6767]">-159,800</p>
-                </div>
-                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                  <p>금</p>
-                  <p className="text-[16px] mt-[10px] text-[#697583]">21</p>
-                  <p className="text-[9px] text-[#FC6767]">-615,300</p>
-                </div>
-                <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
-                  <p>토</p>
-                  <p className="text-[16px] mt-[10px] ">22</p>
-                  <p className="text-[9px]">0</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[24px] rounded-15 bg-white">
-              <div className="flex justify-start w-[310px]">
-                <p className="font-PDMedium text-16 text-black">2월</p>
-              </div>
-              <div className="flex flex-row justify-between w-[350px]">
-                <div className="flex justify-center pl-[20px] font-PDSemibold text-20">
-                  <span className="text-black pr-[4px]">최대 소비</span>
-                  <span className="text-[#93C9FF]">출산 · 육아</span>
-                </div>
-              </div>
-              <div className="flex justify-between w-[314px] h-[120px]">
-                <div className="flex flex-col items-start text-16 text-[#697583]">
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#93C9FF]">
-                      30%
-                    </span>
-                    <span className="font-PDRegular ">출산 · 육아</span>
-                  </div>
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#DB88E7]">
-                      20%
-                    </span>
-                    <span className="font-PDRegular ">인테리어</span>
-                  </div>
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#EF4452]">
-                      18%
-                    </span>
-                    <span className="font-PDRegular">식품</span>
-                  </div>
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#4E7698]">
-                      14%
-                    </span>
-                    <span className="font-PDRegular">패션잡화</span>
-                  </div>
-                  <div>
-                    <span className="mr-[13px] font-PDMedium text-[#D9D9D9]">
-                      18%
-                    </span>
-                    <span className="font-PDRegular">그 외</span>
-                  </div>
-                </div>
-                <PieChart />
-              </div>
-            </div>
-          </div>
-        </menu>
-      </main>
-    </div>
+    <div></div>
+    // <div className="bg-background">
+    //   <header className="flex justify-between pl-[25px] pr-[22px] h-[58px] items-end ">
+    //     <img src={Logo} className="w-[157px] h-[27px] mb-[3px]" />
+    //     <div>
+    //       <button onClick={handleAlarm}>
+    //         <img src={Alarm} className="w-[34px] h-[34px]" />
+    //         {/* <img src={AlarmOn} className="w-[34px] h-[35px] " /> */}
+    //       </button>
+    //       <button onClick={handleSetting}>
+    //         <img src={Setting} className="w-[34px] h-[34px] ml-[13px]" />
+    //       </button>
+    //     </div>
+    //   </header>
+    //   <main>
+    //     <div>
+    //       <div className="flex justify-center mt-[30px]">
+    //         <img src={MainSpeechBubble} className="w-[273px] h-[101px]" />
+    //         {/* absolute는 요소의 위치 조정, flex는 내부 요소 정렬 -> 둘이 같이 사용 가능 */}
+    //         <div className="absolute w-[271px] h-[72px] flex items-center">
+    //           {/* 대략 48자 작성 가능 */}
+    //           <p className="ml-[20px] mr-[20px] mt-[9px] mb-[9px] font-PDMedium text-16 text-black">
+    //             {yunoSay}
+    //           </p>
+    //         </div>
+    //       </div>
+    //       <div className="flex justify-center mt-[3px]">
+    //         <img src={Yuno} className="w-[149px] h-[143px]" />
+    //       </div>
+    //     </div>
+    //     <menu className="flex flex-col justify-center items-center mt-[27px]">
+    //       <div className="flex justify-between items-center pr-[21px] pl-[21px] w-width h-[63px] rounded-15 bg-white">
+    //         <div className="flex items-center">
+    //           <img src={PayToss} className="w-[35px] h-[35px] mr-[13px]" />
+    //           <div>
+    //             <p className="mb-[3px] font-PDMedium text-[21px] text-black leading-none">
+    //               0원
+    //             </p>
+    //             <p className="font-PDRegular text-[13px] text-[#80858E] leading-none">
+    //               토스뱅크 통장
+    //             </p>
+    //           </div>
+    //         </div>
+    //         <button className="flex justify-center items-center w-[46px] h-[27px] rounded-[10px] bg-background font-PDRegular text-[13px] text-[#80858E]">
+    //           송금
+    //         </button>
+    //       </div>
+    //       <div className="flex justify-between w-width h-[95px] mt-[15px]">
+    //         <button>
+    //           <img src={PayRecordB} className="w-[117px] h-[95px]" />
+    //         </button>
+    //         <button>
+    //           <img src={ThinkingB} className="w-[117px] h-[95px]" />
+    //         </button>
+    //         <button onClick={handleShop}>
+    //           <img src={ShoppingB} className="w-[117px] h-[95px]" />
+    //         </button>
+    //       </div>
+    //       <div
+    //         className="flex  w-width overflow-x-auto scroll-smooth"
+    //         ref={carouselRef}
+    //       >
+    //         <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[24px] rounded-15 bg-white">
+    //           <div className="flex justify-start w-[310px]">
+    //             <p className="font-PDMedium text-16 text-black">
+    //               {thisMonth}월
+    //             </p>
+    //           </div>
+    //           <div className="flex flex-row justify-between w-[350px]">
+    //             <div className="flex flex-col justify-center pl-[20px]">
+    //               <p className="font-PDBold text-20 text-black">
+    //                 {lineData[thisDay - 1].curr}원
+    //               </p>
+    //               <MonthComparison />
+    //             </div>
+    //             <div className="w-[140px] h-[70px]">
+    //               <LineChart data={lineData} />
+    //             </div>
+    //           </div>
+    //           <div className="flex flex-row mt-[20px] leading-tight">
+    //             <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+    //               <p>일</p>
+    //               <p
+    //                 className={`text-[16px] mt-[10px] ${
+    //                   lineData[thisWeek[0] - 1].weekData != 0
+    //                     ? "text-[#697583]"
+    //                     : "text-button"
+    //                 } `}
+    //               >
+    //                 {thisWeek[0]}
+    //               </p>
+    //               <p
+    //                 className={`text-[9px] ${
+    //                   lineData[thisWeek[0] - 1].weekData > 100000
+    //                     ? "text-[#FC6767]"
+    //                     : "text-[#697583]"
+    //                 }`}
+    //               >
+    //                 {lineData[thisWeek[0] - 1].weekData != 0
+    //                   ? lineData[thisWeek[0] - 1].weekData.toLocaleString()
+    //                   : "⠀"}
+    //               </p>
+    //             </div>
+    //             <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+    //               <p>월</p>
+    //               <p
+    //                 className={`text-[16px] mt-[10px] ${
+    //                   lineData[thisWeek[1] - 1].weekData != 0
+    //                     ? "text-[#697583]"
+    //                     : "text-button"
+    //                 }`}
+    //               >
+    //                 {thisWeek[1]}
+    //               </p>
+    //               <p
+    //                 className={`text-[9px] ${
+    //                   lineData[thisWeek[1] - 1].weekData > 100000
+    //                     ? "text-[#FC6767]"
+    //                     : "text-[#697583]"
+    //                 }`}
+    //               >
+    //                 {lineData[thisWeek[1] - 1].weekData != 0
+    //                   ? lineData[thisWeek[1] - 1].weekData.toLocaleString()
+    //                   : "⠀"}
+    //               </p>
+    //             </div>
+    //             <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+    //               <p>화</p>
+    //               <p
+    //                 className={`text-[16px] mt-[10px] ${
+    //                   lineData[thisWeek[2] - 1].weekData != 0
+    //                     ? "text-[#697583]"
+    //                     : "text-button"
+    //                 }`}
+    //               >
+    //                 {thisWeek[2]}
+    //               </p>
+    //               <p
+    //                 className={`text-[9px] ${
+    //                   lineData[thisWeek[2] - 1].weekData > 100000
+    //                     ? "text-[#FC6767]"
+    //                     : "text-[#697583]"
+    //                 }`}
+    //               >
+    //                 {lineData[thisWeek[2] - 1].weekData != 0
+    //                   ? lineData[thisWeek[2] - 1].weekData.toLocaleString()
+    //                   : "⠀"}
+    //               </p>
+    //             </div>
+    //             <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+    //               <p>수</p>
+    //               <p
+    //                 className={`text-[16px] mt-[10px] ${
+    //                   lineData[thisWeek[3] - 1].weekData != 0
+    //                     ? "text-[#697583]"
+    //                     : "text-button"
+    //                 }`}
+    //               >
+    //                 {thisWeek[3]}
+    //               </p>
+    //               <p
+    //                 className={`text-[9px] ${
+    //                   lineData[thisWeek[3] - 1].weekData > 100000
+    //                     ? "text-[#FC6767]"
+    //                     : "text-[#697583]"
+    //                 }`}
+    //               >
+    //                 {lineData[thisWeek[3] - 1].weekData != 0
+    //                   ? lineData[thisWeek[3] - 1].weekData.toLocaleString()
+    //                   : "⠀"}
+    //               </p>
+    //             </div>
+    //             <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+    //               <p>목</p>
+    //               <p
+    //                 className={`text-[16px] mt-[10px] ${
+    //                   lineData[thisWeek[4] - 1].weekData != 0
+    //                     ? "text-[#697583]"
+    //                     : "text-button"
+    //                 }`}
+    //               >
+    //                 {thisWeek[4]}
+    //               </p>
+    //               <p
+    //                 className={`text-[9px] ${
+    //                   lineData[thisWeek[4] - 1].weekData > 100000
+    //                     ? "text-[#FC6767]"
+    //                     : "text-[#697583]"
+    //                 }`}
+    //               >
+    //                 {lineData[thisWeek[4] - 1].weekData != 0
+    //                   ? lineData[thisWeek[4] - 1].weekData.toLocaleString()
+    //                   : "⠀"}
+    //               </p>
+    //             </div>
+    //             <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+    //               <p>금</p>
+    //               <p
+    //                 className={`text-[16px] mt-[10px] ${
+    //                   lineData[thisWeek[5] - 1].weekData != 0
+    //                     ? "text-[#697583]"
+    //                     : "text-button"
+    //                 }`}
+    //               >
+    //                 {thisWeek[5]}
+    //               </p>
+    //               <p
+    //                 className={`text-[9px] ${
+    //                   lineData[thisWeek[5] - 1].weekData > 100000
+    //                     ? "text-[#FC6767]"
+    //                     : "text-[#697583]"
+    //                 }`}
+    //               >
+    //                 {lineData[thisWeek[5] - 1].weekData != 0
+    //                   ? lineData[thisWeek[5] - 1].weekData.toLocaleString()
+    //                   : "⠀"}
+    //               </p>
+    //             </div>
+    //             <div className="flex flex-col justify-center items-center w-[45px] font-PDRegular text-[13px] text-button">
+    //               <p>토</p>
+    //               <p
+    //                 className={`text-[16px] mt-[10px] ${
+    //                   lineData[thisWeek[6] - 1].weekData != 0
+    //                     ? "text-[#697583]"
+    //                     : "text-button"
+    //                 }`}
+    //               >
+    //                 {thisWeek[6]}
+    //               </p>
+    //               <p
+    //                 className={`text-[9px] ${
+    //                   lineData[thisWeek[6] - 1].weekData > 100000
+    //                     ? "text-[#FC6767]"
+    //                     : "text-[#697583]"
+    //                 }`}
+    //               >
+    //                 {lineData[thisWeek[6] - 1].weekData != 0
+    //                   ? lineData[thisWeek[6] - 1].weekData.toLocaleString()
+    //                   : "⠀"}
+    //               </p>
+    //             </div>
+    //           </div>
+    //         </div>
+    //         <div className="flex flex-col justify-center items-center p-[30px] w-width h-[220px] mt-[15px] mb-[24px] rounded-15 bg-white">
+    //           <div className="flex justify-start w-[310px]">
+    //             <p className="font-PDMedium text-16 text-black">
+    //               {thisMonth}월
+    //             </p>
+    //           </div>
+    //           <div className="flex flex-row justify-between w-[350px]">
+    //             <div className="flex justify-center pl-[20px] font-PDSemibold text-20">
+    //               <span className="text-black pr-[4px]">최대 소비</span>
+    //               <span className="text-[#93C9FF]">출산 · 육아</span>
+    //             </div>
+    //           </div>
+    //           <div className="flex justify-between w-[314px] h-[120px]">
+    //             <div className="flex flex-col items-start text-16 text-[#697583]">
+    //               <div>
+    //                 <span className="mr-[13px] font-PDMedium text-[#93C9FF]">
+    //                   30%
+    //                 </span>
+    //                 <span className="font-PDRegular ">출산 · 육아</span>
+    //               </div>
+    //               <div>
+    //                 <span className="mr-[13px] font-PDMedium text-[#DB88E7]">
+    //                   20%
+    //                 </span>
+    //                 <span className="font-PDRegular ">인테리어</span>
+    //               </div>
+    //               <div>
+    //                 <span className="mr-[13px] font-PDMedium text-[#EF4452]">
+    //                   18%
+    //                 </span>
+    //                 <span className="font-PDRegular">식품</span>
+    //               </div>
+    //               <div>
+    //                 <span className="mr-[13px] font-PDMedium text-[#4E7698]">
+    //                   14%
+    //                 </span>
+    //                 <span className="font-PDRegular">패션잡화</span>
+    //               </div>
+    //               <div>
+    //                 <span className="mr-[13px] font-PDMedium text-[#D9D9D9]">
+    //                   18%
+    //                 </span>
+    //                 <span className="font-PDRegular">그 외</span>
+    //               </div>
+    //             </div>
+    //             <PieChart data={pieData} />
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </menu>
+    //   </main>
+    // </div>
   );
 };
 
