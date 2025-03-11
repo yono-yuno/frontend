@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import Setting from "../assets/Setting.png";
 import Alarm from "../assets/Alarm.png";
-//import AlarmOn from "../assets/Alarm_on.png";
+import AlarmOn from "../assets/Alarm_on.png";
 import MainSpeechBubble from "../assets/MainSpeechBubble.png";
 import Yuno from "../assets/Yuno.gif";
 import YunoP from "../assets/CutYunoHeart.png";
@@ -38,6 +38,7 @@ const MainPage = () => {
   const [data, setData] = useState([]);
   const [color, setColor] = useState([]);
   const [payTotalSum, setPayTotalSum] = useState(0);
+  const [alarmStatus, setAlarmStatus] = useState(false);
 
   const colorChart = {
     식품: "#EF4452",
@@ -68,7 +69,12 @@ const MainPage = () => {
   ];
 
   const handleSetting = () => {
-    navigate(SETTING_PAGE_PATH);
+    navigate(
+      SETTING_PAGE_PATH.replace(":userId", userId).replace(
+        ":userName",
+        userName
+      )
+    );
   };
   const handleAlarm = () => {
     navigate(ALARM_PAGE_PATH);
@@ -101,10 +107,11 @@ const MainPage = () => {
       setLoading(true); // 🔹 로딩 시작
 
       try {
-        const [accountRes, cartRes, chartRes] = await Promise.all([
+        const [accountRes, cartRes, chartRes, alarmRes] = await Promise.all([
           api.get(`/account?userId=${userId}`),
           api.get(`/cart/all?userId=${userId}`),
           api.get(`/diary/statistic?userId=${userId}`),
+          api.get(`/alarm?userId=${userId}`),
         ]);
 
         if (accountRes.data.isSuccess) {
@@ -118,6 +125,10 @@ const MainPage = () => {
         if (chartRes.data.isSuccess) {
           setLineData(chartRes.data.statistic.lineGraphData);
           setPieData(chartRes.data.statistic.pieGraphData);
+        }
+        if (alarmRes.data.isSuccess) {
+          console.log(alarmRes.data);
+          if (alarmRes.data.alarmList.length != 0) setAlarmStatus(true);
         }
       } catch (error) {
         console.error("❌ API 요청 실패:", error);
@@ -201,8 +212,13 @@ const MainPage = () => {
         <img src={Logo} className="w-[157px] h-[27px] mb-[3px]" />
         <div>
           <button onClick={handleAlarm}>
-            <img src={Alarm} className="w-[34px] h-[34px]" />
-            {/* <img src={AlarmOn} className="w-[34px] h-[35px] " /> */}
+            {loading ? (
+              ""
+            ) : alarmStatus ? (
+              <img src={AlarmOn} className="w-[34px] h-[35px] " />
+            ) : (
+              <img src={Alarm} className="w-[34px] h-[34px]" />
+            )}
           </button>
           <button onClick={handleSetting}>
             <img src={Setting} className="w-[34px] h-[34px] ml-[13px]" />
