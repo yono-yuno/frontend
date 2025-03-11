@@ -4,7 +4,7 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip);
 
 // 컴포넌트를 정의하고, react-chartjs-2 차트에서 가져온 Doughnut 컴포넌트에 data 전달
-const PieChart = () => {
+const PieChart = (props) => {
   // 차트에 사용될 각 항목 라벨명
   const labels = ["출산 · 육아", "인테리어", "식품", "패션잡화", "그 외"];
 
