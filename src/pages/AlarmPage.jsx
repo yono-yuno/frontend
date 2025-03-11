@@ -40,10 +40,6 @@ const AlarmPage = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(alarmData);
-  }, [alarmData]);
-
   const updateAlarm = async (alarmId) => {
     try {
       const response = await api.put("/alarm", {

@@ -129,7 +129,6 @@ const MainPage = () => {
           setPieData(chartRes.data.statistic.pieGraphData);
         }
         if (alarmRes.data.isSuccess) {
-          console.log(alarmRes.data);
           if (alarmRes.data.alarmList.length != 0) setAlarmStatus(true);
         }
       } catch (error) {
