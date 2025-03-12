@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import CategoryList from "../components/CategoryList";
 import {
@@ -7,75 +7,45 @@ import {
   DIARY_PAGE_PATH,
   DIARYEDIT_PAGE_PATH,
 } from "../constants/Paths";
-import Iteminfo from "../components/ItemInfo";
+import ItemInfo from "../components/ItemInfo";
 import ElectronicsCategoryIcon from "../assets/ElectronicsCategoryIcon.png";
+import { api } from "../apis/api";
 
 const PayRecordPage = () => {
+  const { userId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [itemInfoList, setItemInfoList] = useState([]);
+  const [diaryData, setDiaryData] = useState([]);
+
   const navigate = useNavigate();
 
-  const [itemList] = useState([
-    {
-      id: 1,
-      brandName: "Apple",
-      itemName: "Marshal WOBURN3 블루투스 스피커",
-      price: 855000,
-      itemImg: ElectronicsCategoryIcon,
-      diary: { reason: "고민 끝에 구매!", diary: "", rating: 0 },
-    },
-    {
-      id: 2,
-      brandName: "마샬",
-      itemName: "Marshal WOBURN3 블루투스 스피커",
-      price: 855000,
-      itemImg: ElectronicsCategoryIcon,
-      diary: {
-        reason: "고민 끝에 구매!",
-        diary:
-          "오래 사용해보고 느낀 점은 괜찮은 제품인거 같다. 볼륨도 빵빵하고 사운드도 잘 들려서 자기 전에 듣고 자면 꿀잠 예약이였다.",
-        rating: 4,
-      },
-    },
-    {
-      id: 3,
-      brandName: "마샬",
-      itemName: "Marshal WOBURN3 블루투스 스피커",
-      price: 855000,
-      itemImg: ElectronicsCategoryIcon,
-      diary: {
-        reason: "고민 끝에 구매!",
-        diary:
-          "오래 사용해보고 느낀 점은 괜찮은 제품인거 같다. 볼륨도 빵빵하고 사운드도 잘 들려서 자기 전에 듣고 자면 꿀잠 예약이였다.",
-        rating: 4,
-      },
-    },
-    {
-      id: 4,
-      brandName: "마샬",
-      itemName: "Marshal WOBURN3 블루투스 스피커",
-      price: 855000,
-      itemImg: ElectronicsCategoryIcon,
-      diary: {
-        reason: "고민 끝에 구매!",
-        diary:
-          "오래 사용해보고 느낀 점은 괜찮은 제품인거 같다. 볼륨도 빵빵하고 사운드도 잘 들려서 자기 전에 듣고 자면 꿀잠 예약이였다.",
-        rating: 4,
-      },
-    },
-  ]);
+  const [selectedCategory, setSeletedCategory] = useState("전체");
+
+  const getDiaryList = async (userId, category) => {
+    try {
+      const diaryRes = await api.get(
+        `/diary/all?userId=${userId}&category=${category}`
+      );
+      if (diaryRes.data.isSuccess) {
+        setDiaryData(diaryRes.data.diaryList);
+      }
+    } catch (error) {
+      console.error("❌ API 요청 실패:", error);
+    } finally {
+      setLoading(false); //모든 요청이 끝난 후 로딩 해제
+    }
+  };
+
+  useEffect(() => {
+    getDiaryList(userId, selectedCategory);
+  }, [userId, selectedCategory]);
 
   const handleGoToDiary = (item) => {
     navigate(DIARY_PAGE_PATH, { state: { item } });
   };
 
   const handleGoToDiaryEdit = (item) => {
-    navigate(DIARYEDIT_PAGE_PATH, {
-      state: {
-        item: {
-          ...item,
-          diary: { ...item.diary, diary: "", rating: 0 },
-        },
-      },
-    });
+    navigate(DIARYEDIT_PAGE_PATH);
   };
 
   return (
@@ -87,44 +57,45 @@ const PayRecordPage = () => {
 
       {/* ✅ 카테고리 리스트 (헤더와 간격 추가) */}
       <div className="bg-background w-full pl-[22px] mt-[27px]">
-        <CategoryList />
+        <CategoryList
+          selectedCategory={selectedCategory}
+          onChangeCategory={setSeletedCategory}
+        />
       </div>
 
       {/* ✅ 메인 콘텐츠 영역 (스크롤 가능) */}
       <main className="flex flex-col px-[10px] pt-[20px] w-full flex-grow">
-        {itemList.map((item) => (
+        {diaryData.map((diary) => (
           <div
-            key={item.id}
+            key={diary.diaryId}
             className="flex flex-col items-center bg-white mt-[10px] w-[371px] h-auto rounded-15 p-[15px] shadow-mds"
           >
             <p className="mr-[225px] text-16 font-PDRegular">25.02.20 09:17</p>
             <div className="mt-[10px]">
-              <Iteminfo
-                itemImg={item.itemImg}
-                brandName={item.brandName}
-                itemName={item.itemName}
-                price={item.price}
+              <ItemInfo
+                itemImg={diary.itemInfo.itemImg}
+                brandName={diary.itemInfo.brandName}
+                itemName={diary.itemInfo.itemName}
+                price={diary.itemInfo.price}
               />
             </div>
 
             <div className="flex justify-center mt-[21px]">
               <button
                 className={`w-[149px] h-[48px] rounded-15 text-18 font-PDRegular ${
-                  item.diary.diary && item.diary.rating > 0
+                  diary.detailDiary !== null
                     ? "bg-[#F3F4F6] text-button"
                     : "bg-extraButton text-toss"
                 }`}
-                disabled={item.diary.diary && item.diary.rating > 0}
-                onClick={() => handleGoToDiaryEdit(item)}
+                disabled={diary.detailDiary !== null}
+                onClick={() => handleGoToDiaryEdit(diary)}
               >
-                {item.diary.diary && item.diary.rating > 0
-                  ? "일기 작성 완료"
-                  : "일기 작성"}
+                {diary.detailDiary !== null ? "일기 작성 완료" : "일기 작성"}
               </button>
 
               <button
                 className="w-[149px] h-[48px] bg-toss text-white ml-[18px] rounded-15 text-18 font-PDRegular"
-                onClick={() => handleGoToDiary(item)}
+                onClick={() => handleGoToDiary(diary)}
               >
                 소비 일기
               </button>

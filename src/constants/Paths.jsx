@@ -11,7 +11,7 @@ export const SETTING_PAGE_PATH = "/setting";
 export const ALARM_PAGE_PATH = "/alarm";
 
 export const THINKPAY_PAGE_PATH = "/thinkpay";
-export const PAYRECORD_PAGE_PATH = "/payrecord";
+export const PAYRECORD_PAGE_PATH = "/payrecord/:userId";
 export const DIARY_PAGE_PATH = "/diary";
 export const DIARYEDIT_PAGE_PATH = "/diary/edit";
 
