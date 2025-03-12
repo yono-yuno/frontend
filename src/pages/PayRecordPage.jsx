@@ -8,7 +8,6 @@ import {
   DIARYEDIT_PAGE_PATH,
 } from "../constants/Paths";
 import ItemInfo from "../components/ItemInfo";
-import ElectronicsCategoryIcon from "../assets/ElectronicsCategoryIcon.png";
 import { api } from "../apis/api";
 
 const PayRecordPage = () => {
@@ -40,12 +39,12 @@ const PayRecordPage = () => {
     getDiaryList(userId, selectedCategory);
   }, [userId, selectedCategory]);
 
-  const handleGoToDiary = (item) => {
-    navigate(DIARY_PAGE_PATH, { state: { item } });
+  const handleGoToDiary = (diary) => {
+    navigate(DIARY_PAGE_PATH, { state: { diary } });
   };
 
-  const handleGoToDiaryEdit = (item) => {
-    navigate(DIARYEDIT_PAGE_PATH);
+  const handleGoToDiaryEdit = (diary) => {
+    navigate(DIARYEDIT_PAGE_PATH, { state: { diary } });
   };
 
   return (
@@ -70,7 +69,6 @@ const PayRecordPage = () => {
             key={diary.diaryId}
             className="flex flex-col items-center bg-white mt-[10px] w-[371px] h-auto rounded-15 p-[15px] shadow-mds"
           >
-            <p className="mr-[225px] text-16 font-PDRegular">25.02.20 09:17</p>
             <div className="mt-[10px]">
               <ItemInfo
                 itemImg={diary.itemInfo.itemImg}
