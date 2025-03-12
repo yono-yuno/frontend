@@ -1,34 +1,58 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { PAYRECORD_PAGE_PATH } from "../constants/Paths";
 import Iteminfo from "../components/ItemInfo";
-import ElectronicsCategoryIcon from "../assets/ElectronicsCategoryIcon.png";
 import YellowStarIcon from "../assets/YellowStarIcon.png";
 import GreyStarIcon from "../assets/GreyStarIcon.png";
 import Paper from "../assets/Paper.png";
+import { api } from "../apis/api";
 
 const DiaryEditPage = () => {
+  const { diaryId } = useParams();
+  const [diary, setDiary] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFullyEntered, setIsFullyEntered] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
-  const item = location.state?.item || {
-    id: 0,
-    brandName: "Unknown",
-    itemName: "Unknown Item",
-    price: 0,
-    itemImg: ElectronicsCategoryIcon,
-    diary: { reason: "소비 이유를 입력하세요.", diary: "", rating: 0 },
+  const getDiary = async () => {
+    setLoading(true);
+    try {
+      const diaryRes = await api.get(`/diary?diaryId=${diaryId}`);
+      if (diaryRes.data.isSuccess) {
+        setDiary(diaryRes.data.DiaryInfo);
+      }
+    } catch (error) {
+      console.error("Error fetching diary:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const [diaryData, setDiaryData] = useState(item.diary);
-  const [isFocused, setIsFocused] = useState(false);
-  const isFullyEntered = diaryData.diary.trim() !== "" && diaryData.rating > 0;
+  //diaryId 바뀔때마다 불러오기
+  useEffect(() => {
+    if (diaryId) getDiary();
+  }, [diaryId]);
+
+  const isFull = () => {
+    if (diary?.detailDiary != null && diary?.consumerStars !== 0) {
+      setIsFullyEntered(true);
+    }
+  };
+
+  useEffect(() => {
+    isFull();
+  }, [diary]);
 
   // ✅ 소비 일기 글자 수 제한 (최대 200자)
   const handleChange = (e) => {
-    if (e.target.value.length <= 200) {
-      setDiaryData({ ...diaryData, diary: e.target.value });
+    const newDetailDiary = e.target.value;
+    if (newDetailDiary.length <= 200) {
+      setDiary((prevDiary) => ({
+        ...prevDiary,
+        detailDiary: newDetailDiary,
+      }));
     }
   };
 
@@ -44,42 +68,74 @@ const DiaryEditPage = () => {
       <main className="flex flex-col items-center px-4 pt-7 w-full flex-grow overflow-y-auto">
         {/* 날짜 및 아이템 정보 박스 */}
         <div className="bg-white w-[371px] rounded-15 p-[15px] shadow-md box-border">
-          <p className="text-[16px] font-PDRegular text-black">
-            25.02.20 09:17
-          </p>
-          <div className="mt-[10px]">
-            <Iteminfo
-              itemImg={item.itemImg}
-              brandName={item.brandName}
-              itemName={item.itemName}
-              price={item.price}
-            />
-          </div>
+          {isLoading ? (
+            <p className="text-[16px] font-PDRegular text-black">로딩 중...</p>
+          ) : diary ? (
+            <>
+              <p className="text-[16px] font-PDRegular text-black">
+                {diary.createdAt.slice(2, 10).replace(/-/g, ".")}
+              </p>
+              {diary.itemInfo && (
+                <div className="mt-[10px]">
+                  <Iteminfo
+                    itemImg={diary.itemInfo.itemImg}
+                    brandName={diary.itemInfo.brandName}
+                    itemName={diary.itemInfo.itemName}
+                    price={diary.itemInfo.price}
+                  />
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="text-[16px] font-PDRegular text-black">Loading...</p>
+          )}
         </div>
 
         {/* 별점 박스 */}
         <div className="mt-[25px] bg-white min-w-[371px] max-w-[371px] h-[75px] rounded-15 p-[15px] shadow-md box-border flex justify-center items-center">
-          <div className="flex gap-[17px]">
-            {[...Array(5)].map((_, index) => (
-              <img
-                key={index}
-                src={index < diaryData.rating ? YellowStarIcon : GreyStarIcon}
-                alt="star"
-                className="w-[35px] h-[31px] cursor-pointer"
-                onClick={() =>
-                  setDiaryData({ ...diaryData, rating: index + 1 })
-                }
-              />
-            ))}
-          </div>
+          {isLoading ? (
+            <p className="text-[16px] font-PDRegular text-black">로딩 중...</p>
+          ) : (
+            <div className="flex gap-[17px]">
+              {[...Array(5)].map((_, index) => (
+                <img
+                  key={index}
+                  src={
+                    index < (diary?.consumerStars ?? 0)
+                      ? YellowStarIcon
+                      : GreyStarIcon
+                  }
+                  alt="star"
+                  className="w-[35px] h-[31px] cursor-pointer"
+                  onClick={() =>
+                    setDiary((diary) => ({
+                      ...diary,
+                      consumerStars: index + 1,
+                    }))
+                  }
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 소비 이유 (수정 불가능한 회색 텍스트) */}
+        {/* 소비 이유 */}
         <div className="mt-[8px] bg-white min-w-[371px] max-w-[371px] w-full rounded-15 p-[15px] shadow-md box-border">
-          <p className="text-15 font-PDSemibold text-[#7C838D]">소비 이유</p>
-          <p className="mt-[8px] text-button font-PDSemibold">
-            {diaryData.reason}
-          </p>
+          {isLoading ? (
+            <p className="text-[15px] font-PDSemibold text-[#7C838D]">
+              로딩 중...
+            </p>
+          ) : (
+            <>
+              <p className="text-[15px] font-PDSemibold text-[#7C838D]">
+                소비 이유
+              </p>
+              <p className="mt-[8px] text-button font-PDSemibold">
+                {diary?.firstReview || "소비 이유 없음"}
+              </p>
+            </>
+          )}
         </div>
 
         {/* ✅ 소비 일기 (76자 제한, 포커스 시 테두리 표시) */}
@@ -88,19 +144,29 @@ const DiaryEditPage = () => {
             isFocused ? "border border-toss" : ""
           }`}
         >
-          <p className="text-15 font-PDSemibold text-[#7C838D]">소비 일기</p>
-          <textarea
-            className="w-full mt-[8px] bg-extraButton text-userBlack font-PDSemibold border-none outline-none resize-none h-[100px]"
-            placeholder="소비 일기를 입력하세요."
-            value={diaryData.diary}
-            onChange={handleChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            maxLength={200} // ✅ 글자 수 제한
-          />
-          <p className="text-right text-[#7C838D] text-sm mt-1">
-            {diaryData.diary.length} / 200
-          </p>
+          {isLoading ? (
+            <p className="text-[15px] font-PDSemibold text-[#7C838D]">
+              로딩 중...
+            </p>
+          ) : (
+            <>
+              <p className="text-[15px] font-PDSemibold text-[#7C838D]">
+                소비 일기
+              </p>
+              <textarea
+                className="w-full mt-[8px] bg-extraButton text-userBlack font-PDSemibold border-none outline-none resize-none h-[100px]"
+                placeholder="소비 일기를 입력하세요."
+                value={diary?.detailDiary || ""}
+                onChange={handleChange}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                maxLength={200} // ✅ 글자 수 제한
+              />
+              <p className="text-right text-[#7C838D] text-sm mt-1">
+                {diary?.detailDiary?.length || 0} / 200
+              </p>
+            </>
+          )}
         </div>
 
         {/* 등록 버튼 */}
