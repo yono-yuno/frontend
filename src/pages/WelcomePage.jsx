@@ -2,14 +2,18 @@ import React from "react";
 import "../styles/style.css";
 import "../styles/index.css";
 import YunoFlower from "../assets/YunoFlower.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SETUP_PAGE_PATH } from "../constants/Paths";
 
 const WelcomePage = () => {
   const navigate = useNavigate();
+  const { userId } = useParams();
+  const { userName } = useParams();
+
   const handleMoveToSetupPage = () => {
-    navigate(SETUP_PAGE_PATH);
+    navigate(SETUP_PAGE_PATH.replace(":userId", userId));
   };
+
   return (
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}
@@ -21,7 +25,7 @@ const WelcomePage = () => {
       {/* 텍스트 영역 */}
       <div className="mt-[54px] text-center text-20 leading-tight font-PDMedium ">
         <p className="text-black">
-          반가워요. <span className="text-toss">홍길동</span>님!
+          반가워요. <span className="text-toss">{userName}</span>님!
         </p>
         <p className="text-black">
           저는 <span className="text-toss">요노 생활</span>을 도와드릴 비서,

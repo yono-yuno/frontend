@@ -3,14 +3,31 @@ import "../styles/style.css";
 import "../styles/index.css";
 import YunoHeart from "../assets/YunoHeart.png";
 import YunoLogo from "../assets/YunoLogo.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
+import { api } from "../apis/api";
 
 const SetupCompletePage = () => {
   const navigate = useNavigate();
-  const handleMoveToMainPage = () => {
-    navigate(MAIN_PAGE_PATH);
+  const { userId } = useParams();
+
+  const handleMoveToMainPage = async () => {
+    try {
+      const res = await api.get(`/user?userId=${userId}`);
+
+      if (res.data.isSuccess) {
+        navigate(
+          MAIN_PAGE_PATH.replace(":userId", res.data.userInfo.userId).replace(
+            ":userName",
+            res.data.userInfo.userName
+          )
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}

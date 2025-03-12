@@ -5,9 +5,10 @@ import YunoWarning from "../assets/YunoWarning.png";
 import GuideBook from "../assets/GuideBook.png";
 import MoneyIcon from "../assets/MoneyIcon.png";
 import TimeIcon from "../assets/TimeIcon.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SETUPCOMPLETE_PAGE_PATH } from "../constants/Paths";
 import Button from "../components/Button";
+import { api } from "../apis/api";
 
 const dayOptions = [
   { id: 0, name: "00" },
@@ -22,15 +23,31 @@ for (let i = 1; i < 24; i++) {
 
 const SetupPage = () => {
   const navigate = useNavigate();
-  const handleMoveToSetupCompletePage = () => {
-    navigate(SETUPCOMPLETE_PAGE_PATH);
-  };
+  const { userId } = useParams();
+
   const [isFocused, setIsFocused] = useState(false);
   const [selectedDayOption, setSelectedDayOption] = useState(dayOptions[0]);
   const [selectedHourOption, setSelectedHourOption] = useState(hourOptions[0]);
   const [isOpen, setIsOpen] = useState(false); // 팝업 상태 추가
   const [isvalid, setIsvalid] = useState(false);
   const [overPrice, setOverPrice] = useState(0);
+
+  const handleMoveToSetupCompletePage = async () => {
+    try {
+      const res = await api.put("/user", {
+        userId,
+        overPrice,
+        settingTime: selectedDayOption.name + selectedHourOption.name,
+      });
+
+      if (res.data.isSuccess) {
+        navigate(SETUPCOMPLETE_PAGE_PATH.replace(":userId", userId));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleOverPriceFormat = (e) => {
     const rawValue = e.target.value.replace(/[^0-9]/g, "");
     setOverPrice(rawValue);
