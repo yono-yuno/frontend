@@ -19,10 +19,10 @@ const categoryDataList = [
   { id: 4, title: "전자제품", icon: ElectronicsCategoryIcon },
   { id: 5, title: "뷰티", icon: BeautyCategoryIcon },
   { id: 6, title: "의류", icon: ClothesCategoryIcon },
-  { id: 7, title: "여행/취미", icon: HobbyCategoryIcon },
+  { id: 7, title: "여행 · 취미", icon: HobbyCategoryIcon },
   { id: 8, title: "스포츠", icon: SportCategoryIcon },
   { id: 9, title: "도서", icon: BookCategoryIcon },
-  { id: 10, title: "출산/육아", icon: BabyCategoryIcon },
+  { id: 10, title: "출산 · 육아", icon: BabyCategoryIcon },
   { id: 11, title: "인테리어", icon: InteriorCategoryIcon },
 ];
 

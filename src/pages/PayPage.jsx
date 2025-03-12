@@ -61,7 +61,7 @@ const PayPage = () => {
     overprice: 10009000,
     balance: 1000000,
     accountNum: 123456789000,
-    status: 0,
+    status: 1,
     brandName: "토스 요노쇼핑",
     itemName: "Marshal WOBURN3 블루투스 스피커",
     price: 855000,
