@@ -128,7 +128,7 @@ const ThinkPayPage = () => {
                             Number(item.extraTime.slice(3, 5)) * 60 +
                             Number(item.extraTime.slice(6, 8)))
                         }
-                        askCount={2}
+                        askCount={item.askCount + 1}
                       />
                     </div>
                   ) : (
