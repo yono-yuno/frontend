@@ -16,7 +16,7 @@ import {
   MAIN_PAGE_PATH,
   PAID_PAGE_PATH,
   SHOP_PAGE_PATH,
-  PAYRECORD_PAGE_PATH,
+  THINKPAY_PAGE_PATH,
 } from "../constants/Paths";
 import { api } from "../apis/api";
 
@@ -66,7 +66,7 @@ const PayPage = () => {
   };
   const handleGotoThinking = () => {
     navigate(
-      PAYRECORD_PAGE_PATH.replace(":userId", userId).replace(
+      THINKPAY_PAGE_PATH.replace(":userId", userId).replace(
         ":userName",
         userName
       )
