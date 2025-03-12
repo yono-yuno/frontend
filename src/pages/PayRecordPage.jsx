@@ -11,13 +11,12 @@ import ItemInfo from "../components/ItemInfo";
 import { api } from "../apis/api";
 
 const PayRecordPage = () => {
-  const { userId } = useParams();
+  const { userId, userName } = useParams();
   const [isLoading, setLoading] = useState(true);
   const [diaryData, setDiaryData] = useState([]);
+  const [selectedCategory, setSeletedCategory] = useState("전체");
 
   const navigate = useNavigate();
-
-  const [selectedCategory, setSeletedCategory] = useState("전체");
 
   const getDiaryList = async (userId, category) => {
     setLoading(true);
@@ -47,11 +46,16 @@ const PayRecordPage = () => {
     navigate(DIARYEDIT_PAGE_PATH.replace(":diaryId", diary.diaryId));
   };
 
+  const handleGoToHomePage = () => {
+    navigate(
+      MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
+  };
   return (
     <div className="flex flex-col h-screen w-full bg-background overflow-y-auto">
       {/* ✅ 헤더 */}
       <div className="bg-background w-full">
-        <Header text="결제 기록" onClick={() => navigate(MAIN_PAGE_PATH)} />
+        <Header text="결제 기록" onClick={() => handleGoToHomePage()} />
       </div>
 
       {/* ✅ 카테고리 리스트 */}
@@ -85,18 +89,14 @@ const PayRecordPage = () => {
               <div className="flex justify-center mt-[21px]">
                 <button
                   className={`w-[149px] h-[48px] rounded-15 text-18 font-PDRegular ${
-                    diary.detailDiary && diary.detailDiary.trim() !== ""
+                    diary.detailDiary?.trim()
                       ? "bg-[#F3F4F6] text-button"
                       : "bg-extraButton text-toss"
                   }`}
-                  disabled={
-                    !diary.detailDiary || diary.detailDiary.trim() === ""
-                  }
+                  disabled={diary.detailDiary?.trim()}
                   onClick={() => handleGoToDiaryEdit(diary)}
                 >
-                  {diary.detailDiary && diary.detailDiary.trim() !== ""
-                    ? "일기 작성 완료"
-                    : "일기 작성"}
+                  {!diary.detailDiary?.trim() ? "일기 작성" : "일기 작성 완료"}
                 </button>
 
                 <button
