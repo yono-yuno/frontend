@@ -22,12 +22,13 @@ const ThinkPayPage = () => {
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState([]);
   const [settingTime, setSettingTime] = useState("");
+  const [sort, setSort] = useState("latest");
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const [cartRes, userRes] = await Promise.all([
-        api.get(`/cart/all?userId=${userId}`),
+        api.get(`/cart/all?userId=${userId}&sort=${sort}`),
         api.get(`/user?userId=${userId}`),
       ]);
 
@@ -51,8 +52,6 @@ const ThinkPayPage = () => {
     }
   }, [userId]);
 
-  const [sort, setSort] = useState("latest");
-
   const handleBackButton = () => {
     navigate(
       MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
@@ -65,10 +64,23 @@ const ThinkPayPage = () => {
         .replace(":cartId", cartId)
     );
   };
+  const handleSort = (selected) => {
+    setSort(SORT_MAP[selected]);
+    fetchData();
+  };
 
   // 🏷️ 결제 취소 버튼 클릭 시 해당 아이템 삭제
-  const handleCancelPayment = () => {
-    // setItemList(itemList.filter((item) => item.id !== id));
+  const handleCancelPayment = async (cartId) => {
+    try {
+      const response = await api.put("/cart", {
+        cartId,
+        askCount: 3,
+      });
+      console.log("업데이트 성공:", response.data);
+      fetchData();
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
   };
 
   return (
@@ -81,7 +93,7 @@ const ThinkPayPage = () => {
           <div className="flex-none px-4 pt-3 text-15">
             <Dropdown
               selectedSort={sort}
-              onChangeSort={(selected) => setSort(SORT_MAP[selected])}
+              onChangeSort={(selected) => handleSort(selected)}
             />
           </div>
 
@@ -147,7 +159,7 @@ const ThinkPayPage = () => {
                   )}
                   <div className="mr-[17px]">
                     <button
-                      onClick={() => handleCancelPayment(item.id)}
+                      onClick={() => handleCancelPayment(item.cartId)}
                       className="bg-[#FC6767] text-white font-PDRegular !text-[18px] rounded-15 w-[116px] h-[48px]"
                     >
                       결제 취소

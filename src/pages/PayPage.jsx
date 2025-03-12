@@ -199,23 +199,21 @@ const PayPage = () => {
       <div className="flex flex-col items-center justify-center mt-[110px]">
         <div className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[19px] font-PDLight text-20">
           <button
-            onClick={() =>
-              userData.askCount == 1 ? handleGotoMain : handleGotoPaid
-            }
+            onClick={cartItem.askCount == 1 ? handleGotoMain : handleGotoPaid}
             className={`flex justify-center items-center w-[129px] h-buttonHeight rounded-15 ${
-              userData.askCount == 1 ? "bg-lightRed" : "bg-extraButton"
-            } ${userData.askCount == 1 ? "text-white" : "text-toss"}`}
+              cartItem.askCount == 1 ? "bg-lightRed" : "bg-extraButton"
+            } ${cartItem.askCount == 1 ? "text-white" : "text-toss"}`}
           >
             <p>{payStatus.button1Text}</p>
           </button>
           <button
-            onClick={userData.askCount == 1 ? handleGotoPaid : updateAskCount}
+            onClick={cartItem.askCount == 1 ? handleGotoPaid : updateAskCount}
             className={`flex justify-center items-center w-[203px] h-[59px] rounded-15 gap-[6px] bg-toss text-white`}
           >
             <img
               src={payStatus.button2Img}
               className={
-                userData.askCount == 1
+                cartItem.askCount == 1
                   ? "w-[30px] h-[30px]"
                   : "w-[23px] h-[27px]"
               }
@@ -223,7 +221,7 @@ const PayPage = () => {
             <p>{payStatus.button2Text}</p>
           </button>
         </div>
-        {userData.askCount == 1 ? (
+        {cartItem.askCount == 1 ? (
           <div className="flex justify-center items-center gap-[5px] w-[300px] h-[27px] text-[13px] leading-tight">
             <img src={Check} className="w-[17px] h-[17px]" />
             <p className="font-PDSemibold text-toss">필수</p>
