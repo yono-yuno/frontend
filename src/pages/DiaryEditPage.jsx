@@ -57,9 +57,18 @@ const DiaryEditPage = () => {
   };
 
   // ✅ 등록 후 PayRecord 페이지로 이동
-  const handleSave = () => {
-    if (!isFullyEntered) return;
-    navigate(PAYRECORD_PAGE_PATH);
+  const handleSave = async () => {
+    try {
+      const response = await api.put("/diary", {
+        diaryId: diary.diaryId,
+        consumerStars: diary.consumerStars,
+        detailDiary: diary.detailDiary,
+      });
+      console.log("업데이트 성공:", response.data);
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+    navigate(PAYRECORD_PAGE_PATH.replace(":userId", diary.userId));
   };
 
   return (
@@ -156,7 +165,7 @@ const DiaryEditPage = () => {
               <textarea
                 className="w-full mt-[8px] bg-extraButton text-userBlack font-PDSemibold border-none outline-none resize-none h-[100px]"
                 placeholder="소비 일기를 입력하세요."
-                value={diary?.detailDiary || ""}
+                value={diary?.detailDiary || null}
                 onChange={handleChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
@@ -171,7 +180,7 @@ const DiaryEditPage = () => {
 
         {/* 등록 버튼 */}
         <button
-          onClick={handleSave}
+          onClick={() => handleSave()}
           className={`w-[371px] h-[48px] rounded-lg text-white text-16 flex items-center justify-center mt-5 ${
             isFullyEntered ? "bg-blue-500" : "bg-gray-300 cursor-not-allowed"
           }`}
