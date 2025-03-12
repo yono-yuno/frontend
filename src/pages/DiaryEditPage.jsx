@@ -101,7 +101,7 @@ const DiaryEditPage = () => {
         </div>
 
         {/* 별점 박스 */}
-        <div className="mt-[25px] bg-white min-w-[371px] max-w-[371px] h-[75px] rounded-15 p-[15px] shadow-md box-border flex justify-center items-center">
+        <div className="mt-[25px] bg-extraButton min-w-[371px] max-w-[371px] h-[75px] rounded-15 p-[15px] shadow-md box-border flex justify-center items-center">
           {isLoading ? (
             <p className="text-[16px] font-PDRegular text-black">로딩 중...</p>
           ) : (
