@@ -4,7 +4,9 @@ import PayIcon from "../assets/PayIcon.png";
 const PayAlarm = (props) => {
   return (
     <button onClick={props.onClick} className="mb-[15px]">
-      <div className="flex flex-col w-width h-[98px] pt-[12px] pl-[11px] pr-[13px] rounded-15 shadow-md bg-white">
+      <div
+        className={`flex flex-col w-width h-[98px] pt-[12px] pl-[11px] pr-[13px] rounded-15 shadow-md bg-${props.color}`}
+      >
         <div className="flex justify-between">
           <div className="flex items-center">
             <img src={PayIcon} className="w-[22px] h-[22px] pr-[6px]" />
@@ -21,8 +23,8 @@ const PayAlarm = (props) => {
         <div className="flex flex-col items-start pl-[22px] pt-[6px]">
           <p className="font-PDMedium text-16 text-black leading-tight">
             [
-            {props.title.length > 27
-              ? `${props.title.slice(0, 27)}...`
+            {props.title.length > 26
+              ? `${props.title.slice(0, 26)}...`
               : props.title}
             ]
           </p>

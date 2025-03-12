@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Listbox } from "@headlessui/react";
 import Header from "../components/Header";
-import Profile from "../assets/Profile.png";
+import Profile from "../assets/BlackCat.png";
 import SettingDropUp from "../assets/SettingDropUp.png";
 import SettingDropDown from "../assets/SettingDropDown.png";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
+import { api } from "../apis/api";
 
 const dayOptions = [
   { id: 0, name: "00" },
@@ -15,10 +16,14 @@ const dayOptions = [
 
 const hourOptions = [];
 for (let i = 0; i < 24; i++) {
-  hourOptions.push({ id: i, name: String(i).padStart(2, "0") });
+  hourOptions.push({
+    id: String(i).padStart(2, "0"),
+    name: String(i).padStart(2, "0"),
+  });
 }
 
 const SettingPage = () => {
+  const { userId, userName } = useParams();
   const [overpriceSetting, setOverpriceSetting] = useState(false);
   const [alarmSetting, setAlarmSetting] = useState(false);
   const [selectedDayOption, setSelectedDayOption] = useState(dayOptions[0]);
@@ -26,9 +31,13 @@ const SettingPage = () => {
   const [overPrice, setOverPrice] = useState(0);
   const navigate = useNavigate();
   const [overPriceFocused, setOverPriceFocused] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState([]);
 
   const handleBackButton = () => {
-    navigate(MAIN_PAGE_PATH);
+    navigate(
+      MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
   };
 
   const handleLogout = () => {
@@ -47,6 +56,67 @@ const SettingPage = () => {
     const rawValue = e.target.value.replace(/[^0-9]/g, "");
     setOverPrice(rawValue);
   };
+  const fetchData = () => {
+    const fetchData = async () => {
+      setLoading(true); // 🔹 로딩 시작
+
+      try {
+        const [userRes] = await Promise.all([
+          api.get(`/user?userId=${userId}`),
+        ]);
+
+        if (userRes.data.isSuccess) {
+          setUserData(userRes.data.userInfo);
+          setSelectedDayOption({
+            id: userRes.data.userInfo.settingTime.slice(1, 2),
+            name: userRes.data.userInfo.settingTime.slice(0, 2),
+          });
+          setSelectedHourOption({
+            id: userRes.data.userInfo.settingTime.slice(2, 4),
+            name: userRes.data.userInfo.settingTime.slice(2, 4),
+          });
+        }
+      } catch (error) {
+        console.error("❌ API 요청 실패:", error);
+      } finally {
+        setLoading(false); // 🔹 모든 요청이 끝난 후 로딩 해제
+      }
+    };
+
+    fetchData();
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const updateOverPrice = async () => {
+    try {
+      const response = await api.put("/user", {
+        userId: userId,
+        overPrice: overPrice,
+        settingTime: userData.settingTime,
+      });
+      console.log("업데이트 성공:", response.data);
+      fetchData();
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+  const updateSettingTime = async () => {
+    try {
+      const response = await api.put("/user", {
+        userId: userId,
+        overPrice: userData.overPrice,
+        settingTime: selectedDayOption.name + selectedHourOption.name,
+      });
+      console.log("업데이트 성공:", response.data);
+      fetchData();
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+
   return (
     <div className="w-full h-full bg-background">
       <Header onClick={handleBackButton} text={"설정"} />
@@ -55,10 +125,15 @@ const SettingPage = () => {
           <img src={Profile} className="w-[65px] h-[65px] mr-[9px]" />
           <div>
             <p className="font-PDRegular text-15 leading-tight text-black">
-              홍길동
+              {userName}
             </p>
             <p className="mt-[2px] font-PDRegular text-[13px] leading-tight text-button">
-              010-1234-1234
+              {loading
+                ? ""
+                : userData.phoneNum.replace(
+                    /^(\d{2,3})(\d{3,4})(\d{4})$/,
+                    `$1-$2-$3`
+                  )}
             </p>
           </div>
         </div>
@@ -109,7 +184,7 @@ const SettingPage = () => {
                       onChange={handleOverPriceFormat}
                       onFocus={() => setOverPriceFocused(true)}
                       onBlur={() => setOverPriceFocused(false)}
-                      placeholder="1,000,000"
+                      placeholder={userData.overPrice.toLocaleString()}
                       className="w-[200px] h-[46px] rounded-15 bg-white ring-[2px] ring-[#ECEEEF] font-PDMedium text-20 pl-[14px] text-black placeholder:text-[#B4B6B8] focus:outline-none focus:bg-[#F6F9FF] focus:ring-toss focus:text-toss"
                     />
                     <p className="pl-[5px] font-PDMedium text-20 text-black">
@@ -117,7 +192,10 @@ const SettingPage = () => {
                     </p>
                   </div>
 
-                  <button className="w-[76px] h-[46px] rounded-15 bg-toss font-PDRegular text-[18px] text-white">
+                  <button
+                    onClick={updateOverPrice}
+                    className="w-[76px] h-[46px] rounded-15 bg-toss font-PDRegular text-[18px] text-white"
+                  >
                     확인
                   </button>
                 </div>
@@ -148,12 +226,10 @@ const SettingPage = () => {
                 <p className="mt-[21px]  ml-[24px] font-PDRegular text-16 text-toss">
                   알림 간격 설정하기
                 </p>
-                <button>
-                  <img
-                    src={SettingDropDown}
-                    className="w-[19px] h-[10px] mr-[24px] mt-[27px]"
-                  />
-                </button>
+                <img
+                  src={SettingDropDown}
+                  className="w-[19px] h-[10px] mr-[24px] mt-[27px]"
+                />
               </button>
               <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
                 <div className="flex justify-start w-[320px]">
@@ -236,7 +312,10 @@ const SettingPage = () => {
                     </Listbox>
                     <p className="font-PDMedium text-20 text-black">시간</p>
                   </div>
-                  <button className="w-[76px] h-[46px] ml-[23px] rounded-15 bg-toss font-PDRegular text-[18px] text-white">
+                  <button
+                    onClick={updateSettingTime}
+                    className="w-[76px] h-[46px] ml-[23px] rounded-15 bg-toss font-PDRegular text-[18px] text-white"
+                  >
                     확인
                   </button>
                 </div>

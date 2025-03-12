@@ -9,9 +9,27 @@ import {
   Filler,
 } from "chart.js";
 
-const LineChart = () => {
+const LineChart = (props) => {
   const chartRef = useRef(null);
   let chartInstance = null;
+  let thisMonthData = [];
+  let lastMonthData = [];
+
+  const getThisMonthData = () => {
+    for (let i = 0; i < props.thisDay; i++) {
+      thisMonthData.push(props.data[i].curr);
+    }
+  };
+  const getLastMonthData = () => {
+    for (let i = 0; i < props.data.length; i++) {
+      lastMonthData.push(props.data[i].prev);
+    }
+  };
+
+  useEffect(() => {
+    getThisMonthData();
+    getLastMonthData();
+  }, []);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
@@ -25,16 +43,6 @@ const LineChart = () => {
         LineElement,
         Filler
       );
-
-      const thisMonthData = [
-        0, 20, 30, 40, 50, 60, 60, 80, 120, 150, 150, 150, 160, 200, 210, 212,
-        220, 600,
-      ];
-      const lastMonthData = [
-        0, 20, 40, 40, 50, 60, 70, 80, 100, 150, 150, 180, 200, 200, 210, 212,
-        280, 300, 301, 302, 303, 314, 320, 340, 350, 355, 355, 360, 410, 420,
-        480,
-      ];
 
       const pointRadius = (data) =>
         data.map((_, index) => (index === data.length - 1 ? 3 : 0));
@@ -84,7 +92,7 @@ const LineChart = () => {
               pointBackgroundColor: "#FC6767", // 반투명한 빨간색
               pointRadius: pointRadius(thisMonthData), // 포인트 크기
               pointBorderColor: "rgba(252,103,103,0.3)", // 테두리 색상
-              pointBorderWidth: 10, // 테두리 두께
+              pointBorderWidth: 15, // 테두리 두께
               fill: false, // 라인 그래프에서 영역 채우기 비활성화
               borderWidth: 2.5,
               tension: 0.8,
