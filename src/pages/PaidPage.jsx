@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import GoodPayYuno from "../assets/GoodPayYuno.gif";
 import GreenCheck from "../assets/GreenCheck.png";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PaidPage = () => {
+  const { userId, userName } = useParams();
   const navigate = useNavigate();
   const [isFocused, setIsFocused] = useState(false);
   const [diary, setDiary] = useState("");
 
   const handleFinishButton = () => {
-    navigate(MAIN_PAGE_PATH);
+    navigate(
+      MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
   };
 
   return (

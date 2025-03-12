@@ -58,8 +58,12 @@ const ThinkPayPage = () => {
       MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
     );
   };
-  const handleMoveToPayPage = () => {
-    navigate(PAY_PAGE_PATH);
+  const handleMoveToPayPage = (cartId) => {
+    navigate(
+      PAY_PAGE_PATH.replace(":userId", userId)
+        .replace(":userName", userName)
+        .replace(":cartId", cartId)
+    );
   };
 
   // 🏷️ 결제 취소 버튼 클릭 시 해당 아이템 삭제
@@ -90,7 +94,7 @@ const ThinkPayPage = () => {
                 className="flex flex-col items-center bg-white mb-[10px] w-full h-auto rounded-15 p-[15px] shadow-mds"
               >
                 <p className="mr-[225px] text-16 font-PDRegular">
-                  25.02.20 09:17
+                  {cartItems.createdAt}
                 </p>
                 <div className="mt-[10px]">
                   <Iteminfo
@@ -100,17 +104,17 @@ const ThinkPayPage = () => {
                     price={item.itemInfo.price}
                   />
                 </div>
-                <div>
-                  {console.log(
-                    Number(settingTime.slice(0, 2)) * 24 * 60 +
-                      Number(settingTime.slice(2, 4)) -
-                      (Number(item.extraTime.slice(0, 2)) * 24 * 60 +
-                        Number(item.extraTime.slice(3, 5)) * 60 +
-                        Number(item.extraTime.slice(6, 8)))
-                  )}
-                </div>
+                <div></div>
                 <div className="flex justify-between items-center mt-[10px] w-full h-[51px]">
-                  {Math.floor(item.totalTime / 2) * 60 > item.elapsedTime ? (
+                  {((Number(settingTime.slice(0, 2)) * 24 +
+                    Number(settingTime.slice(2, 4))) /
+                    2) *
+                    60 >
+                  Number(settingTime.slice(0, 2)) * 24 * 60 +
+                    Number(settingTime.slice(2, 4)) * 60 -
+                    (Number(item.extraTime.slice(0, 2)) * 24 * 60 +
+                      Number(item.extraTime.slice(3, 5)) * 60 +
+                      Number(item.extraTime.slice(6, 8))) ? (
                     <div className="flex-1 ml-[16px]">
                       <ProgressBar
                         totalTime={
@@ -119,16 +123,17 @@ const ThinkPayPage = () => {
                         }
                         elapsedTime={
                           Number(settingTime.slice(0, 2)) * 24 * 60 +
-                          Number(settingTime.slice(2, 4)) -
+                          Number(settingTime.slice(2, 4)) * 60 -
                           (Number(item.extraTime.slice(0, 2)) * 24 * 60 +
                             Number(item.extraTime.slice(3, 5)) * 60 +
                             Number(item.extraTime.slice(6, 8)))
                         }
+                        askCount={2}
                       />
                     </div>
                   ) : (
                     <button
-                      onClick={handleMoveToPayPage}
+                      onClick={() => handleMoveToPayPage(item.cartId)}
                       className="flex items-center justify-center bg-toss rounded-15 w-[173px] h-[48px]  ml-[14px]"
                     >
                       <img

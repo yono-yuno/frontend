@@ -17,5 +17,5 @@ export const DIARYEDIT_PAGE_PATH = "/diary/edit";
 
 export const MAIN_PAGE_PATH = "/main/:userId/:userName";
 
-export const PAY_PAGE_PATH = "/pay";
-export const PAID_PAGE_PATH = "/paid";
+export const PAY_PAGE_PATH = "/pay/:userId/:userName/:cartId";
+export const PAID_PAGE_PATH = "/paid/:userId/:userName";

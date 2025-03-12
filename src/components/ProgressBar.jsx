@@ -1,48 +1,40 @@
 import React, { useState, useEffect } from "react";
 
-const ProgressBar = ({ totalTime, elapsedTime }) => {
-  const initialProgress = 100 / 3; // 첫 번째 칸이 채워진 상태 (1/3)
+const ProgressBar = ({ totalTime, elapsedTime, askCount }) => {
+  const initialProgress = (100 / 3) * askCount; // 첫 번째 칸이 채워진 상태 (1/3)
   const [progress, setProgress] = useState(initialProgress);
   const [remainingTime, setRemainingTime] = useState(
-    (totalTime - elapsedTime) * 60
+    (totalTime * 60) / 2 - elapsedTime
   ); // 남은 시간 (분 단위)
+  const [days, setDays] = useState(Math.floor(remainingTime / 1440)); // 1일 = 1440분
+  const [hours, setHours] = useState(Math.floor((remainingTime % 1440) / 60));
+  const [minutes, setMinutes] = useState(Math.floor(remainingTime % 60));
 
   useEffect(() => {
-    if (totalTime < 1 || totalTime > 71) return; // 최소 1시간, 최대 47시간 제한
-
-    const startTime = Date.now() - elapsedTime * 60 * 1000; // 경과 시간 반영
-    const endTime = startTime + totalTime * 60 * 60 * 1000; // 종료 시간 계산
+    if (totalTime < 1 || totalTime > 71) return; // 최소 1시간, 최대 71시간 제한
 
     const updateProgress = () => {
-      const currentTime = Date.now();
-      const elapsed = currentTime - startTime;
-      const totalDuration = endTime - startTime;
+      const elapsed = elapsedTime;
+      const totalDuration = (totalTime * 60) / 2;
 
-      // 현재 경과 시간을 반영하여 게이지 업데이트
+      //현재 경과 시간을 반영하여 게이지 업데이트
+      console.log(elapsed, totalDuration);
       const newProgress = Math.min(
-        (elapsed / totalDuration) * (100 - initialProgress) + initialProgress,
+        (elapsed / totalDuration) * 100 * (1 / 3) + initialProgress,
         100
       );
       setProgress(newProgress);
-
-      // 남은 시간 계산 (분 단위)
-      const remainingMinutes = Math.max(
-        (endTime - currentTime) / (1000 * 60),
-        0
-      );
-      setRemainingTime(Math.floor(remainingMinutes));
+      // 남은 시간을 "일/시간/분" 형식으로 변환
     };
+    setDays(Math.floor(remainingTime / 1440)); // 1일 = 1440분
+    setHours(Math.floor((remainingTime % 1440) / 60));
+    setMinutes(Math.floor(remainingTime % 60));
 
     updateProgress(); // 초기 실행
     const interval = setInterval(updateProgress, 60 * 1000); // 1분마다 업데이트
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
   }, [totalTime, elapsedTime]);
-
-  // 남은 시간을 "일/시간/분" 형식으로 변환
-  const days = Math.floor(remainingTime / 1440); // 1일 = 1440분
-  const hours = Math.floor((remainingTime % 1440) / 60);
-  const minutes = remainingTime % 60;
 
   return (
     <div className="flex flex-col mt-[21px] w-[173px] h-[69px]">
@@ -58,7 +50,7 @@ const ProgressBar = ({ totalTime, elapsedTime }) => {
 
         {/* 프로그레스 바 */}
         <div
-          className="h-full bg-blue-500 rounded-full transition-all duration-500 relative z-0"
+          className="h-full bg-blue-500 rounded-[5px] transition-all duration-500 relative z-0"
           style={{ width: `${progress}%` }}
         />
       </div>

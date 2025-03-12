@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import CategoryList from "../components/CategoryList";
 import Item from "../components/Item";
@@ -17,6 +17,7 @@ const SORT_MAP = {
 
 const ShopPage = () => {
   const navigate = useNavigate();
+  const { userId, userName } = useParams();
   const [itemList, setItemList] = useState([]);
   const [category, setCategory] = useState("전체");
   const [sort, setSort] = useState("latest");
@@ -51,7 +52,9 @@ const ShopPage = () => {
   }, [category, sort]);
 
   const handleBackButton = () => {
-    navigate(MAIN_PAGE_PATH);
+    navigate(
+      MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
   };
 
   const handleItemClick = (itemId) => {
