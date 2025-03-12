@@ -84,13 +84,25 @@ const MainPage = () => {
     );
   };
   const handleShop = () => {
-    navigate(SHOP_PAGE_PATH);
+    navigate(
+      SHOP_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
   };
   const handleThinkPay = () => {
-    navigate(THINKPAY_PAGE_PATH);
+    navigate(
+      THINKPAY_PAGE_PATH.replace(":userId", userId).replace(
+        ":userName",
+        userName
+      )
+    );
   };
   const handlePayRecord = () => {
-    navigate(PAYRECORD_PAGE_PATH);
+    navigate(
+      PAYRECORD_PAGE_PATH.replace(":userId", userId).replace(
+        ":userName",
+        userName
+      )
+    );
   };
 
   useEffect(() => {

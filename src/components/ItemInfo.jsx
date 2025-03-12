@@ -9,9 +9,9 @@ const ItemInfo = (props) => {
       />
       <div className="flex flex-col items-start justify-center gap-[8px] font-PDMedium text-16 leading-tight">
         <p>{props.brandName}</p>
-        <p className="font-PDLight">
-          {props.itemName.length > 24
-            ? `${props.itemName.slice(0, 23)}...`
+        <p className="font-PDLight w-[242px]">
+          {props.itemName.length > 20
+            ? `${props.itemName.slice(0, 20)}...`
             : props.itemName}
         </p>
         <p className={`text-${props.priceColor}`}>

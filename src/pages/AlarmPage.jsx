@@ -9,7 +9,7 @@ import { api } from "../apis/api";
 const AlarmPage = () => {
   const navigate = useNavigate();
   const { userId, userName } = useParams();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [alarmData, setAlarmData] = useState([]);
 
   const handleBackButton = () => {
