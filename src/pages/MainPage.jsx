@@ -90,7 +90,7 @@ const MainPage = () => {
     navigate(THINKPAY_PAGE_PATH);
   };
   const handlePayRecord = () => {
-    navigate(PAYRECORD_PAGE_PATH);
+    navigate(PAYRECORD_PAGE_PATH.replace(":userId", userId));
   };
 
   useEffect(() => {
