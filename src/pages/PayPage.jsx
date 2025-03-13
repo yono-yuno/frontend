@@ -70,7 +70,6 @@ const PayPage = () => {
     );
   };
   const handleGotoPaid = () => {
-    updateAskCount();
     navigate(
       PAID_PAGE_PATH.replace(":userId", userId)
         .replace(":userName", userName)
@@ -118,6 +117,11 @@ const PayPage = () => {
     updateBuyAskCount();
     handlePay();
     handleGotoPaid();
+  };
+
+  const nextThinking = () => {
+    updateAskCount();
+    handleGotoThinking();
   };
 
   const handleCancle = async () => {
@@ -228,7 +232,7 @@ const PayPage = () => {
           </p>
         </div>
         <button
-          onClick={handleGotoPaid}
+          onClick={handleFinallyPay}
           className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[6px] rounded-15 bg-toss text-white"
         >
           <img src={TossPayIcon} className="w-[30px] h-[30px]" />
@@ -247,7 +251,7 @@ const PayPage = () => {
       <div className="flex flex-col items-center justify-center mt-[110px]">
         <div className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[19px] font-PDLight text-20">
           <button
-            onClick={cartItem.askCount == 1 ? handleCancle : handleGotoPaid}
+            onClick={cartItem.askCount == 1 ? handleCancle : handleFinallyPay}
             disabled={
               cartItem.askCount != 1 && balance < cartItem.itemInfo.price
             }
@@ -260,7 +264,7 @@ const PayPage = () => {
             <p>{payStatus.button1Text}</p>
           </button>
           <button
-            onClick={cartItem.askCount == 1 ? handleFinallyPay : updateAskCount}
+            onClick={cartItem.askCount == 1 ? handleFinallyPay : nextThinking}
             disabled={
               cartItem.askCount == 1 && balance < cartItem.itemInfo.price
             }

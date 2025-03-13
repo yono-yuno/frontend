@@ -27,6 +27,7 @@ const PayFromItemPage = () => {
   const [userData, setUserData] = useState([]);
   const [balance, setBalance] = useState(0);
   const [accountNum, setAccountNum] = useState("");
+  const [accountId, setAccountId] = useState("");
   const wiseSayingList = [
     '"소비는 나의 자유다. 하지만 그 자유는 선택에 달려 있다." — 로버트 키요사키',
     '"사람들은 소비하는 것에 비해 더 많은 것을 소유하려고 한다. 하지만 물건이 아니라 경험을 소유하는 것이 더 중요하다." — 조지 베르나르 쇼',
@@ -55,9 +56,10 @@ const PayFromItemPage = () => {
   };
 
   const handleGotoPaid = () => {
-    updateAskCount();
     navigate(
-      PAID_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+      PAID_PAGE_PATH.replace(":userId", userId)
+        .replace(":userName", userName)
+        .replace(":itemId", itemId)
     );
   };
 
@@ -80,6 +82,23 @@ const PayFromItemPage = () => {
     }
   };
 
+  const handlePay = async () => {
+    try {
+      const response = await api.put("/account", {
+        accountId,
+        balance: balance - item.price,
+      });
+      console.log("업데이트 성공:", response.data);
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+
+  const handleFinallyPay = () => {
+    handlePay();
+    handleGotoPaid();
+  };
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -98,6 +117,7 @@ const PayFromItemPage = () => {
       if (accountRes.data.isSuccess) {
         setBalance(accountRes.data.accountInfo.balance);
         setAccountNum(accountRes.data.accountInfo.accountNum);
+        setAccountId(accountRes.data.accountInfo.accountId);
       }
     } catch (error) {
       console.error("❌ API 요청 실패:", error);
@@ -143,7 +163,7 @@ const PayFromItemPage = () => {
           </p>
         </div>
         <button
-          onClick={handleGotoPaid}
+          onClick={handleFinallyPay}
           className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[6px] rounded-15 bg-toss text-white"
         >
           <img src={TossPayIcon} className="w-[30px] h-[30px]" />

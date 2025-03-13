@@ -19,4 +19,4 @@ export const MAIN_PAGE_PATH = "/main/:userId/:userName";
 
 export const PAY_PAGE_FROM_CART_PATH = "/pay/:userId/:userName/:cartId";
 export const PAY_PAGE_FROM_ITEM_PATH = "/pay/:userId/:userName/item/:itemId";
-export const PAID_PAGE_PATH = "/paid/:userId/:userName";
+export const PAID_PAGE_PATH = "/paid/:userId/:userName/:itemId";
