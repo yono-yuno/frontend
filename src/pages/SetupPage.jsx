@@ -17,20 +17,27 @@ const dayOptions = [
 ];
 
 const hourOptions = [];
-for (let i = 1; i < 24; i++) {
+for (let i = 0; i < 24; i++) {
   hourOptions.push({ id: i, name: String(i).padStart(2, "0") });
 }
 
 const SetupPage = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
-
   const [isFocused, setIsFocused] = useState(false);
   const [selectedDayOption, setSelectedDayOption] = useState(dayOptions[0]);
   const [selectedHourOption, setSelectedHourOption] = useState(hourOptions[0]);
   const [isOpen, setIsOpen] = useState(false); // 팝업 상태 추가
-  const [isvalid, setIsvalid] = useState(false);
+  const [isvalid, setIsValid] = useState(false);
   const [overPrice, setOverPrice] = useState(0);
+
+  useEffect(() => {
+    setIsValid(
+      (selectedDayOption !== dayOptions[0] ||
+        selectedHourOption !== hourOptions[0]) &&
+        overPrice != false
+    );
+  }, [selectedDayOption, selectedHourOption, overPrice]);
 
   const handleMoveToSetupCompletePage = async () => {
     try {
@@ -52,10 +59,6 @@ const SetupPage = () => {
     const rawValue = e.target.value.replace(/[^0-9]/g, "");
     setOverPrice(rawValue);
   };
-
-  useEffect(() => {
-    setIsvalid(overPrice !== 0 && overPrice != "");
-  });
 
   // 포커스 핸들러
   const handleFocus = () => setIsFocused(true);
@@ -119,7 +122,7 @@ const SetupPage = () => {
               {({ open }) => (
                 <div>
                   <Listbox.Button
-                    className={`w-[122px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
+                    className={`w-[122px] h-[46px] rounded-15 pl-[10px] border-[2px] font-PDMedium text-left text-24 text-black  ${
                       open
                         ? "border-toss bg-[#F6F9FF] text-toss"
                         : "border-[#ECEEEF] bg-background"
@@ -154,7 +157,7 @@ const SetupPage = () => {
               {({ open }) => (
                 <div className="relative">
                   <Listbox.Button
-                    className={`w-[122px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
+                    className={`w-[122px] h-[46px] rounded-15 pl-[10px] border-[2px] font-PDMedium text-left text-24 text-black  ${
                       open
                         ? "border-toss bg-[#F6F9FF] text-toss"
                         : "border-[#ECEEEF] bg-background"

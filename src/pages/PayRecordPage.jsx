@@ -67,7 +67,7 @@ const PayRecordPage = () => {
       </div>
 
       {/* ✅ 메인 콘텐츠 영역 */}
-      <main className="flex flex-col px-[10px] pt-[20px] w-full flex-grow">
+      <main className="flex flex-col px-[10px] pt-[20px] pb-[44px] w-full flex-grow">
         {isLoading ? (
           <p className="text-[16px] font-PDRegular text-black">로딩 중...</p>
         ) : (
