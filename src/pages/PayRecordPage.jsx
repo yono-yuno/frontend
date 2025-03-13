@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import CategoryList from "../components/CategoryList";
+
 import {
   MAIN_PAGE_PATH,
   DIARY_PAGE_PATH,
@@ -55,7 +56,7 @@ const PayRecordPage = () => {
     <div className="flex flex-col h-screen w-full bg-background overflow-y-auto">
       {/* ✅ 헤더 */}
       <div className="bg-background w-full">
-        <Header text="결제 기록" onClick={() => handleGoToHomePage()} />
+        <Header text="결제 기록" onClick={handleGoToHomePage} />
       </div>
 
       {/* ✅ 카테고리 리스트 */}
@@ -70,7 +71,7 @@ const PayRecordPage = () => {
       <main className="flex flex-col px-[10px] pt-[20px] w-full flex-grow">
         {isLoading ? (
           <p className="text-[16px] font-PDRegular text-black">로딩 중...</p>
-        ) : (
+        ) : diaryData.length > 0 ? (
           diaryData.map((diary) => (
             <div
               key={diary.diaryId}
@@ -108,6 +109,24 @@ const PayRecordPage = () => {
               </div>
             </div>
           ))
+        ) : (
+          // ✅ 카테고리에 상품이 없을 때 표시할 컴포넌트
+          <div className="flex flex-col items-center justify-center h-full flex-grow">
+            <p className="text-toss text-center text-[20px] font-PDMedium mb-[120px]">
+              {selectedCategory === "전체" ? (
+                <>
+                  <p className="text-toss">
+                    결제 기록<span className="text-black">이 없어요!</span>
+                  </p>
+                </>
+              ) : (
+                <>
+                  {selectedCategory} 카테고리의 결제 기록
+                  <span className="text-black">이 없어요!</span>
+                </>
+              )}
+            </p>
+          </div>
         )}
       </main>
     </div>
