@@ -4,7 +4,11 @@ import YellowStarIcon from "../assets/YellowStarIcon.png";
 const Item = (props) => {
   return (
     <div className="flex flex-col mb-3">
-      <img src={props.img} alt="상품 사진" className="rounded-xl" />
+      <img
+        src={props.img}
+        alt="상품 사진"
+        className="rounded-xl h-[200px] object-cover"
+      />
       <p className="py-2 text-15 font-PDMedium leading-tight">
         {props.itemName}
       </p>

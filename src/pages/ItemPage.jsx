@@ -46,9 +46,13 @@ const ItemPage = () => {
     <div className="flex flex-col h-full relative">
       <Header onClick={handleBackButton} />
       <div
-        className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden mt-3 my-40`}
+        className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden mt-3 pb-28`}
       >
-        <img src={item.itemImg} alt="상품 대표 이미지" />
+        <img
+          src={item.itemImg}
+          alt="상품 대표 이미지"
+          className="w-Hwidth h-[350px] object-contain"
+        />
         <div className="px-4 py-2">
           <p className="text-xs text-gray-400 font-PDMedium">
             {item.brandName}
@@ -83,9 +87,13 @@ const ItemPage = () => {
             </p>
           </div>
         </div>
-        <img src={item.contentImg} alt="상품 상세 이미지" className="py-4" />
+        <img
+          src={item.contentImg}
+          alt="상품 상세 이미지"
+          className="w-Hwidth pt-2"
+        />
       </div>
-      <div className="absolute bottom-0 flex justify-center items-center h-40 w-full bg-gradient-to-b from-transparent to-white from-10% to-25%">
+      <div className="absolute bottom-0 flex justify-center items-center h-40 w-full bg-gradient-to-b from-transparent via-gray-100 to-white from-0% to-50%">
         <Button text="구매하기" onClick={handleMoveToPay} />
       </div>
     </div>
