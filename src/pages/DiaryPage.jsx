@@ -70,19 +70,12 @@ const DiaryPage = () => {
           <div className="flex gap-[17px]">
             {[...Array(5)].map((_, index) => (
               <img
+                className="w-[35px] h-[31px] cursor-pointer"
                 key={index}
                 src={
                   index < (diary?.consumerStars ?? 0)
                     ? YellowStarIcon
                     : GreyStarIcon
-                }
-                alt="star"
-                className="w-[35px] h-[31px] cursor-pointer"
-                onClick={() =>
-                  setDiary((diary) => ({
-                    ...diary,
-                    consumerStars: index + 1,
-                  }))
                 }
               />
             ))}
