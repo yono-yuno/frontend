@@ -70,19 +70,12 @@ const DiaryPage = () => {
           <div className="flex gap-[17px]">
             {[...Array(5)].map((_, index) => (
               <img
+                className="w-[35px] h-[31px] cursor-pointer"
                 key={index}
                 src={
                   index < (diary?.consumerStars ?? 0)
                     ? YellowStarIcon
                     : GreyStarIcon
-                }
-                alt="star"
-                className="w-[35px] h-[31px] cursor-pointer"
-                onClick={() =>
-                  setDiary((diary) => ({
-                    ...diary,
-                    consumerStars: index + 1,
-                  }))
                 }
               />
             ))}
@@ -113,7 +106,7 @@ const DiaryPage = () => {
         </div>
 
         {/* 소비 일기 박스 */}
-        <div className="mt-[8px] bg-white min-w-[371px] max-w-[371px] h-[173px] w-full rounded-15 p-[15px] shadow-md box-border">
+        <div className="mt-[8px] bg-white min-w-[371px] max-w-[371px] h-[173px] w-full rounded-15 p-[15px] shadow-md box-border overflow-y-auto break-words">
           <p className="text-[15px] font-PDSemibold text-[#7C838D]">
             소비 일기
           </p>
