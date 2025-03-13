@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
-import { PAYRECORD_PAGE_PATH } from "../constants/Paths";
+import { PAYRECORD_PAGE_PATH, DIARY_PAGE_PATH } from "../constants/Paths";
 import Iteminfo from "../components/ItemInfo";
 import YellowStarIcon from "../assets/YellowStarIcon.png";
 import GreyStarIcon from "../assets/GreyStarIcon.png";
@@ -55,6 +55,9 @@ const DiaryEditPage = () => {
       }));
     }
   };
+  const handleBack = async () => {
+    navigate(DIARY_PAGE_PATH.replace(":diaryId", diary.diaryId));
+  };
 
   // ✅ 등록 후 PayRecord 페이지로 이동
   const handleSave = async () => {
@@ -68,12 +71,12 @@ const DiaryEditPage = () => {
     } catch (error) {
       console.error("업데이트 실패:", error);
     }
-    navigate(PAYRECORD_PAGE_PATH.replace(":userId", diary.userId));
+    navigate(DIARY_PAGE_PATH.replace(":diaryId", diary.diaryId));
   };
 
   return (
     <div className="flex flex-col h-full w-full bg-background items-center">
-      <Header text="일기 수정" onClick={() => navigate(-1)} />
+      <Header text="일기 수정" onClick={() => handleBack()} />
       <main className="flex flex-col items-center px-4 pt-7 w-full flex-grow overflow-y-auto">
         {/* 날짜 및 아이템 정보 박스 */}
         <div className="bg-white w-[371px] rounded-15 p-[15px] shadow-md box-border">
