@@ -131,8 +131,9 @@ const ThinkPayPage = () => {
                     Number(settingTime.slice(2, 4))) /
                     2) *
                     60 >
-                  Number(settingTime.slice(0, 2)) * 24 * 60 +
-                    Number(settingTime.slice(2, 4)) * 60 -
+                  (Number(settingTime.slice(0, 2)) * 24 * 60 +
+                    Number(settingTime.slice(2, 4)) * 60) /
+                    2 -
                     (Number(item.extraTime.slice(0, 2)) * 24 * 60 +
                       Number(item.extraTime.slice(3, 5)) * 60 +
                       Number(item.extraTime.slice(6, 8))) ? (
@@ -143,8 +144,9 @@ const ThinkPayPage = () => {
                           Number(settingTime.slice(2, 4))
                         }
                         elapsedTime={
-                          Number(settingTime.slice(0, 2)) * 24 * 60 +
-                          Number(settingTime.slice(2, 4)) * 60 -
+                          (Number(settingTime.slice(0, 2)) * 24 * 60 +
+                            Number(settingTime.slice(2, 4)) * 60) /
+                            2 -
                           (Number(item.extraTime.slice(0, 2)) * 24 * 60 +
                             Number(item.extraTime.slice(3, 5)) * 60 +
                             Number(item.extraTime.slice(6, 8)))

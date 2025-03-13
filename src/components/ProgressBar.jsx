@@ -50,7 +50,7 @@ const ProgressBar = ({ totalTime, elapsedTime, askCount }) => {
 
         {/* 프로그레스 바 */}
         <div
-          className="h-full bg-blue-500 rounded-[5px] transition-all duration-500 relative z-0"
+          className="h-full bg-blue-500 transition-all duration-500 relative z-0"
           style={{ width: `${progress}%` }}
         />
       </div>

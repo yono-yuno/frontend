@@ -54,12 +54,6 @@ const PayPage = () => {
       MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
     );
   };
-  const handleGotoPaid = () => {
-    updateAskCount();
-    navigate(
-      PAID_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
-    );
-  };
   const handleGotoShop = () => {
     navigate(
       SHOP_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
@@ -73,6 +67,12 @@ const PayPage = () => {
       )
     );
   };
+  const handleGotoPaid = () => {
+    updateAskCount();
+    navigate(
+      PAID_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
+  };
 
   const updateAskCount = async () => {
     try {
@@ -81,10 +81,14 @@ const PayPage = () => {
         askCount: cartItem.askCount + 1,
       });
       console.log("업데이트 성공:", response.data);
-      handleGotoMain();
     } catch (error) {
       console.error("업데이트 실패:", error);
     }
+  };
+
+  const finallyPay = () => {
+    updateAskCount();
+    handleGotoPaid();
   };
 
   const handleCancle = async () => {
@@ -226,7 +230,7 @@ const PayPage = () => {
             <p>{payStatus.button1Text}</p>
           </button>
           <button
-            onClick={cartItem.askCount == 1 ? handleGotoPaid : updateAskCount}
+            onClick={cartItem.askCount == 1 ? finallyPay : updateAskCount}
             disabled={
               cartItem.askCount == 1 && balance < cartItem.itemInfo.price
             }
