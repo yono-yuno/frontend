@@ -3,7 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import ReviewAlarm from "../components/ReviewAlarm";
 import PayAlarm from "../components/PayAlarm";
-import { MAIN_PAGE_PATH } from "../constants/Paths";
+import {
+  MAIN_PAGE_PATH,
+  PAYRECORD_PAGE_PATH,
+  THINKPAY_PAGE_PATH,
+} from "../constants/Paths";
 import { api } from "../apis/api";
 
 const AlarmPage = () => {
@@ -40,16 +44,28 @@ const AlarmPage = () => {
     fetchData();
   }, []);
 
-  const updateAlarm = async (alarmId) => {
+  const updateAlarm = async (alarmId, nextPage) => {
     try {
       const response = await api.put("/alarm", {
         alarmId: alarmId,
       });
       console.log("업데이트 성공:", response.data);
       fetchData();
-      navigate(
-        MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
-      );
+      if (nextPage === "diary") {
+        navigate(
+          PAYRECORD_PAGE_PATH.replace(":userId", userId).replace(
+            ":userName",
+            userName
+          )
+        );
+      } else {
+        navigate(
+          THINKPAY_PAGE_PATH.replace(":userId", userId).replace(
+            ":userName",
+            userName
+          )
+        );
+      }
     } catch (error) {
       console.error("업데이트 실패:", error);
     }
@@ -62,7 +78,7 @@ const AlarmPage = () => {
         {alarmData.map((data, index) =>
           data.nextPageName == "diary" ? (
             <ReviewAlarm
-              onClick={() => updateAlarm(data.alarmId)}
+              onClick={() => updateAlarm(data.alarmId, data.nextPageName)}
               key={index}
               time={data.alarmTime.replace("/", " ")}
               title={data.itemName}
@@ -70,7 +86,7 @@ const AlarmPage = () => {
             />
           ) : (
             <PayAlarm
-              onClick={() => updateAlarm(data.alarmId)}
+              onClick={() => updateAlarm(data.alarmId, data.nextPageName)}
               key={index}
               time={data.alarmTime.replace("/", " ")}
               title={data.itemName}

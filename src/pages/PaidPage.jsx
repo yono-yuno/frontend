@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GoodPayYuno from "../assets/GoodPayYuno.gif";
 import GreenCheck from "../assets/GreenCheck.png";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
 import { useNavigate, useParams } from "react-router-dom";
+import { api } from "../apis/api";
 
 const PaidPage = () => {
-  const { userId, userName } = useParams();
+  const { userId, userName, itemId } = useParams();
   const navigate = useNavigate();
   const [isFocused, setIsFocused] = useState(false);
-  const [diary, setDiary] = useState("");
+  const [payReason, setPayReason] = useState("");
 
   const handleFinishButton = () => {
+    const updateDiary = async () => {
+      try {
+        const response = await api.post("/diary", {
+          userId,
+          itemId,
+          firstReview: payReason,
+        });
+        console.log("업데이트 성공:", response.data);
+      } catch (error) {
+        console.error("업데이트 실패:", error);
+      }
+    };
+    updateDiary();
     navigate(
       MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
     );
@@ -39,9 +53,10 @@ const PaidPage = () => {
         <textarea
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          value={diary.slice(0, 75)}
-          onChange={(e) => setDiary(e.target.value)}
+          value={payReason.slice(0, 75)}
+          onChange={(e) => setPayReason(e.target.value)}
           placeholder="소비에 대한 이유를 간단하게 작성해주세요. (76자 이내)"
+          spellCheck="false"
           className="w-[338px] h-[72px] resize-none bg-transparent border-none outline-none font-PDRegular text-15 placeholder:text-[#B2B8C0] text-black focus:text-toss"
         ></textarea>
       </div>
