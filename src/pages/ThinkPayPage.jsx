@@ -8,6 +8,7 @@ import Iteminfo from "../components/ItemInfo";
 import ProgressBar from "../components/ProgressBar";
 import SmallYuno from "../assets/SmallYuno.png";
 import { api } from "../apis/api";
+import CutYunoHeart from "../assets/CutYunoHeart.png";
 
 const SORT_MAP = {
   최신순: "latest",
@@ -70,14 +71,14 @@ const ThinkPayPage = () => {
   };
 
   // 🏷️ 결제 취소 버튼 클릭 시 해당 아이템 삭제
-  const handleCancelPayment = async (cartId) => {
+  const handleCancelPayment = async (cartId, index) => {
     try {
       const response = await api.put("/cart", {
         cartId,
         askCount: 3,
       });
       console.log("업데이트 성공:", response.data);
-      fetchData();
+      setCartItems((item) => item.filter((_, i) => i !== index));
     } catch (error) {
       console.error("업데이트 실패:", error);
     }
@@ -85,8 +86,16 @@ const ThinkPayPage = () => {
 
   return (
     <div className="h-full w-full">
-      {loading ? (
-        ""
+      {loading || cartItems.length === 0 ? (
+        <div className="flex flex-col h-full w-full bg-background">
+          <Header text="생각 중인 소비" onClick={handleBackButton} />
+          <div className="flex flex-1 flex-col justify-center items-center gap-[10px] pb-[130px]">
+            <img src={CutYunoHeart} className="w-[250px] pr-[17px]" />
+            <p className="font-PDMedium text-black text-20">
+              <span className="text-toss">생각 중인 소비</span>가 없어요!
+            </p>
+          </div>
+        </div>
       ) : (
         <div className="flex flex-col h-full w-full bg-background">
           <Header text="생각 중인 소비" onClick={handleBackButton} />
@@ -100,7 +109,7 @@ const ThinkPayPage = () => {
           <main
             className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden pb-11 px-2.5`}
           >
-            {cartItems.map((item) => (
+            {cartItems.map((item, index) => (
               <div
                 key={item.cartId}
                 className="flex flex-col items-center bg-white mb-[10px] w-full h-auto rounded-15 p-[15px] shadow-mds"
@@ -159,7 +168,7 @@ const ThinkPayPage = () => {
                   )}
                   <div className="mr-[17px]">
                     <button
-                      onClick={() => handleCancelPayment(item.cartId)}
+                      onClick={() => handleCancelPayment(item.cartId, index)}
                       className="bg-[#FC6767] text-white font-PDRegular !text-[18px] rounded-15 w-[116px] h-[48px]"
                     >
                       결제 취소

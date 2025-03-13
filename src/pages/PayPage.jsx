@@ -55,6 +55,7 @@ const PayPage = () => {
     );
   };
   const handleGotoPaid = () => {
+    updateAskCount();
     navigate(
       PAID_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
     );
@@ -78,6 +79,19 @@ const PayPage = () => {
       const response = await api.put("/cart", {
         cartId,
         askCount: cartItem.askCount + 1,
+      });
+      console.log("업데이트 성공:", response.data);
+      handleGotoMain();
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+
+  const handleCancle = async () => {
+    try {
+      const response = await api.put("/cart", {
+        cartId,
+        askCount: 3,
       });
       console.log("업데이트 성공:", response.data);
       handleGotoMain();
@@ -199,16 +213,24 @@ const PayPage = () => {
       <div className="flex flex-col items-center justify-center mt-[110px]">
         <div className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[19px] font-PDLight text-20">
           <button
-            onClick={cartItem.askCount == 1 ? handleGotoMain : handleGotoPaid}
+            onClick={cartItem.askCount == 1 ? handleCancle : handleGotoPaid}
+            disabled={
+              cartItem.askCount != 1 && balance < cartItem.itemInfo.price
+            }
             className={`flex justify-center items-center w-[129px] h-buttonHeight rounded-15 ${
               cartItem.askCount == 1 ? "bg-lightRed" : "bg-extraButton"
-            } ${cartItem.askCount == 1 ? "text-white" : "text-toss"}`}
+            } ${
+              cartItem.askCount == 1 ? "text-white" : "text-toss"
+            } disabled:bg-placeholder disabled:text-white`}
           >
             <p>{payStatus.button1Text}</p>
           </button>
           <button
             onClick={cartItem.askCount == 1 ? handleGotoPaid : updateAskCount}
-            className={`flex justify-center items-center w-[203px] h-[59px] rounded-15 gap-[6px] bg-toss text-white`}
+            disabled={
+              cartItem.askCount == 1 && balance < cartItem.itemInfo.price
+            }
+            className={`flex justify-center items-center w-[203px] h-[59px] rounded-15 gap-[6px] bg-toss text-white disabled:bg-placeholder`}
           >
             <img
               src={payStatus.button2Img}
