@@ -1,8 +1,8 @@
 export const SIGNUP_PAGE_PATH = "/signup";
 
-export const WELCOME_PAGE_PATH = "/welcome";
-export const SETUP_PAGE_PATH = "/setup";
-export const SETUPCOMPLETE_PAGE_PATH = "/setupComplete";
+export const WELCOME_PAGE_PATH = "/welcome/:userId/:userName";
+export const SETUP_PAGE_PATH = "/setup/:userId";
+export const SETUPCOMPLETE_PAGE_PATH = "/setup/complete/:userId";
 
 export const SHOP_PAGE_PATH = "/shop/:userId/:userName";
 export const ITEM_PAGE_PATH = "/item/:userId/:userName/:itemId";
@@ -12,8 +12,8 @@ export const ALARM_PAGE_PATH = "/alarm/:userId/:userName";
 
 export const THINKPAY_PAGE_PATH = "/thinkpay/:userId/:userName";
 export const PAYRECORD_PAGE_PATH = "/payrecord/:userId/:userName";
-export const DIARY_PAGE_PATH = "/diary";
-export const DIARYEDIT_PAGE_PATH = "/diary/edit";
+export const DIARY_PAGE_PATH = "/diary/:diaryId";
+export const DIARYEDIT_PAGE_PATH = "/diary/edit/:diaryId";
 
 export const MAIN_PAGE_PATH = "/main/:userId/:userName";
 
