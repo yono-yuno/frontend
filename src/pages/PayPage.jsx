@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import ItemInfo from "../components/ItemInfo";
 import SmallAngryYuno from "../assets/SmallAngryYuno.gif";
@@ -8,7 +8,6 @@ import BigAngryYuno from "../assets/BigAngryYuno.gif";
 import SmallAngryBubble from "../assets/SmallAngryBubble.png";
 import MediumAngryBubble from "../assets/MediumAngryBubble.png";
 import BigAngryBubble from "../assets/BigAngryBubble.png";
-import ElectronicsCategoryIcon from "../assets/ElectronicsCategoryIcon.png";
 import TossAccountIcon from "../assets/TossAccountIcon.png";
 import TossPayIcon from "../assets/TossPayIcon.png";
 import Check from "../assets/Check.png";
@@ -17,11 +16,19 @@ import {
   MAIN_PAGE_PATH,
   PAID_PAGE_PATH,
   SHOP_PAGE_PATH,
-  PAYRECORD_PAGE_PATH,
+  THINKPAY_PAGE_PATH,
 } from "../constants/Paths";
+import { api } from "../apis/api";
 
 const PayPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const { userId, userName, cartId } = useParams();
+  const [cartItem, setCartItem] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [balance, setBalance] = useState(0);
+  const [accountNum, setAccountNum] = useState("");
+  const [accountId, setAccountId] = useState("");
 
   const wiseSayingList = [
     '"소비는 나의 자유다. 하지만 그 자유는 선택에 달려 있다." — 로버트 키요사키',
@@ -45,33 +52,124 @@ const PayPage = () => {
   GetRandomWiseSaying();
 
   const handleGotoMain = () => {
-    navigate(MAIN_PAGE_PATH);
-  };
-  const handleGotoPaid = () => {
-    navigate(PAID_PAGE_PATH);
+    navigate(
+      MAIN_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
   };
   const handleGotoShop = () => {
-    navigate(SHOP_PAGE_PATH);
+    navigate(
+      SHOP_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
   };
   const handleGotoThinking = () => {
-    navigate(PAYRECORD_PAGE_PATH);
+    navigate(
+      THINKPAY_PAGE_PATH.replace(":userId", userId).replace(
+        ":userName",
+        userName
+      )
+    );
+  };
+  const handleGotoPaid = () => {
+    updateAskCount();
+    navigate(
+      PAID_PAGE_PATH.replace(":userId", userId)
+        .replace(":userName", userName)
+        .replace(":itemId", cartItem.itemInfo.itemId)
+    );
   };
 
-  const data = {
-    overprice: 10009000,
-    balance: 1000000,
-    accountNum: 123456789000,
-    status: 1,
-    brandName: "토스 요노쇼핑",
-    itemName: "Marshal WOBURN3 블루투스 스피커",
-    price: 855000,
-    itemImg: ElectronicsCategoryIcon,
+  const updateAskCount = async () => {
+    try {
+      const response = await api.put("/cart", {
+        cartId,
+        askCount: cartItem.askCount + 1,
+      });
+      console.log("업데이트 성공:", response.data);
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
   };
+
+  const updateBuyAskCount = async () => {
+    try {
+      const response = await api.put("/cart", {
+        cartId,
+        askCount: 2,
+      });
+      console.log("업데이트 성공:", response.data);
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+
+  const handlePay = async () => {
+    try {
+      const response = await api.put("/account", {
+        accountId,
+        balance: balance - cartItem.itemInfo.price,
+      });
+      console.log("업데이트 성공:", response.data);
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+
+  const handleFinallyPay = () => {
+    updateBuyAskCount();
+    handlePay();
+    handleGotoPaid();
+  };
+
+  const handleCancle = async () => {
+    try {
+      const response = await api.put("/cart", {
+        cartId,
+        askCount: 3,
+      });
+      console.log("업데이트 성공:", response.data);
+      handleGotoMain();
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [cartRes, userRes, accountRes] = await Promise.all([
+        api.get(`/cart?cartId=${cartId}`),
+        api.get(`/user?userId=${userId}`),
+        api.get(`/account?userId=${userId}`),
+      ]);
+
+      if (cartRes.data.isSuccess) {
+        setCartItem(cartRes.data.cartInfo);
+      }
+      if (userRes.data.isSuccess) {
+        setUserData(userRes.data.userInfo);
+      }
+      if (accountRes.data.isSuccess) {
+        setBalance(accountRes.data.accountInfo.balance);
+        setAccountNum(accountRes.data.accountInfo.accountNum);
+        setAccountId(accountRes.data.accountInfo.accountId);
+      }
+    } catch (error) {
+      console.error("❌ API 요청 실패:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (cartId) {
+      fetchData();
+    }
+  }, [cartId]);
 
   let payStatus = {};
 
   const Status = () => {
-    switch (data.status) {
+    switch (cartItem.askCount) {
       default:
         return (payStatus = {
           bubble: SmallAngryBubble,
@@ -116,7 +214,7 @@ const PayPage = () => {
   };
 
   const Button = () => {
-    return data.overprice > data.price ? (
+    return userData.overPrice > cartItem.itemInfo.price ? (
       <div className="flex flex-col items-center justify-center mt-[72px]">
         <div className="flex items-center justify-center overflow-hidden mb-[6px] w-[319px] h-[32px] bg-extraButton rounded-[10px] font-PDMedium text-[13px] text-toss">
           <p className="whitespace-nowrap animate-marquee leading-tight">
@@ -149,27 +247,37 @@ const PayPage = () => {
       <div className="flex flex-col items-center justify-center mt-[110px]">
         <div className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[19px] font-PDLight text-20">
           <button
-            onClick={data.status == 1 ? handleGotoMain : handleGotoPaid}
+            onClick={cartItem.askCount == 1 ? handleCancle : handleGotoPaid}
+            disabled={
+              cartItem.askCount != 1 && balance < cartItem.itemInfo.price
+            }
             className={`flex justify-center items-center w-[129px] h-buttonHeight rounded-15 ${
-              data.status == 1 ? "bg-lightRed" : "bg-extraButton"
-            } ${data.status == 1 ? "text-white" : "text-toss"}`}
+              cartItem.askCount == 1 ? "bg-lightRed" : "bg-extraButton"
+            } ${
+              cartItem.askCount == 1 ? "text-white" : "text-toss"
+            } disabled:bg-placeholder disabled:text-white`}
           >
             <p>{payStatus.button1Text}</p>
           </button>
           <button
-            onClick={data.status == 1 ? handleGotoPaid : handleGotoThinking}
-            className={`flex justify-center items-center w-[203px] h-[59px] rounded-15 gap-[6px] bg-toss text-white`}
+            onClick={cartItem.askCount == 1 ? handleFinallyPay : updateAskCount}
+            disabled={
+              cartItem.askCount == 1 && balance < cartItem.itemInfo.price
+            }
+            className={`flex justify-center items-center w-[203px] h-[59px] rounded-15 gap-[6px] bg-toss text-white disabled:bg-placeholder`}
           >
             <img
               src={payStatus.button2Img}
               className={
-                data.status == 1 ? "w-[30px] h-[30px]" : "w-[23px] h-[27px]"
+                cartItem.askCount == 1
+                  ? "w-[30px] h-[30px]"
+                  : "w-[23px] h-[27px]"
               }
             />
             <p>{payStatus.button2Text}</p>
           </button>
         </div>
-        {data.status == 1 ? (
+        {cartItem.askCount == 1 ? (
           <div className="flex justify-center items-center gap-[5px] w-[300px] h-[27px] text-[13px] leading-tight">
             <img src={Check} className="w-[17px] h-[17px]" />
             <p className="font-PDSemibold text-toss">필수</p>
@@ -187,76 +295,84 @@ const PayPage = () => {
   Status();
 
   return (
-    <div className="w-full h-full" style={payStatus.bg}>
-      <Header
-        onClick={data.status === null ? handleGotoShop : handleGotoThinking}
-      />
-      <div className="flex flex-col items-center">
-        <div className="flex flex-col items-center relative mt-[1px]">
-          <img src={payStatus.bubble} className="w-[188px] h-[68.5px]" />
-          <p
-            className={`absolute left-[23px] top-[14px] font-PDRegular text-16 text-${payStatus.talkColor} leading-tight`}
-          >
-            {payStatus.talk}
-          </p>
-          <img src={payStatus.yonoImg} className="w-[149px] h-[143px]" />
-        </div>
-        <div className="flex items-center justify-center mt-[60px] w-width h-[147px] rounded-15 bg-white">
-          <ItemInfo
-            itemImg={data.itemImg}
-            brandName={data.brandName}
-            itemName={data.itemName}
-            priceColor={payStatus.priceColor}
-            price={data.price}
+    <div className="h-full w-full">
+      {loading ? (
+        ""
+      ) : (
+        <div className="w-full h-full" style={payStatus.bg}>
+          <Header
+            onClick={
+              cartItem.askCount === null ? handleGotoShop : handleGotoThinking
+            }
           />
-        </div>
-        <div className="flex items-center mt-[15px] w-width h-[99px] rounded-15 bg-white">
-          <div className="flex flex-col ml-[22px] w-[200px] h-[71px]">
-            <p className="font-PDSemibold text-16 text-[#7C838D] leading-tight">
-              결제수단
-            </p>
-            {data.status == 1 ? (
-              <div className="flex w-[314px] mt-[7px] gap-[13px]">
-                <img src={TossAccountIcon} className="w-[40px] h-[40px]" />
-                <div className="flex flex-col items-start justify-center leading-tight">
-                  <div className="flex flex-row items-center gap-[7px] text-[21px] font-PDSemibold text-black">
-                    <p className="line-through">
-                      {data.balance
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      원
-                    </p>
-                    <p className="text-16">→</p>
-                    <p className="text-lightRed">
-                      {(data.balance - data.price)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      원
-                    </p>
-                  </div>
+          <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center relative mt-[1px]">
+              <img src={payStatus.bubble} className="w-[188px] h-[68.5px]" />
+              <p
+                className={`absolute left-[23px] top-[14px] font-PDRegular text-16 text-${payStatus.talkColor} leading-tight`}
+              >
+                {payStatus.talk}
+              </p>
+              <img src={payStatus.yonoImg} className="w-[149px] h-[143px]" />
+            </div>
+            <div className="flex items-center justify-center mt-[60px] w-width h-[147px] rounded-15 bg-white">
+              <ItemInfo
+                itemImg={cartItem.itemInfo.itemImg}
+                brandName={cartItem.itemInfo.brandName}
+                itemName={cartItem.itemInfo.itemName}
+                priceColor={payStatus.priceColor}
+                price={cartItem.itemInfo.price}
+              />
+            </div>
+            <div className="flex items-center mt-[15px] w-width h-[99px] rounded-15 bg-white">
+              <div className="flex flex-col ml-[22px] w-[200px] h-[71px]">
+                <p className="font-PDSemibold text-16 text-[#7C838D] leading-tight">
+                  결제수단
+                </p>
+                {cartItem.askCount == 1 ? (
+                  <div className="flex w-[314px] mt-[7px] gap-[13px]">
+                    <img src={TossAccountIcon} className="w-[40px] h-[40px]" />
+                    <div className="flex flex-col items-start justify-center leading-tight">
+                      <div className="flex flex-row items-center gap-[7px] text-[21px] font-PDSemibold text-black">
+                        <p className="line-through">
+                          {balance
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          원
+                        </p>
+                        <p className="text-16">→</p>
+                        <p className="text-lightRed">
+                          {(balance - cartItem.itemInfo.price)
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          원
+                        </p>
+                      </div>
 
-                  <p className="font-PDRegular text-12 text-[#7B838F]">
-                    토스뱅크 {data.accountNum}
-                  </p>
-                </div>
+                      <p className="font-PDRegular text-12 text-[#7B838F]">
+                        토스뱅크 {accountNum}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex mt-[7px] gap-[13px]">
+                    <img src={TossAccountIcon} className="w-[40px] h-[40px]" />
+                    <div className="flex flex-col items-start justify-center leading-tight">
+                      <p className="font-PDSemibold text-16 text-black">
+                        토스뱅크 통장
+                      </p>
+                      <p className="font-PDRegular text-12 text-[#7B838F]">
+                        토스뱅크 {accountNum}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="flex mt-[7px] gap-[13px]">
-                <img src={TossAccountIcon} className="w-[40px] h-[40px]" />
-                <div className="flex flex-col items-start justify-center leading-tight">
-                  <p className="font-PDSemibold text-16 text-black">
-                    토스뱅크 통장
-                  </p>
-                  <p className="font-PDRegular text-12 text-[#7B838F]">
-                    토스뱅크 {data.accountNum}
-                  </p>
-                </div>
-              </div>
-            )}
+            </div>
+            <Button />
           </div>
         </div>
-        <Button />
-      </div>
+      )}
     </div>
   );
 };

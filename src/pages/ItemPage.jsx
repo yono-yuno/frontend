@@ -3,11 +3,11 @@ import Header from "../components/Header";
 import Button from "../components/Button";
 import YellowStarIcon from "../assets/YellowStarIcon.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { SHOP_PAGE_PATH } from "../constants/Paths";
+import { PAY_PAGE_FROM_ITEM_PATH, SHOP_PAGE_PATH } from "../constants/Paths";
 import { api } from "../apis/api";
 
 const ItemPage = () => {
-  const { itemId } = useParams();
+  const { userId, userName, itemId } = useParams();
   const navigate = useNavigate();
   const [item, setItem] = useState(null);
 
@@ -28,6 +28,14 @@ const ItemPage = () => {
 
   const handleBackButton = () => {
     navigate(SHOP_PAGE_PATH);
+  };
+
+  const handleMoveToPay = () => {
+    navigate(
+      PAY_PAGE_FROM_ITEM_PATH.replace(":userId", userId)
+        .replace(":userName", userName)
+        .replace(":itemId", itemId)
+    );
   };
 
   if (!item) {
@@ -78,7 +86,7 @@ const ItemPage = () => {
         <img src={item.contentImg} alt="상품 상세 이미지" className="py-4" />
       </div>
       <div className="absolute bottom-0 flex justify-center items-center h-40 w-full bg-gradient-to-b from-transparent to-white from-10% to-25%">
-        <Button text="구매하기" />
+        <Button text="구매하기" onClick={handleMoveToPay} />
       </div>
     </div>
   );

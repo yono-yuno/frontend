@@ -11,7 +11,7 @@ const Dropdown = (props) => {
   );
 
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left z-10">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between py-2 text-15 font-PDRegular text-gray-500 bg-transparent rounded-md"

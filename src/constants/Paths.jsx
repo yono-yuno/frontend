@@ -4,19 +4,19 @@ export const WELCOME_PAGE_PATH = "/welcome/:userId/:userName";
 export const SETUP_PAGE_PATH = "/setup/:userId";
 export const SETUPCOMPLETE_PAGE_PATH = "/setup/complete/:userId";
 
-export const SHOP_PAGE_PATH = "/shop";
-export const ITEM_PAGE_PATH = "/item/:itemId";
+export const SHOP_PAGE_PATH = "/shop/:userId/:userName";
+export const ITEM_PAGE_PATH = "/item/:userId/:userName/:itemId";
 
 export const SETTING_PAGE_PATH = "/setting/:userId/:userName";
 export const ALARM_PAGE_PATH = "/alarm/:userId/:userName";
 
-export const THINKPAY_PAGE_PATH = "/thinkpay";
-
-export const PAYRECORD_PAGE_PATH = "/payrecord/:userId";
+export const THINKPAY_PAGE_PATH = "/thinkpay/:userId/:userName";
+export const PAYRECORD_PAGE_PATH = "/payrecord/:userId/:userName";
 export const DIARY_PAGE_PATH = "/diary/:diaryId";
 export const DIARYEDIT_PAGE_PATH = "/diary/edit/:diaryId";
 
 export const MAIN_PAGE_PATH = "/main/:userId/:userName";
 
-export const PAY_PAGE_PATH = "/pay";
-export const PAID_PAGE_PATH = "/paid";
+export const PAY_PAGE_FROM_CART_PATH = "/pay/:userId/:userName/:cartId";
+export const PAY_PAGE_FROM_ITEM_PATH = "/pay/:userId/:userName/item/:itemId";
+export const PAID_PAGE_PATH = "/paid/:userId/:userName";

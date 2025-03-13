@@ -84,13 +84,25 @@ const MainPage = () => {
     );
   };
   const handleShop = () => {
-    navigate(SHOP_PAGE_PATH);
+    navigate(
+      SHOP_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+    );
   };
   const handleThinkPay = () => {
-    navigate(THINKPAY_PAGE_PATH);
+    navigate(
+      THINKPAY_PAGE_PATH.replace(":userId", userId).replace(
+        ":userName",
+        userName
+      )
+    );
   };
   const handlePayRecord = () => {
-    navigate(PAYRECORD_PAGE_PATH.replace(":userId", userId));
+    navigate(
+      PAYRECORD_PAGE_PATH.replace(":userId", userId).replace(
+        ":userName",
+        userName
+      )
+    );
   };
 
   useEffect(() => {
@@ -256,7 +268,7 @@ const MainPage = () => {
               <img src={PayToss} className="w-[35px] h-[35px] mr-[13px]" />
               <div>
                 <p className="mb-[3px] font-PDMedium text-[21px] text-black leading-none">
-                  {loading ? 0 : balance}원
+                  {loading ? 0 : balance.toLocaleString()}원
                 </p>
                 <p className="font-PDRegular text-[13px] text-[#80858E] leading-none">
                   토스뱅크 통장
