@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
-    "framer-motion": "^12.4.10",
     "axios": "^1.8.1",
     "chart.js": "^4.4.8",
+    "framer-motion": "^12.4.10",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.477.0",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",

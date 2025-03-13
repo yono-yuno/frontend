@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import GoodPayYuno from "../assets/GoodPayYuno.gif";
+import React, { useState } from "react";
+import Yuno from "../assets/Yuno.gif";
 import GreenCheck from "../assets/GreenCheck.png";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../apis/api";
+import Lottie from "lottie-react";
+import congratulation from "../assets/congratulation.json";
 
 const PaidPage = () => {
   const { userId, userName, itemId } = useParams();
@@ -32,8 +34,13 @@ const PaidPage = () => {
 
   return (
     <div className="flex flex-col items-center w-full h-full bg-background">
-      <div className="flex flex-col items-center mt-[36px] font-PDMedium text-20 text-black leading-tight">
-        <img src={GoodPayYuno} className="w-[372px] h-[273px]" />
+      <div className="relative flex flex-col items-center mt-[36px] font-PDMedium text-20 text-black leading-tight">
+        <Lottie
+          animationData={congratulation}
+          loop={false}
+          className="absolute -top-36 w-80"
+        />
+        <img src={Yuno} className="pt-[114px] w-[149px] pb-[16px] z-10" />
         <p>긴 시간 고민하셨으니,</p>
         <p>좋은 소비였을 거예요!</p>
         <p className="mt-[9px] text-24 text-toss">결제가 완료되었어요.</p>

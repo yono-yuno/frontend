@@ -1,11 +1,13 @@
 import React from "react";
 import "../styles/style.css";
 import "../styles/index.css";
-import YunoHeart from "../assets/YunoHeart.png";
+import HappyYuno from "../assets/HappyYuno.png";
 import YunoLogo from "../assets/YunoLogo.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
 import { api } from "../apis/api";
+import heart from "../assets/heart.json";
+import Lottie from "lottie-react";
 
 const SetupCompletePage = () => {
   const navigate = useNavigate();
@@ -31,8 +33,17 @@ const SetupCompletePage = () => {
   return (
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}
-      <div className="flex mt-[88px] mr-[16px]">
-        <img src={YunoHeart} className="w-[296px] h-[274px]" />
+      <div className="relative flex justify-center mt-[88px] mr-[16px] w-full">
+        <div className="absolute top-12 left-7 w-52">
+          <Lottie animationData={heart} loop={true} />
+        </div>
+        <div
+          style={{ transform: "scaleX(-1)" }}
+          className="absolute top-3 right-8 w-60 z-20"
+        >
+          <Lottie animationData={heart} loop={true} />
+        </div>
+        <img src={HappyYuno} className="w-[149px] pt-[110px] z-10" />
       </div>
       {/* 텍스트 영역 */}
       <div className="mt-[23px] text-center text-20 leading-tight font-PDMedium">
