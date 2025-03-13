@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Dropdown from "../components/Dropdown";
 import { MAIN_PAGE_PATH } from "../constants/Paths";
-import { PAY_PAGE_PATH } from "../constants/Paths";
+import { PAY_PAGE_FROM_CART_PATH } from "../constants/Paths";
 import Iteminfo from "../components/ItemInfo";
 import ProgressBar from "../components/ProgressBar";
 import SmallYuno from "../assets/SmallYuno.png";
@@ -60,7 +60,7 @@ const ThinkPayPage = () => {
   };
   const handleMoveToPayPage = (cartId) => {
     navigate(
-      PAY_PAGE_PATH.replace(":userId", userId)
+      PAY_PAGE_FROM_CART_PATH.replace(":userId", userId)
         .replace(":userName", userName)
         .replace(":cartId", cartId)
     );

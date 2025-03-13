@@ -58,7 +58,11 @@ const ShopPage = () => {
   };
 
   const handleItemClick = (itemId) => {
-    navigate(ITEM_PAGE_PATH.replace(":itemId", itemId));
+    navigate(
+      ITEM_PAGE_PATH.replace(":userId", userId)
+        .replace(":userName", userName)
+        .replace(":itemId", itemId)
+    );
   };
 
   return (

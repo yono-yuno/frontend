@@ -16,6 +16,7 @@ import PaidPage from "./pages/PaidPage";
 import WelcomePage from "./pages/WelcomePage";
 import SetupPage from "./pages/SetupPage";
 import SetupCompletePage from "./pages/SetupCompletePage";
+import PayFromItemPage from "./pages/PayFromItemPage";
 
 import {
   SIGNUP_PAGE_PATH,
@@ -31,7 +32,8 @@ import {
   PAYRECORD_PAGE_PATH,
   DIARY_PAGE_PATH,
   DIARYEDIT_PAGE_PATH,
-  PAY_PAGE_PATH,
+  PAY_PAGE_FROM_CART_PATH,
+  PAY_PAGE_FROM_ITEM_PATH,
   PAID_PAGE_PATH,
 } from "./constants/Paths";
 
@@ -52,9 +54,10 @@ function App() {
       <Route path={DIARY_PAGE_PATH} element={<DiaryPage />} />
       <Route path={DIARYEDIT_PAGE_PATH} element={<DiaryEditPage />} />
 
-      <Route path={PAY_PAGE_PATH} element={<PayPage />} />
+      <Route path={PAY_PAGE_FROM_CART_PATH} element={<PayPage />} />
+      <Route path={PAY_PAGE_FROM_ITEM_PATH} element={<PayFromItemPage />} />
       <Route path={PAID_PAGE_PATH} element={<PaidPage />} />
-        
+
       <Route path={WELCOME_PAGE_PATH} element={<WelcomePage />} />
       <Route path={SETUP_PAGE_PATH} element={<SetupPage />} />
       <Route path={SETUPCOMPLETE_PAGE_PATH} element={<SetupCompletePage />} />
