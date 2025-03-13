@@ -17,6 +17,10 @@ const SORT_MAP = {
   "가격 낮은순": "lowPrice",
 };
 
+const reverseSortMap = Object.fromEntries(
+  Object.entries(SORT_MAP).map(([key, value]) => [value, key])
+);
+
 const ThinkPayPage = () => {
   const navigate = useNavigate();
   const { userId, userName } = useParams();
@@ -51,7 +55,7 @@ const ThinkPayPage = () => {
     if (userId) {
       fetchData();
     }
-  }, [userId]);
+  }, [userId, sort]);
 
   const handleBackButton = () => {
     navigate(
@@ -66,8 +70,8 @@ const ThinkPayPage = () => {
     );
   };
   const handleSort = (selected) => {
-    setSort(SORT_MAP[selected]);
-    fetchData();
+    const newSort = SORT_MAP[selected];
+    setSort(newSort);
   };
 
   // 🏷️ 결제 취소 버튼 클릭 시 해당 아이템 삭제
@@ -101,7 +105,7 @@ const ThinkPayPage = () => {
           <Header text="생각 중인 소비" onClick={handleBackButton} />
           <div className="flex-none px-4 pt-3 text-15">
             <Dropdown
-              selectedSort={sort}
+              selectedSort={reverseSortMap[sort]}
               onChangeSort={(selected) => handleSort(selected)}
             />
           </div>
