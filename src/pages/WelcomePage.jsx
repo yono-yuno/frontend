@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/style.css";
 import "../styles/index.css";
+import Yuno from "../assets/BgNoYuno.gif";
 import YunoFlower from "../assets/YunoFlower.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { SETUP_PAGE_PATH } from "../constants/Paths";
@@ -18,7 +19,11 @@ const WelcomePage = () => {
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}
       <yuno>
-        <div className="flex mt-[84px]">
+        <div className="relative flex mt-[84px]">
+          <img
+            src={Yuno}
+            className="absolute w-[163px] z-10 top-[92px] left-[76px]"
+          />
           <img src={YunoFlower} className="w-[323px] h-[275px] " />
         </div>
       </yuno>

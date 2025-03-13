@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Listbox } from "@headlessui/react";
 import { motion } from "framer-motion";
 import YunoWarning from "../assets/YunoWarning.png";
+import Yuno from "../assets/BgNoYuno.gif";
 import GuideBook from "../assets/GuideBook.png";
 import MoneyIcon from "../assets/MoneyIcon.png";
 import TimeIcon from "../assets/TimeIcon.png";
@@ -69,7 +70,11 @@ const SetupPage = () => {
     <div className="flex flex-col items-center justify-center bg-white">
       {/* 유노 캐릭터 이미지 */}
       <div className="flex mt-[133px]">
-        <button onClick={handleTogglePopup}>
+        <button onClick={handleTogglePopup} className="relative">
+          <img
+            src={Yuno}
+            className="absolute z-10 w-[167px] top-[-12px] left-[25px]"
+          />
           <img src={YunoWarning} className=" w-[229px] h-[143px]" />
         </button>
       </div>
@@ -198,7 +203,7 @@ const SetupPage = () => {
 
       {/* 팝업 (모달) */}
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
+        <div className="z-20 fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
           {/* 애니메이션 적용된 팝업 */}
           <motion.div
             initial={{ y: [100], opacity: 0 }}
