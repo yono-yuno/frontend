@@ -28,6 +28,8 @@ const PayPage = () => {
   const [userData, setUserData] = useState([]);
   const [balance, setBalance] = useState(0);
   const [accountNum, setAccountNum] = useState("");
+  const [accountId, setAccountId] = useState("");
+
   const wiseSayingList = [
     '"소비는 나의 자유다. 하지만 그 자유는 선택에 달려 있다." — 로버트 키요사키',
     '"사람들은 소비하는 것에 비해 더 많은 것을 소유하려고 한다. 하지만 물건이 아니라 경험을 소유하는 것이 더 중요하다." — 조지 베르나르 쇼',
@@ -70,7 +72,9 @@ const PayPage = () => {
   const handleGotoPaid = () => {
     updateAskCount();
     navigate(
-      PAID_PAGE_PATH.replace(":userId", userId).replace(":userName", userName)
+      PAID_PAGE_PATH.replace(":userId", userId)
+        .replace(":userName", userName)
+        .replace(":itemId", cartItem.itemInfo.itemId)
     );
   };
 
@@ -86,8 +90,33 @@ const PayPage = () => {
     }
   };
 
-  const finallyPay = () => {
-    updateAskCount();
+  const updateBuyAskCount = async () => {
+    try {
+      const response = await api.put("/cart", {
+        cartId,
+        askCount: 2,
+      });
+      console.log("업데이트 성공:", response.data);
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+
+  const handlePay = async () => {
+    try {
+      const response = await api.put("/account", {
+        accountId,
+        balance: balance - cartItem.itemInfo.price,
+      });
+      console.log("업데이트 성공:", response.data);
+    } catch (error) {
+      console.error("업데이트 실패:", error);
+    }
+  };
+
+  const handleFinallyPay = () => {
+    updateBuyAskCount();
+    handlePay();
     handleGotoPaid();
   };
 
@@ -122,6 +151,7 @@ const PayPage = () => {
       if (accountRes.data.isSuccess) {
         setBalance(accountRes.data.accountInfo.balance);
         setAccountNum(accountRes.data.accountInfo.accountNum);
+        setAccountId(accountRes.data.accountInfo.accountId);
       }
     } catch (error) {
       console.error("❌ API 요청 실패:", error);
@@ -230,7 +260,7 @@ const PayPage = () => {
             <p>{payStatus.button1Text}</p>
           </button>
           <button
-            onClick={cartItem.askCount == 1 ? finallyPay : updateAskCount}
+            onClick={cartItem.askCount == 1 ? handleFinallyPay : updateAskCount}
             disabled={
               cartItem.askCount == 1 && balance < cartItem.itemInfo.price
             }
