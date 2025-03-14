@@ -182,7 +182,7 @@ const PayFromItemPage = () => {
       <div className="flex flex-col items-center justify-center mt-[110px]">
         <div className="flex flex-row items-center justify-center w-buttonWidth h-buttonHeight gap-[19px] font-PDLight text-20">
           <button
-            onClick={handleGotoPaid}
+            onClick={handleFinallyPay}
             disabled={balance < item.price}
             className="flex justify-center items-center w-[129px] h-buttonHeight rounded-15 bg-extraButton text-toss disabled:bg-placeholder disabled:text-white"
           >
