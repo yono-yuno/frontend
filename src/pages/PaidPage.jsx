@@ -46,7 +46,7 @@ const PaidPage = () => {
         <p className="mt-[9px] text-24 text-toss">결제가 완료되었어요.</p>
       </div>
       <div
-        className={`pl-[16px] pt-[13px] flex flex-col items-start mt-[14px] w-width h-[112px] rounded-15 ${
+        className={`pl-[16px] pt-[13px] flex flex-col items-start mt-[14px] w-width h-[112px] z-50 rounded-15 ${
           isFocused ? "bg-extraButton ring-[2px] ring-toss" : "bg-white"
         }`}
       >
