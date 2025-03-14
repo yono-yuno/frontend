@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Listbox } from "@headlessui/react";
+import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Profile from "../assets/BlackCat.png";
 import SettingDropUp from "../assets/SettingDropUp.png";
@@ -9,9 +10,9 @@ import { MAIN_PAGE_PATH } from "../constants/Paths";
 import { api } from "../apis/api";
 
 const dayOptions = [
-  { id: 0, name: "00" },
-  { id: 1, name: "01" },
-  { id: 2, name: "02" },
+  { id: "00", name: "00" },
+  { id: "01", name: "01" },
+  { id: "02", name: "02" },
 ];
 
 const hourOptions = [];
@@ -48,14 +49,17 @@ const SettingPage = () => {
     setOverpriceSetting(!overpriceSetting);
     setAlarmSetting(false);
   };
+
   const alarmClick = () => {
     setAlarmSetting(!alarmSetting);
     setOverpriceSetting(false);
   };
+
   const handleOverPriceFormat = (e) => {
     const rawValue = e.target.value.replace(/[^0-9]/g, "");
     setOverPrice(rawValue);
   };
+
   const fetchData = () => {
     const fetchData = async () => {
       setLoading(true); // 🔹 로딩 시작
@@ -67,14 +71,20 @@ const SettingPage = () => {
 
         if (userRes.data.isSuccess) {
           setUserData(userRes.data.userInfo);
-          setSelectedDayOption({
-            id: userRes.data.userInfo.settingTime.slice(1, 2),
-            name: userRes.data.userInfo.settingTime.slice(0, 2),
-          });
-          setSelectedHourOption({
-            id: userRes.data.userInfo.settingTime.slice(2, 4),
-            name: userRes.data.userInfo.settingTime.slice(2, 4),
-          });
+
+          setSelectedDayOption(
+            dayOptions.find(
+              (value) =>
+                value.id === userRes.data.userInfo.settingTime.slice(0, 2)
+            )
+          );
+
+          setSelectedHourOption(
+            hourOptions.find(
+              (value) =>
+                value.id === userRes.data.userInfo.settingTime.slice(2, 4)
+            )
+          );
         }
       } catch (error) {
         console.error("❌ API 요청 실패:", error);
@@ -103,6 +113,7 @@ const SettingPage = () => {
       console.error("업데이트 실패:", error);
     }
   };
+
   const updateSettingTime = async () => {
     try {
       const response = await api.put("/user", {
@@ -137,191 +148,209 @@ const SettingPage = () => {
             </p>
           </div>
         </div>
-        <div>
-          {overpriceSetting === false ? (
-            <div className="flex justify-between items-center w-width h-[67px] bg-white">
-              <button
-                onClick={overpriceClick}
-                className="flex justify-between items-center w-width"
-              >
-                <p className=" ml-[24px] font-PDRegular text-16 text-black">
-                  상한액 설정하기
+        <div
+          className={`flex flex-col items-center ${
+            overpriceSetting === false ? "bg-white" : "bg-extraButton"
+          }`}
+        >
+          <button
+            onClick={overpriceClick}
+            className="flex justify-between items-center w-width h-[67px]"
+          >
+            <p
+              className={`ml-[24px] font-PDRegular text-16 ${
+                overpriceSetting === false ? "text-black" : "text-toss"
+              }`}
+            >
+              상한액 설정하기
+            </p>
+            <img
+              src={overpriceSetting ? SettingDropDown : SettingDropUp}
+              className={`${
+                overpriceSetting === false
+                  ? "w-[10px] h-[19px] mr-[24px]"
+                  : "w-[19px] h-[10px] mr-[24px]"
+              }`}
+            />
+          </button>
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{
+              height: overpriceSetting ? "auto" : 0,
+              opacity: overpriceSetting ? 1 : 0,
+            }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden bg-extraButton w-width"
+          >
+            <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
+              <div className="flex justify-start w-[320px]">
+                <p
+                  className={`font-PDMedium text-16 ${
+                    overPriceFocused ? "text-toss" : "text-[#B4B6B8]"
+                  } `}
+                >
+                  상한액
                 </p>
-                <img
-                  src={SettingDropUp}
-                  className="w-[10px] h-[19px] mr-[24px]"
-                />
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col justify-start items-between w-width h-[178px] bg-extraButton">
-              <button onClick={overpriceClick} className="flex justify-between">
-                <p className="mt-[21px]  ml-[24px] font-PDRegular text-16 text-toss">
-                  상한액 설정하기
-                </p>
-                <img
-                  src={SettingDropDown}
-                  className="w-[19px] h-[10px] mr-[24px] mt-[27px]"
-                />
-              </button>
-              <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
-                <div className="flex justify-start w-[320px]">
-                  <p
-                    className={`font-PDMedium text-16 ${
-                      overPriceFocused ? "text-toss" : "text-[#B4B6B8]"
-                    } `}
-                  >
-                    상한액
+              </div>
+              <div className="flex justify-between w-[320px] h-[46px]">
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    value={overPrice ? Number(overPrice).toLocaleString() : ""}
+                    onChange={handleOverPriceFormat}
+                    onFocus={() => setOverPriceFocused(true)}
+                    onBlur={() => setOverPriceFocused(false)}
+                    placeholder={Number(userData.overPrice).toLocaleString()}
+                    className="w-[200px] h-[46px] rounded-15 bg-white ring-[2px] ring-[#ECEEEF] font-PDMedium text-20 pl-[14px] text-black placeholder:text-[#B4B6B8] focus:outline-none focus:bg-[#F6F9FF] focus:ring-toss focus:text-toss"
+                  />
+                  <p className="pl-[5px] font-PDMedium text-20 text-black">
+                    원
                   </p>
                 </div>
-                <div className="flex justify-between w-[320px] h-[46px]">
-                  <div className="flex items-center">
-                    <input
-                      type="text"
-                      value={
-                        overPrice ? Number(overPrice).toLocaleString() : ""
-                      }
-                      onChange={handleOverPriceFormat}
-                      onFocus={() => setOverPriceFocused(true)}
-                      onBlur={() => setOverPriceFocused(false)}
-                      placeholder={userData.overPrice.toLocaleString()}
-                      className="w-[200px] h-[46px] rounded-15 bg-white ring-[2px] ring-[#ECEEEF] font-PDMedium text-20 pl-[14px] text-black placeholder:text-[#B4B6B8] focus:outline-none focus:bg-[#F6F9FF] focus:ring-toss focus:text-toss"
-                    />
-                    <p className="pl-[5px] font-PDMedium text-20 text-black">
-                      원
-                    </p>
-                  </div>
 
-                  <button
-                    onClick={updateOverPrice}
-                    className="w-[76px] h-[46px] rounded-15 bg-toss font-PDRegular text-[18px] text-white"
-                  >
-                    확인
-                  </button>
-                </div>
+                <button
+                  onClick={updateOverPrice}
+                  disabled={overPrice == false}
+                  className="w-[76px] h-[46px] rounded-15 bg-toss font-PDRegular text-[18px] text-white disabled:bg-placeholder disabled:text-userBlack"
+                >
+                  확인
+                </button>
               </div>
             </div>
-          )}
+          </motion.div>
         </div>
-        <div>
-          {alarmSetting === false ? (
-            <div className="flex justify-between items-center w-width h-[67px] bg-white">
-              <button
-                onClick={alarmClick}
-                className="flex justify-between items-center w-width"
-              >
-                <p className="ml-[24px] font-PDRegular text-16 text-black">
-                  알림 간격 설정하기
+        <div
+          className={`flex flex-col items-center ${
+            alarmSetting === false ? "bg-white" : "bg-extraButton"
+          }`}
+        >
+          <button
+            onClick={alarmClick}
+            className="flex justify-between items-center w-width h-[67px]"
+          >
+            <p
+              className={`ml-[24px] font-PDRegular text-16 ${
+                alarmSetting === false ? "text-black" : "text-toss"
+              }`}
+            >
+              알림 간격 설정하기
+            </p>
+            <img
+              src={alarmSetting ? SettingDropDown : SettingDropUp}
+              className={`${
+                alarmSetting === false
+                  ? "w-[10px] h-[19px] mr-[24px]"
+                  : "w-[19px] h-[10px] mr-[24px]"
+              }`}
+            />
+          </button>
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{
+              height: alarmSetting ? "auto" : 0,
+              opacity: alarmSetting ? 1 : 0,
+            }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden bg-extraButton w-width"
+          >
+            <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
+              <div className="flex justify-start w-[320px]">
+                <p className="font-PDMedium text-16 text-[#B4B6B8]">
+                  전체 고민 시간
                 </p>
+              </div>
+              <div className="flex flex-row">
+                <div className="flex flex-row items-center">
+                  <Listbox
+                    value={selectedDayOption}
+                    onChange={setSelectedDayOption}
+                  >
+                    {({ open }) => (
+                      <div>
+                        <Listbox.Button
+                          className={`w-[74px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
+                            open
+                              ? "border-toss bg-[#F6F9FF] text-toss"
+                              : "border-[#ECEEEF] bg-white"
+                          } focus:outline-none `}
+                        >
+                          {selectedDayOption.name}
+                        </Listbox.Button>
 
-                <img
-                  src={SettingDropUp}
-                  className="w-[10px] h-[19px] mr-[24px]"
-                />
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col justify-start items-between w-width h-[178px] bg-extraButton">
-              <button onClick={alarmClick} className="flex justify-between">
-                <p className="mt-[21px]  ml-[24px] font-PDRegular text-16 text-toss">
-                  알림 간격 설정하기
-                </p>
-                <img
-                  src={SettingDropDown}
-                  className="w-[19px] h-[10px] mr-[24px] mt-[27px]"
-                />
-              </button>
-              <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
-                <div className="flex justify-start w-[320px]">
-                  <p className="font-PDMedium text-16 text-[#B4B6B8]">
-                    전체 고민 시간
+                        <Listbox.Options className="absolute w-[122px] h-[138px] bg-white border-[2px] border-[#ECEEEF] rounded-15">
+                          {dayOptions.map((option) => (
+                            <Listbox.Option
+                              key={option.id}
+                              value={option}
+                              className={`pl-[5px] pt-[7px] pb-[7px] font-PDRegular ${
+                                option.name == "02"
+                                  ? "border-none"
+                                  : "border-b-[1px]"
+                              } text-24 text-black leading-tight hover:bg-background`}
+                            >
+                              {option.name}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </div>
+                    )}
+                  </Listbox>
+                  <p className="pl-[5px] font-PDMedium text-20 text-black">
+                    일
                   </p>
                 </div>
-                <div className="flex flex-row">
-                  <div className="flex flex-row items-center">
-                    <Listbox
-                      value={selectedDayOption}
-                      onChange={setSelectedDayOption}
-                    >
-                      {({ open }) => (
-                        <div>
-                          <Listbox.Button
-                            className={`w-[74px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
-                              open
-                                ? "border-toss bg-[#F6F9FF] text-toss"
-                                : "border-[#ECEEEF] bg-white"
-                            } focus:outline-none `}
-                          >
-                            {selectedDayOption.name}
-                          </Listbox.Button>
-
-                          <Listbox.Options className="absolute w-[122px] h-[138px] bg-white border-[2px] border-[#ECEEEF] rounded-15">
-                            {dayOptions.map((option) => (
-                              <Listbox.Option
-                                key={option.id}
-                                value={option}
-                                className={`pl-[5px] pt-[7px] pb-[7px] font-PDRegular ${
-                                  option.name == "02"
-                                    ? "border-none"
-                                    : "border-b-[1px]"
-                                } text-24 text-black leading-tight hover:bg-background`}
-                              >
-                                {option.name}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </div>
-                      )}
-                    </Listbox>
-                    <p className="font-PDMedium text-20 text-black">일</p>
-                  </div>
-                  <div className="flex flex-row items-center ml-[17px]">
-                    <Listbox
-                      value={selectedHourOption}
-                      onChange={setSelectedHourOption}
-                    >
-                      {({ open }) => (
-                        <div className="relative">
-                          <Listbox.Button
-                            className={`w-[74px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
-                              open
-                                ? "border-toss bg-[#F6F9FF] text-toss"
-                                : "border-[#ECEEEF] bg-white"
-                            } focus:outline-none `}
-                          >
-                            {selectedHourOption.name}
-                          </Listbox.Button>
-
-                          <Listbox.Options className="absolute overflow-y-scroll w-[122px] h-[160px] bg-white border-[2px] border-[#ECEEEF] rounded-15">
-                            {hourOptions.map((option) => (
-                              <Listbox.Option
-                                key={option.id}
-                                value={option}
-                                className={`pl-[5px] pt-[7px] pb-[7px] font-PDRegular ${
-                                  option.name == "59"
-                                    ? "border-none"
-                                    : "border-b-[1px]"
-                                } text-24 text-black leading-tight hover:bg-background`}
-                              >
-                                {option.name}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </div>
-                      )}
-                    </Listbox>
-                    <p className="font-PDMedium text-20 text-black">시간</p>
-                  </div>
-                  <button
-                    onClick={updateSettingTime}
-                    className="w-[76px] h-[46px] ml-[23px] rounded-15 bg-toss font-PDRegular text-[18px] text-white"
+                <div className="flex flex-row items-center ml-[17px]">
+                  <Listbox
+                    value={selectedHourOption}
+                    onChange={setSelectedHourOption}
                   >
-                    확인
-                  </button>
+                    {({ open }) => (
+                      <div>
+                        <Listbox.Button
+                          className={`w-[74px] h-[46px] rounded-15 pl-[5px] border-[2px] font-PDMedium text-left text-24 text-black  ${
+                            open
+                              ? "border-toss bg-[#F6F9FF] text-toss"
+                              : "border-[#ECEEEF] bg-white"
+                          } focus:outline-none `}
+                        >
+                          {selectedHourOption.name}
+                        </Listbox.Button>
+
+                        <Listbox.Options className="absolute overflow-y-scroll w-[122px] h-[160px] bg-white border-[2px] border-[#ECEEEF] rounded-15">
+                          {hourOptions.map((option) => (
+                            <Listbox.Option
+                              key={option.id}
+                              value={option}
+                              className={`pl-[5px] pt-[7px] pb-[7px] font-PDRegular ${
+                                option.name == "23"
+                                  ? "border-none"
+                                  : "border-b-[1px]"
+                              } text-24 text-black leading-tight hover:bg-background`}
+                            >
+                              {option.name}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </div>
+                    )}
+                  </Listbox>
+                  <p className="pl-[5px] font-PDMedium text-20 text-black">
+                    시간
+                  </p>
                 </div>
+                <button
+                  disabled={
+                    selectedDayOption === dayOptions[0] &&
+                    selectedHourOption === hourOptions[0]
+                  }
+                  onClick={updateSettingTime}
+                  className="w-[76px] h-[46px] ml-[23px] rounded-15 bg-toss font-PDRegular text-[18px] text-white disabled:bg-placeholder disabled:text-userBlack"
+                >
+                  확인
+                </button>
               </div>
             </div>
-          )}
+          </motion.div>
         </div>
         <button
           onClick={handleLogout}
