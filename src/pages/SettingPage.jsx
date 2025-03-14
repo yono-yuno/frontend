@@ -32,6 +32,7 @@ const SettingPage = () => {
   const [overPrice, setOverPrice] = useState(0);
   const navigate = useNavigate();
   const [overPriceFocused, setOverPriceFocused] = useState(false);
+  const [timeFocused, setTimeFocused] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
 
@@ -182,7 +183,7 @@ const SettingPage = () => {
             transition={{ duration: 0.3 }}
             className="overflow-hidden bg-extraButton w-width"
           >
-            <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
+            <div className="flex flex-col items-center justify-start h-[111px] ">
               <div className="flex justify-start w-[320px]">
                 <p
                   className={`font-PDMedium text-16 ${
@@ -211,7 +212,7 @@ const SettingPage = () => {
                 <button
                   onClick={updateOverPrice}
                   disabled={overPrice == false}
-                  className="w-[76px] h-[46px] rounded-15 bg-toss font-PDRegular text-[18px] text-white disabled:bg-placeholder disabled:text-userBlack"
+                  className="w-[76px] h-[46px] rounded-15 bg-toss font-PDRegular text-[18px] text-white disabled:bg-[#E4E6EA] disabled:text-white"
                 >
                   확인
                 </button>
@@ -253,9 +254,13 @@ const SettingPage = () => {
             transition={{ duration: 0.3 }}
             className="overflow-hidden bg-extraButton w-width"
           >
-            <div className="flex flex-col items-center justify-start h-[111px] mt-[20px]">
+            <div className="flex flex-col items-center justify-start h-[111px]">
               <div className="flex justify-start w-[320px]">
-                <p className="font-PDMedium text-16 text-[#B4B6B8]">
+                <p
+                  className={`font-PDMedium text-16 ${
+                    timeFocused ? "text-toss" : "text-[#B4B6B8]"
+                  } `}
+                >
                   전체 고민 시간
                 </p>
               </div>
@@ -277,7 +282,11 @@ const SettingPage = () => {
                           {selectedDayOption.name}
                         </Listbox.Button>
 
-                        <Listbox.Options className="absolute w-[122px] h-[138px] bg-white border-[2px] border-[#ECEEEF] rounded-15">
+                        <Listbox.Options
+                          onFocus={() => setTimeFocused(true)}
+                          onBlur={() => setTimeFocused(false)}
+                          className="absolute w-[122px] h-[138px] bg-white border-[2px] border-[#ECEEEF] rounded-15"
+                        >
                           {dayOptions.map((option) => (
                             <Listbox.Option
                               key={option.id}
@@ -344,7 +353,7 @@ const SettingPage = () => {
                     selectedHourOption === hourOptions[0]
                   }
                   onClick={updateSettingTime}
-                  className="w-[76px] h-[46px] ml-[23px] rounded-15 bg-toss font-PDRegular text-[18px] text-white disabled:bg-placeholder disabled:text-userBlack"
+                  className="w-[76px] h-[46px] ml-[23px] rounded-15 bg-toss font-PDRegular text-[18px] text-white disabled:bg-[#E4E6EA] disabled:text-white"
                 >
                   확인
                 </button>
